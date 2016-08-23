@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "845375525112",
+    "firebase_url": "https://nmakademija-4c3c8.firebaseio.com",
+    "project_id": "nmakademija-4c3c8",
+    "storage_bucket": "nmakademija-4c3c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845375525112:android:ece1629a8a2adb41",
+        "android_client_info": {
+          "package_name": "com.nmakademija.nmaakademija"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845375525112-fll7rfu4udmcm1d272ohlj51dqv7k8if.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nmakademija.nmaakademija",
+            "certificate_hash": "8254950CEECCB88CD35B78C9792443C3DCF91420"
+          }
+        },
+        {
+          "client_id": "845375525112-9qislno2ammfg2loq51kjjk7rde6pv06.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFOEj08NuV-GYmkLbCXyvFX7cRqQ3C-6M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "845375525112-9qislno2ammfg2loq51kjjk7rde6pv06.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

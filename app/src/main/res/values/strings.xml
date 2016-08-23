@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NMA Akademija</string>
+    <string name="untilSession">Iki sesijos liko:</string>
+    <string name="akademikai">Akademikai</string>
+    <string name="vadoviukai">Vadoviukai</string>
+    <string name="destytojai">Dėstytojai</string>
+    <string name="mano_profilis">Mano profilis</string>
+</resources>
