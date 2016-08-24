@@ -15,8 +15,6 @@ public class User implements Serializable {
     private String photoURL;
     private ArrayList<Role> roles;
 
-    public User() {}
-
     public int getID() {
         return ID;
     }
