@@ -2,6 +2,7 @@ package com.nmakademija.nmaakademija.api;
 
 import com.nmakademija.nmaakademija.entity.Event;
 import com.nmakademija.nmaakademija.entity.TimeTillSession;
+import com.nmakademija.nmaakademija.entity.User;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface NMAService {
     @GET("api/tts")
     Call<TimeTillSession> getTimeTillSession();
 
+    @GET("api/users")
+    Call<List<User>> getUsers();
 }

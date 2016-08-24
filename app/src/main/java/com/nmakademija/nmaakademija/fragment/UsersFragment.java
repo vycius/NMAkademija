@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,15 @@ import android.view.ViewGroup;
 import com.nmakademija.nmaakademija.ProfileActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.UserListAdapter;
+import com.nmakademija.nmaakademija.api.API;
+import com.nmakademija.nmaakademija.entity.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UsersFragment extends Fragment {
 
@@ -45,9 +55,19 @@ public class UsersFragment extends Fragment {
 
         pager = (ViewPager) getView().findViewById(R.id.viewPager);
         tabs = (TabLayout) getView().findViewById(R.id.tabs);
+        API.nmaService.getUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                pager.setAdapter(new UserListAdapter(getActivity(),
+                        (ArrayList<User>) response.body(), getChildFragmentManager()));
+                tabs.setupWithViewPager(pager);
+            }
 
-        pager.setAdapter(new UserListAdapter(this, getChildFragmentManager()));
-        tabs.setupWithViewPager(pager);
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -60,7 +80,9 @@ public class UsersFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_profile) {
+            //TODO pass user
             Intent i = new Intent(getActivity(), ProfileActivity.class);
+            i.putExtra(ProfileActivity.EXTRA_ALLOW_EDIT, true);
             startActivity(i);
             return true;
         }

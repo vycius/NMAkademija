@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija.adapter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -7,37 +8,37 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.User;
 import com.nmakademija.nmaakademija.fragment.UserListFragment;
-import com.nmakademija.nmaakademija.fragment.UsersFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by karolis on 23/08/16.
  */
 public class UserListAdapter extends FragmentStatePagerAdapter {
-    private UsersFragment usersFragment;
+    private Context context;
+    private ArrayList<User> users;
 
-    public UserListAdapter(UsersFragment usersFragment, FragmentManager fm) {
+    public UserListAdapter(Context c, ArrayList<User> u, FragmentManager fm) {
         super(fm);
-        this.usersFragment = usersFragment;
+        context = c;
+        users = u;
     }
 
     @Override
     public Fragment getItem(int position) {
-        ArrayList<User> a = new ArrayList<>();
-        for (int i = 0; i < 20; i++) a.add(new User());
-        return UserListFragment.newInstance(a);
+        return UserListFragment.newInstance(users);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return usersFragment.getString(R.string.akademikai);
+                return context.getString(R.string.akademikai);
             case 1:
-                return usersFragment.getString(R.string.vadoviukai);
+                return context.getString(R.string.vadoviukai);
             case 2:
-                return usersFragment.getString(R.string.destytojai);
+                return context.getString(R.string.destytojai);
             default:
                 return "" + position;
         }
