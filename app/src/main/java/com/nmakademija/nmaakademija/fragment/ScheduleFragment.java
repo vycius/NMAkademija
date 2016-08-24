@@ -59,7 +59,6 @@ public class ScheduleFragment extends Fragment {
             public void onResponse(Call<List<ScheduleEvent>> call, Response<List<ScheduleEvent>> response) {
                 List<ScheduleEvent> scheduleEvents = response.body();
                 setScheduleItems(scheduleEvents);
-                Toast.makeText(getContext(), "Size " + scheduleEvents.size(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

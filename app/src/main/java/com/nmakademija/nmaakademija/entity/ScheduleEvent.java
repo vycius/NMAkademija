@@ -2,6 +2,8 @@ package com.nmakademija.nmaakademija.entity;
 
 import android.text.TextUtils;
 
+import com.nmakademija.nmaakademija.utils.Constants;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,15 +17,15 @@ public class ScheduleEvent implements ScheduleItem {
     private String name;
     private ArrayList<User> lecturers = new ArrayList<>();
 
-    private SimpleDateFormat dateFormater = new SimpleDateFormat("hh:mm");
+    private SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
 
     //region Getters
     public String getStartTime() {
-        return dateFormater.format(new Date(startTime));
+        return dateFormater.format(new Date(startTime * Constants.MILISECONDS_IN_SECOND));
     }
 
     public String getEndTime() {
-        return dateFormater.format(new Date(endTime));
+        return dateFormater.format(new Date(endTime * Constants.MILISECONDS_IN_SECOND));
     }
 
     public String getName() {
@@ -39,7 +41,6 @@ public class ScheduleEvent implements ScheduleItem {
     }
 
     public Date getDate() {
-//        return new Date(1472023376l);
         return new Date(this.startTime * 1000l);
     }
     //endregion
