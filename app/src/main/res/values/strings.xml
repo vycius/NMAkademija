@@ -13,4 +13,5 @@
     <string name="timeUntilSessionDateFormat">%1$d d %2$s</string>
     <string name="timeUntilSessionEnd">Iki sesijos pabaigos liko:</string>
     <string name="timeUntilSessionStart">Iki sesijos pradžios liko:</string>
+    <string name="failed">Failed :(</string>
 </resources>
