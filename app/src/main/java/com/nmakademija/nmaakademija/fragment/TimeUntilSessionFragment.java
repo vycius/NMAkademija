@@ -67,9 +67,9 @@ public class TimeUntilSessionFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        countDownTimer.start();
+    public void onPause() {
+        countDownTimer.cancel();
 
-        super.onStop();
+        super.onPause();
     }
 }
