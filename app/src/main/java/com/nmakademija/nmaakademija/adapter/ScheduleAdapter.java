@@ -52,7 +52,7 @@ public class ScheduleAdapter extends ArrayAdapter<ScheduleItem> {
         scheduleStartTime.setText(scheduleEvent.getStartTime());
         scheduleEndTime.setText(scheduleEvent.getEndTime());
         scheduleName.setText(scheduleEvent.getName());
-        scheduleLecturers.setText(scheduleEvent.getLecturersNames());
+        scheduleLecturers.setText(scheduleEvent.getLecturerName());
 
         return convertView;
     }

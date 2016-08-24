@@ -15,7 +15,7 @@ public class ScheduleEvent implements ScheduleItem {
     private long startTime;
     private long endTime;
     private String name;
-    private ArrayList<User> lecturers = new ArrayList<>();
+    private String lecturer;
 
     private SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
 
@@ -32,12 +32,8 @@ public class ScheduleEvent implements ScheduleItem {
         return name;
     }
 
-    public String getLecturersNames() {
-        ArrayList<String> lecturersNames = new ArrayList<>();
-        for (User lecturer : lecturers) {
-            lecturersNames.add(lecturer.getName());
-        }
-        return TextUtils.join(", ", lecturersNames);
+    public String getLecturerName() {
+        return lecturer;
     }
 
     public Date getDate() {
