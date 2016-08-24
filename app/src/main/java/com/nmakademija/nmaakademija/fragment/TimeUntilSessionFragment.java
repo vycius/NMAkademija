@@ -21,13 +21,10 @@ import retrofit2.Response;
 
 public class TimeUntilSessionFragment extends Fragment {
 
-    // TODO get session start, session end from server
-    // TODO /api/tts/
-
-    TextView timeUntilSessionTV;
-    TimeUntilSession timeUntilSession;
-
     private CountDownTimer countDownTimer;
+
+    private TextView timeUntilSessionTV;
+    private TimeUntilSession timeUntilSession;
 
     public static TimeUntilSessionFragment getInstance() {
         return new TimeUntilSessionFragment();
@@ -71,7 +68,7 @@ public class TimeUntilSessionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TimeTillSession> call, Throwable t) {
-                Toast.makeText(getContext(),"Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
 
                 timeUntilSessionTextTV.setText(R.string.failed);
@@ -82,7 +79,7 @@ public class TimeUntilSessionFragment extends Fragment {
 
     @Override
     public void onPause() {
-        if(countDownTimer != null)
+        if (countDownTimer != null)
             countDownTimer.cancel();
 
         super.onPause();
@@ -90,8 +87,9 @@ public class TimeUntilSessionFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if(countDownTimer != null)
-            countDownTimer.start();
         super.onResume();
+
+        if (countDownTimer != null)
+            countDownTimer.start();
     }
 }
