@@ -1,6 +1,8 @@
 package com.nmakademija.nmaakademija.entity;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
+
+import com.nmakademija.nmaakademija.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,15 +22,16 @@ public class TimeUntilSession {
         dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
     }
 
-    public String returnTime() {
+    public String returnTime(Context context) {
         long now = new Date().getTime();
 
         long timeLeft = Math.max(sessionStart - now, sessionEnd - now);
-        String stringDaysLeft = Long.toString(timeLeft/(24*60*60*1000))+ "d ";
-        return stringDaysLeft + dateFormat.format(new Date(timeLeft));
+        long daysLeft = timeLeft / (24 * 60 * 60 * 1000);
+        String timeLeftString = dateFormat.format(new Date(timeLeft));
+        return context.getString(R.string.timeUntilSessionDateFormat, daysLeft, timeLeftString);
     }
 
-    public boolean isSession(){
+    public boolean isSession() {
         long now = new Date().getTime();
         return (sessionStart - now) < 0;
     }
