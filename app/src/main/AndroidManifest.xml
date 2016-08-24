@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ProfileActivity" />
+
         <service android:name=".service.NMAFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
