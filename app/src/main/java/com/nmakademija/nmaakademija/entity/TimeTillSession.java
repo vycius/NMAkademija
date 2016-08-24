@@ -1,17 +1,19 @@
 package com.nmakademija.nmaakademija.entity;
 
+import java.util.Date;
+
 public class TimeTillSession {
 
-    private long startTime;
+    private Date startTime;
 
-    private long endTime;
+    private Date endTime;
 
 
-    public long getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public long getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 }
