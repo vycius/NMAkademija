@@ -70,9 +70,10 @@ public class TimeUntilSessionFragment extends Fragment {
                 @Override
                 public void onFailure(Call<TimeTillSession> call, Throwable t) {
                     Context context = getContext();
+                    View view1 = getView();
                     if (context != null) {
                         Toast.makeText(context, "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
+                        TextView timeUntilSessionTextTV = (TextView) view1.findViewById(R.id.timeUntilSessionText);
 
                         timeUntilSessionTextTV.setText(R.string.failed);
                     }
