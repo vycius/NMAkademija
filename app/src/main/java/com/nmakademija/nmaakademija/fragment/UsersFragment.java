@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,9 +58,12 @@ public class UsersFragment extends Fragment {
         API.nmaService.getUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                pager.setAdapter(new UserListAdapter(getActivity(),
-                        (ArrayList<User>) response.body(), getChildFragmentManager()));
-                tabs.setupWithViewPager(pager);
+                FragmentActivity activity = getActivity();
+                if (activity != null) {
+                    pager.setAdapter(new UserListAdapter(activity,
+                            (ArrayList<User>) response.body(), getChildFragmentManager()));
+                    tabs.setupWithViewPager(pager);
+                }
             }
 
             @Override
