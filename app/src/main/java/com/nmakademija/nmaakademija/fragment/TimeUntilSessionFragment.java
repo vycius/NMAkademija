@@ -14,11 +14,10 @@ import com.nmakademija.nmaakademija.entity.TimeUntilSession;
 
 public class TimeUntilSessionFragment extends Fragment {
 
-    private boolean prasidejo = false;
-
     // TODO get session start, session end from server
-    private long SessionStart = 1600000000;
-    private long SessionEnd = 1700000000;
+    // TODO /api/tts/
+    private long SessionStart = 1471023083;
+    private long SessionEnd = 1473023083;
 
     TextView timeUntilSessionTV;
     TimeUntilSession timeUntilSession;
@@ -44,12 +43,13 @@ public class TimeUntilSessionFragment extends Fragment {
 
         timeUntilSession = new TimeUntilSession(SessionStart, SessionEnd);
 
+        TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
+
+        timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
+
         countDownTimer = new CountDownTimer(SessionEnd, 1000) {
-
-            // TODO kai reikia prasidejo pakeisti i true, ir pakeisti TV teksta i iki galo liko
-
             public void onTick(long millisUntilFinished) {
-                timeUntilSessionTV.setText(timeUntilSession.returnTime());
+                timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
             }
 
             @Override

@@ -5,4 +5,7 @@
     <string name="vadoviukai">Vadoviukai</string>
     <string name="destytojai">Dėstytojai</string>
     <string name="mano_profilis">Mano profilis</string>
+    <string name="timeUntilSessionDateFormat">%1$d d %2$s</string>
+    <string name="timeUntilSessionEnd">Iki sesijos pabaigos liko:</string>
+    <string name="timeUntilSessionStart">Iki sesijos pradžios liko:</string>
 </resources>
