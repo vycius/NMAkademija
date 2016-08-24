@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -68,10 +69,13 @@ public class TimeUntilSessionFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<TimeTillSession> call, Throwable t) {
-                    Toast.makeText(getContext(), "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
+                    Context context = getContext();
+                    if (context != null) {
+                        Toast.makeText(context, "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
 
-                    timeUntilSessionTextTV.setText(R.string.failed);
+                        timeUntilSessionTextTV.setText(R.string.failed);
+                    }
                 }
             });
         }
