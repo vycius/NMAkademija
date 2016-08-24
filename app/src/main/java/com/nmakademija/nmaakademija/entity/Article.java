@@ -1,8 +1,5 @@
 package com.nmakademija.nmaakademija.entity;
 
-/**
- * Created by NMA on 2016.08.22.
- */
 public class Article {
     private String title;
     private String description;

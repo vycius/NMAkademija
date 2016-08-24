@@ -3,9 +3,6 @@ package com.nmakademija.nmaakademija.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by NMA on 2016.08.23.
- */
 public class User implements Serializable {
     private int id;
     private String name;

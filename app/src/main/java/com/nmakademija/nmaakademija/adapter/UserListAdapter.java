@@ -11,6 +11,7 @@ import com.nmakademija.nmaakademija.fragment.UserListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class UserListAdapter extends FragmentStatePagerAdapter {
     private Context context;
     private ArrayList<User> users;

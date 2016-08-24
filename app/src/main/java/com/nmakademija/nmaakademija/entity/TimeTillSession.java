@@ -1,9 +1,5 @@
 package com.nmakademija.nmaakademija.entity;
 
-/**
- * Created by karolis on 24/08/16.
- */
-
 public class TimeTillSession {
 
     private long startTime;
