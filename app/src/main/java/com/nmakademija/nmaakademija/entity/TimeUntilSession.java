@@ -8,22 +8,20 @@ import java.util.Locale;
 public class TimeUntilSession {
 
     private long _SessionStart;
-    private long _SessionEnd;
+    private long SessionEnd;
 
     private final DateFormat formatter = new SimpleDateFormat("MM-dd HH:mm:ss", Locale.US);
 
     public TimeUntilSession(long StartTime, long EndTime) {
         _SessionStart = StartTime;
-        _SessionEnd = EndTime;
+        SessionEnd = EndTime;
     }
 
     public String returnTime() {
         long now = new Date().getTime();
 
-        long timeLeft = Math.max(_SessionStart * 1000 - now, _SessionEnd * 1000 - now);
+        long timeLeft = Math.max(_SessionStart * 1000 - now, SessionEnd * 1000 - now);
 
-        String dateFormatted = formatter.format(timeLeft);
-
-        return dateFormatted;
+        return formatter.format(timeLeft);
     }
 }
