@@ -14,8 +14,6 @@ import com.nmakademija.nmaakademija.entity.TimeUntilSession;
 
 public class TimeUntilSessionFragment extends Fragment {
 
-    private boolean prasidejo = false;
-
     // TODO get session start, session end from server
     private long SessionStart = 1471023083;
     private long SessionEnd = 1473023083 ;
@@ -46,11 +44,11 @@ public class TimeUntilSessionFragment extends Fragment {
 
         TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
 
-        timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? "Iki sesijos pabaigos liko:" : "Iki sesijos pradžios liko:");
+        timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
 
         countDownTimer = new CountDownTimer(SessionEnd, 1000) {
             public void onTick(long millisUntilFinished) {
-                timeUntilSessionTV.setText(timeUntilSession.returnTime());
+                timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
             }
 
             @Override
