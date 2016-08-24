@@ -52,7 +52,6 @@ public class UsersFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         pager = (ViewPager) getView().findViewById(R.id.viewPager);
         tabs = (TabLayout) getView().findViewById(R.id.tabs);
         API.nmaService.getUsers().enqueue(new Callback<List<User>>() {
@@ -65,9 +64,12 @@ public class UsersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_SHORT).show();
+                View view = getView();
+                if (view != null)
+                    Snackbar.make(view, R.string.request_failed, Snackbar.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override

@@ -29,7 +29,6 @@ public class NewsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         RecyclerView rv = (RecyclerView) getView().findViewById(R.id.recyclerView);
 
         ArrayList<Article> articles = new ArrayList<>();

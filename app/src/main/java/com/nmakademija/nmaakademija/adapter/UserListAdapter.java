@@ -10,11 +10,7 @@ import com.nmakademija.nmaakademija.entity.User;
 import com.nmakademija.nmaakademija.fragment.UserListFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by karolis on 23/08/16.
- */
 public class UserListAdapter extends FragmentStatePagerAdapter {
     private Context context;
     private ArrayList<User> users;
