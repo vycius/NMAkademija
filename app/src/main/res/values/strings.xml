@@ -15,4 +15,8 @@
     <string name="timeUntilSessionStart">Iki sesijos pradžios liko:</string>
     <string name="request_failed">Nepavyko gauti duomenų</string>
     <string name="failed">Failed :(</string>
+    <string name="news">Naujienos</string>
+    <string name="users">Dalyviai</string>
+    <string name="timer">Laikrodukas</string>
+    <string name="schedule">Programa</string>
 </resources>
