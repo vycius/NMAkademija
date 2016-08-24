@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nmakademija.nmaakademija.fragment.NewsFragment;
+import com.nmakademija.nmaakademija.fragment.ScheduleFragment;
 import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
 import com.nmakademija.nmaakademija.fragment.UsersFragment;
 
@@ -38,9 +39,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
             case 0:
                 fragment = NewsFragment.getInstance();
                 break;
+            case 1:
+                fragment = ScheduleFragment.getInstance();
+                break;
             case 2:
                 fragment = TimeUntilSessionFragment.getInstance();
                 break;
+
             default:
                 fragment = UsersFragment.getInstance();
 
