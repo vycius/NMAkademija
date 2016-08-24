@@ -1,6 +1,5 @@
 package com.nmakademija.nmaakademija.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -70,9 +69,8 @@ public class TimeUntilSessionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TimeTillSession> call, Throwable t) {
-                Context context = getContext();
                 View view = getView();
-                if (context != null) {
+                if (view != null) {
                     Snackbar.make(view, R.string.request_failed, Snackbar.LENGTH_SHORT).show();
                     TextView timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
 
