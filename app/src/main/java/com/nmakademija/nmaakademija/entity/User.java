@@ -7,16 +7,16 @@ import java.util.ArrayList;
  * Created by NMA on 2016.08.23.
  */
 public class User implements Serializable {
-    private int ID;
+    private int id;
     private String name;
     private String email;
     private String phone;
     private String bio;
-    private String photoURL;
+    private String image;
     private ArrayList<Role> roles;
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -31,8 +31,8 @@ public class User implements Serializable {
         return phone;
     }
 
-    public String getPhotoURL() {
-        return photoURL;
+    public String getImage() {
+        return image;
     }
 
     public ArrayList<Role> getRoles() {
