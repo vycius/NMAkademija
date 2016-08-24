@@ -52,7 +52,7 @@ public class TimeUntilSessionFragment extends Fragment {
 
                     timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
 
-                    countDownTimer = new CountDownTimer(timeTillSession.getEndTime(), 1000) {
+                    countDownTimer = new CountDownTimer(timeTillSession.getEndTime().getTime(), 1000) {
                         public void onTick(long millisUntilFinished) {
                             timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
                         }
