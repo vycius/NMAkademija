@@ -9,6 +9,7 @@ public class TimeUntilSession {
 
     private long _SessionStart;
     private long _SessionEnd;
+    private boolean labas = false;
 
     private final DateFormat formatter = new SimpleDateFormat("MM-dd HH:mm:ss", Locale.US);
 
