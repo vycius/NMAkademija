@@ -15,10 +15,12 @@ public class TimeUntilSession {
 
     private SimpleDateFormat dateFormat;
 
+    private final int millisecondsInSecond = 1000;
+    private final long millisecondsInDay = 86400000;
 
     public TimeUntilSession(long StartTime, long EndTime) {
-        sessionStart = StartTime * 1000;
-        sessionEnd = EndTime * 1000;
+        sessionStart = StartTime * millisecondsInSecond;
+        sessionEnd = EndTime * millisecondsInSecond;
         dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
     }
 
@@ -26,7 +28,7 @@ public class TimeUntilSession {
         long now = new Date().getTime();
 
         long timeLeft = Math.max(sessionStart - now, sessionEnd - now);
-        long daysLeft = timeLeft / (24 * 60 * 60 * 1000);
+        long daysLeft = timeLeft / millisecondsInDay;
         String timeLeftString = dateFormat.format(new Date(timeLeft));
         return context.getString(R.string.timeUntilSessionDateFormat, daysLeft, timeLeftString);
     }

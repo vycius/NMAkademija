@@ -15,8 +15,9 @@ import com.nmakademija.nmaakademija.entity.TimeUntilSession;
 public class TimeUntilSessionFragment extends Fragment {
 
     // TODO get session start, session end from server
+    // TODO /api/tts/
     private long SessionStart = 1471023083;
-    private long SessionEnd = 1473023083 ;
+    private long SessionEnd = 1473023083;
 
     TextView timeUntilSessionTV;
     TimeUntilSession timeUntilSession;
