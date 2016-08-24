@@ -83,4 +83,11 @@ public class TimeUntilSessionFragment extends Fragment {
 
         super.onPause();
     }
+
+    @Override
+    public void onResume() {
+        if(countDownTimer != null)
+            countDownTimer.start();
+        super.onResume();
+    }
 }
