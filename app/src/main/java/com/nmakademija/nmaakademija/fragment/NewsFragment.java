@@ -29,17 +29,17 @@ public class NewsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-            RecyclerView rv = (RecyclerView) getView().findViewById(R.id.recyclerView);
+        RecyclerView rv = (RecyclerView) getView().findViewById(R.id.recyclerView);
 
-            ArrayList<Article> articles = new ArrayList<>();
+        ArrayList<Article> articles = new ArrayList<>();
 
-            articles.add(new Article("ssdjaisnduiadn"));
-            articles.add(new Article("ssdjaisnduiadn"));
-            articles.add(new Article("ssdjaisnduiadn"));
-            articles.add(new Article("ssdjaisnduiadn"));
-            articles.add(new Article("ssdjaisnduiadn"));
+        articles.add(new Article("ssdjaisnduiadn"));
+        articles.add(new Article("ssdjaisnduiadn"));
+        articles.add(new Article("ssdjaisnduiadn"));
+        articles.add(new Article("ssdjaisnduiadn"));
+        articles.add(new Article("ssdjaisnduiadn"));
 
-            rv.setAdapter(new ArticlesAdapter(articles));
+        rv.setAdapter(new ArticlesAdapter(articles));
     }
 
 }

@@ -10,7 +10,6 @@ import com.nmakademija.nmaakademija.entity.User;
 import com.nmakademija.nmaakademija.fragment.UserListFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserListAdapter extends FragmentStatePagerAdapter {
     private Context context;
@@ -29,19 +28,16 @@ public class UserListAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if(context != null) {
-            switch (position) {
-                case 0:
-                    return context.getString(R.string.akademikai);
-                case 1:
-                    return context.getString(R.string.vadoviukai);
-                case 2:
-                    return context.getString(R.string.destytojai);
-                default:
-                    return "" + position;
-            }
+        switch (position) {
+            case 0:
+                return context.getString(R.string.akademikai);
+            case 1:
+                return context.getString(R.string.vadoviukai);
+            case 2:
+                return context.getString(R.string.destytojai);
+            default:
+                return "" + position;
         }
-        return null;
     }
 
     @Override
