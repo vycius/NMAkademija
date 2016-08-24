@@ -8,21 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nmakademija.nmaakademija.R;
+import com.nmakademija.nmaakademija.api.API;
+import com.nmakademija.nmaakademija.entity.TimeTillSession;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TimeUntilSessionFragment extends Fragment {
 
-    // TODO get session start, session end from server
-    // TODO /api/tts/
-    private long SessionStart = 1471023083;
-    private long SessionEnd = 1473023083;
-
-    TextView timeUntilSessionTV;
-    TimeUntilSession timeUntilSession;
-
     private CountDownTimer countDownTimer;
+
+    private TextView timeUntilSessionTV;
+    private TimeUntilSession timeUntilSession;
 
     public static TimeUntilSessionFragment getInstance() {
         return new TimeUntilSessionFragment();
@@ -38,38 +40,56 @@ public class TimeUntilSessionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
 
-        timeUntilSession = new TimeUntilSession(SessionStart, SessionEnd);
+        API.nmaService.getTimeTillSession().enqueue(new Callback<TimeTillSession>() {
+            @Override
+            public void onResponse(Call<TimeTillSession> call, Response<TimeTillSession> response) {
+                TimeTillSession timeTillSession = response.body();
+                timeUntilSession = new TimeUntilSession(timeTillSession.getStartTime(), timeTillSession.getEndTime());
 
-        TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
+                TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
 
-        timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
+                timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
 
-        countDownTimer = new CountDownTimer(SessionEnd, 1000) {
-            public void onTick(long millisUntilFinished) {
-                timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
+                countDownTimer = new CountDownTimer(timeTillSession.getEndTime(), 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                };
+
+                countDownTimer.start();
             }
 
             @Override
-            public void onFinish() {
+            public void onFailure(Call<TimeTillSession> call, Throwable t) {
+                Toast.makeText(getContext(), "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
+
+                timeUntilSessionTextTV.setText(R.string.failed);
 
             }
-        };
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        countDownTimer.start();
+        });
     }
 
     @Override
     public void onPause() {
-        countDownTimer.cancel();
+        if (countDownTimer != null)
+            countDownTimer.cancel();
 
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (countDownTimer != null)
+            countDownTimer.start();
     }
 }
