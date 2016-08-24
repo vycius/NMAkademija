@@ -1,5 +1,8 @@
 package com.nmakademija.nmaakademija.entity;
 
+import android.annotation.SuppressLint;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeUntilSession {
@@ -7,28 +10,21 @@ public class TimeUntilSession {
     private long sessionStart;
     private long sessionEnd;
 
+    private SimpleDateFormat dateFormat;
+
+    @SuppressLint("SimpleDateFormat")
     public TimeUntilSession(long StartTime, long EndTime) {
         sessionStart = StartTime * 1000;
         sessionEnd = EndTime * 1000;
+        dateFormat = new SimpleDateFormat("HH:mm:ss");
     }
 
     public String returnTime() {
         long now = new Date().getTime();
 
         long timeLeft = Math.max(sessionStart - now, sessionEnd - now);
-        long temp = timeLeft/(24*60*60*1000);
-        String stringTimeLeft = (temp < 10 ? "0" : "")+Long.toString(temp)+ "d ";
-        timeLeft = timeLeft % (24*60*60*1000);
-        temp = timeLeft/(60*60*1000);
-        stringTimeLeft = stringTimeLeft + (temp < 10 ? "0" : "")+Long.toString(temp)+":";
-        timeLeft = timeLeft % (60*60*1000);
-        temp = timeLeft/(60*1000);
-        stringTimeLeft = stringTimeLeft + (temp < 10 ? "0" : "")+Long.toString(temp)+":";
-        timeLeft = timeLeft % (60*1000);
-        temp = timeLeft/(1000);
-        stringTimeLeft = stringTimeLeft + (temp < 10 ? "0" : "")+Long.toString(temp);
-
-        return stringTimeLeft;
+        String stringDaysLeft = Long.toString(timeLeft/(24*60*60*1000))+ "d ";
+        return stringDaysLeft + dateFormat.format(new Date(timeLeft));
     }
 
     public boolean isSession(){
