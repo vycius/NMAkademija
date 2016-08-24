@@ -5,7 +5,7 @@
     <string name="vadoviukai">Vadoviukai</string>
     <string name="destytojai">Dėstytojai</string>
     <string name="mano_profilis">Mano profilis</string>
-    <string name="name_hint">Vardenis Pavardenis</string>
+    <string name="name_hint">Vardas Pavardė</string>
     <string name="email_hint">El. paštas</string>
     <string name="phone_hint">Telefono numeris</string>
     <string name="bio_hint">Apie mane</string>

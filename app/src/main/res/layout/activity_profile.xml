@@ -3,7 +3,7 @@
     android:orientation="vertical" 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:padding="16dp"
     xmlns:tools="http://schemas.android.com/tools">
     
     <LinearLayout
@@ -45,11 +45,12 @@
         android:layout_weight="1"
         android:inputType="textMultiLine"
         android:hint="@string/bio_hint"
-        android:gravity="top" />
+        android:gravity="top"/>
 
     <Button android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:text="@string/save"/>
+        android:text="@string/save"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 </LinearLayout>
