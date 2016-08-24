@@ -11,12 +11,9 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String phone;
+    private String bio;
     private String photoURL;
     private ArrayList<Role> roles;
-
-    public User() {
-        name = "Leonas Narkevičius";
-    }
 
     public int getID() {
         return ID;
@@ -40,5 +37,25 @@ public class User implements Serializable {
 
     public ArrayList<Role> getRoles() {
         return roles;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
