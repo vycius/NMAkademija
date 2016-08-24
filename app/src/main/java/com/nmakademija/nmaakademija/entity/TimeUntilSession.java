@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class TimeUntilSession {
 
@@ -12,11 +13,11 @@ public class TimeUntilSession {
 
     private SimpleDateFormat dateFormat;
 
-    @SuppressLint("SimpleDateFormat")
+
     public TimeUntilSession(long StartTime, long EndTime) {
         sessionStart = StartTime * 1000;
         sessionEnd = EndTime * 1000;
-        dateFormat = new SimpleDateFormat("HH:mm:ss");
+        dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
     }
 
     public String returnTime() {
