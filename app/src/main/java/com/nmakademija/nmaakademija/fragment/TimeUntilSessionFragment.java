@@ -1,15 +1,14 @@
 package com.nmakademija.nmaakademija.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.api.API;
@@ -70,10 +69,9 @@ public class TimeUntilSessionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TimeTillSession> call, Throwable t) {
-                Context context = getContext();
                 View view = getView();
-                if (context != null) {
-                    Toast.makeText(context, "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (view != null) {
+                    Snackbar.make(view, R.string.request_failed, Snackbar.LENGTH_SHORT).show();
                     TextView timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
 
                     timeUntilSessionTextTV.setText(R.string.failed);
