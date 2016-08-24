@@ -40,16 +40,16 @@ public class TimeUntilSessionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View view = getView();
-        if (view != null) {
-            timeUntilSessionTV = (TextView) view.findViewById(R.id.timeUntilSession);
-            API.nmaService.getTimeTillSession().enqueue(new Callback<TimeTillSession>() {
-                @Override
-                public void onResponse(Call<TimeTillSession> call, Response<TimeTillSession> response) {
+        timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
+        API.nmaService.getTimeTillSession().enqueue(new Callback<TimeTillSession>() {
+            @Override
+            public void onResponse(Call<TimeTillSession> call, Response<TimeTillSession> response) {
+                View view = getView();
+                if (view != null) {
                     TimeTillSession timeTillSession = response.body();
                     timeUntilSession = new TimeUntilSession(timeTillSession.getStartTime(), timeTillSession.getEndTime());
 
-                    TextView timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
+                    TextView timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
 
                     timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
 
@@ -66,21 +66,22 @@ public class TimeUntilSessionFragment extends Fragment {
 
                     countDownTimer.start();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<TimeTillSession> call, Throwable t) {
-                    Context context = getContext();
-                    View view1 = getView();
-                    if (context != null) {
-                        Toast.makeText(context, "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        TextView timeUntilSessionTextTV = (TextView) view1.findViewById(R.id.timeUntilSessionText);
+            @Override
+            public void onFailure(Call<TimeTillSession> call, Throwable t) {
+                Context context = getContext();
+                View view = getView();
+                if (context != null) {
+                    Toast.makeText(context, "Failed API call " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    TextView timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
 
-                        timeUntilSessionTextTV.setText(R.string.failed);
-                    }
+                    timeUntilSessionTextTV.setText(R.string.failed);
                 }
-            });
-        }
+            }
+        });
     }
+
 
     @Override
     public void onPause() {
