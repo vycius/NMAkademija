@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija.entity;
 
+import java.util.Date;
 import java.util.List;
 
 public class Event {
@@ -7,9 +8,8 @@ public class Event {
     private int id;
     private String name;
 
-    private long startTime;
-
-    private long endTime;
+    private Date startTime;
+    private Date endTime;
 
     private List<Integer> lecturers;
     private int section;
@@ -23,11 +23,11 @@ public class Event {
         return name;
     }
 
-    public long getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public long getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
