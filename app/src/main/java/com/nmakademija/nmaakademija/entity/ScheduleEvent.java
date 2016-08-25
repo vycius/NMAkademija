@@ -1,19 +1,14 @@
 package com.nmakademija.nmaakademija.entity;
 
-import android.text.TextUtils;
-
-import com.nmakademija.nmaakademija.utils.Constants;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by dekedro on 16.8.22.
  */
 public class ScheduleEvent implements ScheduleItem {
-    private long startTime;
-    private long endTime;
+    private Date startTime;
+    private Date endTime;
     private String name;
     private String lecturer;
 
@@ -21,11 +16,11 @@ public class ScheduleEvent implements ScheduleItem {
 
     //region Getters
     public String getStartTime() {
-        return dateFormater.format(new Date(startTime * Constants.MILISECONDS_IN_SECOND));
+        return dateFormater.format(startTime);
     }
 
     public String getEndTime() {
-        return dateFormater.format(new Date(endTime * Constants.MILISECONDS_IN_SECOND));
+        return dateFormater.format(endTime);
     }
 
     public String getName() {
@@ -37,7 +32,7 @@ public class ScheduleEvent implements ScheduleItem {
     }
 
     public Date getDate() {
-        return new Date(this.startTime * 1000l);
+        return startTime;
     }
     //endregion
 }

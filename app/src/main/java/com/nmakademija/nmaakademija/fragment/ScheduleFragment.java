@@ -74,9 +74,8 @@ public class ScheduleFragment extends Fragment {
 
         ArrayList<Date> scheduleDates = new ArrayList<>();
         for (ScheduleEvent scheduleEvent : scheduleEvents) {
-            //TODO: Date should be retrieved from ScheduleEvent
             Date eventDate = scheduleEvent.getDate();
-            Date date = new Date(eventDate.getYear(), eventDate.getMonth(), eventDate.getDay());
+            Date date = new Date(eventDate.getYear(), eventDate.getMonth(), eventDate.getDate());
             if (!scheduleDates.contains(date)) {
                 scheduleDates.add(date);
                 scheduleItems.add(new ScheduleDayBanner(date));
