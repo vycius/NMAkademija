@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija.api;
 
+import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.entity.Event;
 import com.nmakademija.nmaakademija.entity.TimeTillSession;
 import com.nmakademija.nmaakademija.entity.User;
@@ -19,4 +20,7 @@ public interface NMAService {
 
     @GET("api/users")
     Call<List<User>> getUsers();
+
+    @GET("api/news")
+    Call<List<Article>> getArticles();
 }
