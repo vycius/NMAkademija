@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nmakademija.nmaakademija.fragment.NewsFragment;
@@ -28,35 +29,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottom_navigation);
 
         bottomNavigation.setOnMenuItemClickListener(this);
-        setCurrentFragment(0, getSupportActionBar());
+        setCurrentFragment(0);
     }
 
-    void setCurrentFragment(int position, android.support.v7.app.ActionBar bar) {
+    void setCurrentFragment(int position) {
         Fragment fragment;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+        int color, subtitle;
 
         switch (position) {
             case 1:
                 fragment = UsersFragment.getInstance();
-                bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem2)));
-                bar.setSubtitle(getResources().getString(R.string.users));
+                color = R.color.bottomNavigationUsersTab;
+                subtitle = R.string.users;
                 break;
             case 2:
                 fragment = TimeUntilSessionFragment.getInstance();
-                bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem3)));
-                bar.setSubtitle(getResources().getString(R.string.timer));
+                color = R.color.bottomNavigationTimerTab;
+                subtitle = R.string.timer;
                 break;
             case 3:
                 fragment = ScheduleFragment.getInstance();
-                bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem4)));
-                bar.setSubtitle(getResources().getString(R.string.schedule));
+                color = R.color.bottomNavigationScheduleTab;
+                subtitle = R.string.schedule;
                 break;
             default:
                 fragment = NewsFragment.getInstance();
-                bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem1)));
-                bar.setSubtitle(getResources().getString(R.string.news));
+                color = R.color.bottomNavigationNewsTab;
+                subtitle = R.string.news;
         }
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(color)));
+        bar.setSubtitle(getResources().getString(subtitle));
 
         transaction.replace(R.id.main_frame, fragment);
 
@@ -65,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
 
     @Override
     public void onMenuItemSelect(@IdRes final int itemId, final int position) {
-        setCurrentFragment(position, getSupportActionBar());
+        setCurrentFragment(position);
     }
 
     @Override

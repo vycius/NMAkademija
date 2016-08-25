@@ -6,22 +6,22 @@
     app:bbn_rippleColor="#33ffffff">
     <item
         android:id="@+id/bbn_item1"
-        android:color="@color/bottomNavigationItem1"
+        android:color="@color/bottomNavigationNewsTab"
         android:icon="@drawable/ic_news"
         android:title="@string/news" />
     <item
         android:id="@+id/bbn_item2"
-        android:color="@color/bottomNavigationItem2"
+        android:color="@color/bottomNavigationUsersTab"
         android:icon="@drawable/ic_users"
         android:title="@string/users" />
     <item
         android:id="@+id/bbn_item3"
-        android:color="@color/bottomNavigationItem3"
+        android:color="@color/bottomNavigationTimerTab"
         android:icon="@drawable/ic_timer_sand"
         android:title="@string/timer" />
     <item
         android:id="@+id/action4"
-        android:color="@color/bottomNavigationItem4"
+        android:color="@color/bottomNavigationScheduleTab"
         android:icon="@drawable/ic_schedule"
         android:title="@string/schedule" />
 </menu>
