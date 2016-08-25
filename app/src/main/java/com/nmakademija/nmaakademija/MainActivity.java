@@ -37,18 +37,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
 
 
         switch (position) {
-            case 0:
-                fragment = NewsFragment.getInstance();
-                bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem1)));
-                bar.setSubtitle(getResources().getString(R.string.news));
-                break;
             case 1:
                 fragment = UsersFragment.getInstance();
                 bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem2)));
                 bar.setSubtitle(getResources().getString(R.string.users));
-                break;
-            case 1:
-                fragment = ScheduleFragment.getInstance();
                 break;
             case 2:
                 fragment = TimeUntilSessionFragment.getInstance();
@@ -56,17 +48,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
                 bar.setSubtitle(getResources().getString(R.string.timer));
                 break;
             case 3:
-                fragment = TimeUntilSessionFragment.getInstance();
+                fragment = ScheduleFragment.getInstance();
                 bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem4)));
                 bar.setSubtitle(getResources().getString(R.string.schedule));
                 break;
-
             default:
                 fragment = NewsFragment.getInstance();
                 bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bottomNavigationItem1)));
                 bar.setSubtitle(getResources().getString(R.string.news));
-
-
         }
 
         transaction.replace(R.id.main_frame, fragment);
