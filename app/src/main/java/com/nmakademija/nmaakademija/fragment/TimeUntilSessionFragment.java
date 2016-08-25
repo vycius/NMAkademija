@@ -80,7 +80,6 @@ public class TimeUntilSessionFragment extends Fragment {
         });
     }
 
-
     @Override
     public void onPause() {
         if (countDownTimer != null)

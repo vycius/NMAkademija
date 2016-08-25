@@ -7,7 +7,7 @@
     <item
         android:id="@+id/bbn_item1"
         android:color="@color/colorPrimary"
-        android:icon="@drawable/ic_newspaper"
+        android:icon="@drawable/ic_news"
         android:title="@string/news" />
     <item
         android:id="@+id/bbn_item2"
