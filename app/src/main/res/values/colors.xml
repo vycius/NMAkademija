@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="blackText">#000000</color>
+    <color name="bottomNavigationItem1">#3F51B5</color>
+    <color name="bottomNavigationItem2">#FF669900</color>
+    <color name="bottomNavigationItem3">#FFFF8800</color>
+    <color name="bottomNavigationItem4">#FF5252</color>
 </resources>
