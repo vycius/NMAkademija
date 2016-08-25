@@ -3,7 +3,6 @@ package com.nmakademija.nmaakademija.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +19,7 @@ import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.UserListAdapter;
 import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.User;
+import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +68,7 @@ public class UsersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                View view = getView();
-                if (view != null)
-                    Snackbar.make(view, R.string.request_failed, Snackbar.LENGTH_SHORT).show();
+                Error.getData(getView());
             }
         });
 
