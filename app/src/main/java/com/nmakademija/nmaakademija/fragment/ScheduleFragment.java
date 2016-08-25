@@ -63,7 +63,9 @@ public class ScheduleFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<ScheduleEvent>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -9,7 +9,7 @@ import java.util.Date;
 public class ScheduleDayBanner implements ScheduleItem {
     private Date date;
 
-    private SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+    private SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
 
     //region Getters
     public String getTime() {
