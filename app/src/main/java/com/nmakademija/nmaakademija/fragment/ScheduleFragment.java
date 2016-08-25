@@ -7,16 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.entity.ScheduleItem;
-import com.nmakademija.nmaakademija.utils.ScheduleItemComparator;
 import com.nmakademija.nmaakademija.adapter.ScheduleAdapter;
 import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.api.NMAService;
 import com.nmakademija.nmaakademija.entity.ScheduleDayBanner;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
+import com.nmakademija.nmaakademija.entity.ScheduleItem;
+import com.nmakademija.nmaakademija.utils.Error;
+import com.nmakademija.nmaakademija.utils.ScheduleItemComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +31,6 @@ public class ScheduleFragment extends Fragment {
 
 
     private ListView scheduleListView;
-    private ArrayList<ScheduleItem> scheduleItems;
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
@@ -65,15 +64,13 @@ public class ScheduleFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<ScheduleEvent>> call, Throwable t) {
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                Error.getData(getView());
             }
         });
     }
 
     private void setScheduleItems(List<ScheduleEvent> scheduleEvents) {
-        scheduleItems = new ArrayList<>();
+        ArrayList<ScheduleItem> scheduleItems = new ArrayList<>();
         scheduleItems.addAll(scheduleEvents);
 
         ArrayList<Date> scheduleDates = new ArrayList<>();
