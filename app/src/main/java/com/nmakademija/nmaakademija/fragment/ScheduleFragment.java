@@ -58,7 +58,9 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ScheduleEvent>> call, Response<List<ScheduleEvent>> response) {
                 List<ScheduleEvent> scheduleEvents = response.body();
-                setScheduleItems(scheduleEvents);
+                if (getContext() != null) {
+                    setScheduleItems(scheduleEvents);
+                }
             }
 
             @Override
