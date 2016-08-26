@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +28,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
         }
     }
 
+    private Context _context;
     private List<ScheduleItem> _events;
 
-    public ScheduleAdapter(List<ScheduleItem> events) {
+    public ScheduleAdapter(Context context, List<ScheduleItem> events) {
         _events = events;
+        _context = context;
+
     }
 
     @Override
@@ -52,10 +56,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
             holder.endTime.setVisibility(View.VISIBLE);
             holder.startTime.setVisibility(View.VISIBLE);
             holder.author.setVisibility(View.VISIBLE);
-            holder.name.setTextSize(20);
+            holder.name.setTextAppearance(_context, R.style.Schedule_item);
         } else {
             ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
-            holder.name.setTextSize(18);
+            holder.name.setTextAppearance(_context, R.style.Schedule_day);
             holder.name.setText(scheduleDayBanner.getTime());
             holder.endTime.setVisibility(View.GONE);
             holder.startTime.setVisibility(View.GONE);

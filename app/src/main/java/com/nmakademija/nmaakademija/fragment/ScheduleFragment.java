@@ -87,9 +87,9 @@ public class ScheduleFragment extends Fragment {
 
         int i;
         Date now = new Date();
-        for (i = 0; i < scheduleItems.size() && !scheduleItems.get(i).getDate().before(now); ++i) ;
+        for (i = 0; i < scheduleItems.size() && scheduleItems.get(i).getDate().before(now); ++i) ;
 
-        ScheduleAdapter adapter = new ScheduleAdapter(scheduleItems);
+        ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
         scheduleListView.setAdapter(adapter);
         scheduleListView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         scheduleListView.setHasFixedSize(false);
