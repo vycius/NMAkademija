@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class ScheduleFragment extends Fragment {
 
-    private RecyclerView scheduleListView;
+    private RecyclerView scheduleRecyclerView;
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
@@ -46,7 +46,7 @@ public class ScheduleFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        scheduleListView = (RecyclerView) getView().findViewById(R.id.schedule_list);
+        scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
 
         getScheduleEvents(API.nmaService);
 
@@ -90,19 +90,22 @@ public class ScheduleFragment extends Fragment {
         for (i = 0; i < scheduleItems.size() && scheduleItems.get(i).getDate().before(now); ++i) ;
 
         ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
-        scheduleListView.setAdapter(adapter);
-        scheduleListView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        scheduleListView.setHasFixedSize(false);
+        scheduleRecyclerView.setAdapter(adapter);
+        scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        scheduleRecyclerView.setHasFixedSize(false);
 
 
-        scheduleListView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
-        //scheduleListView.smoothScrollToPosition(Math.min(i, scheduleItems.size() - 1));
+        scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
+
+        //scheduleRecyclerView.smoothScrollToPosition(Math.min(i, scheduleItems.size() - 1));
+
 
         //BottomNavigation bottomNavigation = (BottomNavigation) getActivity().findViewById(R.id.bottom_navigation);
 
-        //scheduleListView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
+        //scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
         //getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        //TODO if(i+1==scheduleItems.size())    bottomnavigation -> dontshow
+        //getActivity().getWindow().getDecorView().setScrollX(10);
+        //TODO if(i+1==scheduleItems.size())        bottomnavigation -> dontshow
 
     }
 
