@@ -3,7 +3,6 @@ package com.nmakademija.nmaakademija.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,8 +74,9 @@ public class ScheduleFragment extends Fragment {
 
         ArrayList<Date> scheduleDates = new ArrayList<>();
         for (ScheduleEvent scheduleEvent : scheduleEvents) {
-            Date eventDate = scheduleEvent.getDate();
-            Date date = new Date(eventDate.getYear(), eventDate.getMonth(), eventDate.getDate());
+            Date /*eventDate*/date = scheduleEvent.getDate();
+            //Date date = new Date(eventDate.getYear(), eventDate.getMonth(), eventDate.getDate());
+
             if (!scheduleDates.contains(date)) {
                 scheduleDates.add(date);
                 scheduleItems.add(new ScheduleDayBanner(date));
@@ -91,9 +91,7 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
         scheduleRecyclerView.setAdapter(adapter);
-        scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        scheduleRecyclerView.setHasFixedSize(false);
-
+        //scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
 

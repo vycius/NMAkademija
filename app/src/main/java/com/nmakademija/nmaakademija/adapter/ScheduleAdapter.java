@@ -28,12 +28,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
         }
     }
 
-    private Context _context;
-    private List<ScheduleItem> _events;
+    private Context context;
+    private List<ScheduleItem> events;
 
     public ScheduleAdapter(Context context, List<ScheduleItem> events) {
-        _events = events;
-        _context = context;
+        this.events = events;
+        this.context = context;
 
     }
 
@@ -46,7 +46,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final ScheduleItem scheduleItem = _events.get(position);
+        final ScheduleItem scheduleItem = events.get(position);
         if (scheduleItem instanceof ScheduleEvent) {
             ScheduleEvent scheduleEvent = (ScheduleEvent) scheduleItem;
             holder.startTime.setText(scheduleEvent.getStartTime());
@@ -56,10 +56,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
             holder.endTime.setVisibility(View.VISIBLE);
             holder.startTime.setVisibility(View.VISIBLE);
             holder.author.setVisibility(View.VISIBLE);
-            holder.name.setTextAppearance(_context, R.style.Schedule_item_name);
+            holder.name.setTextAppearance(context, R.style.Schedule_item_name);
         } else {
             ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
-            holder.name.setTextAppearance(_context, R.style.Schedule_day);
+            holder.name.setTextAppearance(context, R.style.Schedule_day);
             holder.name.setText(scheduleDayBanner.getTime());
             holder.endTime.setVisibility(View.GONE);
             holder.startTime.setVisibility(View.GONE);
@@ -69,6 +69,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return _events.size();
+        return events.size();
     }
 }
