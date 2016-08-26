@@ -17,7 +17,6 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigation.OnMenuItemSelectionListener {
 
-
     private BottomNavigation bottomNavigation;
 
     @Override
@@ -29,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottom_navigation);
 
         bottomNavigation.setOnMenuItemClickListener(this);
+
         setCurrentFragment(0);
     }
 

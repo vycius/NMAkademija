@@ -94,8 +94,15 @@ public class ScheduleFragment extends Fragment {
         scheduleListView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         scheduleListView.setHasFixedSize(false);
 
+
         scheduleListView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
-        //TODO if(i+1==scheduleItems.size())    bottomnavigation.dontshow
+        //scheduleListView.smoothScrollToPosition(Math.min(i, scheduleItems.size() - 1));
+
+        //BottomNavigation bottomNavigation = (BottomNavigation) getActivity().findViewById(R.id.bottom_navigation);
+
+        //scheduleListView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
+        //getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        //TODO if(i+1==scheduleItems.size())    bottomnavigation -> dontshow
 
     }
 
