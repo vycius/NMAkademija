@@ -36,7 +36,7 @@
             android:id="@+id/schedule_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            style="@style/Schedule_item_name"
             tools:text="Hello World!" />
 
         <TextView
