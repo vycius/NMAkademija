@@ -71,14 +71,6 @@ public class ScheduleFragment extends Fragment {
     private void setScheduleItems(List<ScheduleEvent> scheduleEvents) {
         ArrayList<ScheduleItem> scheduleItems = new ArrayList<>();
         scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
-        scheduleItems.addAll(scheduleEvents);
 
         ArrayList<Date> scheduleDates = new ArrayList<>();
         for (ScheduleEvent scheduleEvent : scheduleEvents) {
@@ -100,7 +92,7 @@ public class ScheduleFragment extends Fragment {
                 break;
         }*/
 
-        ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
+        ScheduleAdapter adapter = new ScheduleAdapter(scheduleItems);
         scheduleListView.setAdapter(adapter);
         //scheduleListView.setSelected(i);
     }

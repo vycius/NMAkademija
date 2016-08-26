@@ -1,6 +1,5 @@
 package com.nmakademija.nmaakademija.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +15,6 @@ import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyViewHolder> {
 
-    // private final Context _context;
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView startTime, endTime, name, author;
 
@@ -32,9 +29,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
     private List<ScheduleItem> _events;
 
-    public ScheduleAdapter(Context context, List<ScheduleItem> events) {
+    public ScheduleAdapter(List<ScheduleItem> events) {
         _events = events;
-        // _context = context;
     }
 
     @Override
