@@ -14,10 +14,9 @@ import com.nmakademija.nmaakademija.entity.ScheduleItem;
 
 import java.util.List;
 
-/**
- * Created by dekedro on 16.8.22.
- */
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyViewHolder> {
+
+    // private final Context _context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView startTime, endTime, name, author;
@@ -31,50 +30,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
         }
     }
 
-    private List<ScheduleEvent> _events;
-    private Context _context;
+    private List<ScheduleItem> _events;
 
-    public ScheduleAdapter(Context context, List<ScheduleEvent> events) {
+    public ScheduleAdapter(Context context, List<ScheduleItem> events) {
         _events = events;
-        _context = context;
-    }
-
-    public View getView (int position, View convertView, ViewGroup parent){
-        ScheduleItem scheduleItem = _events.get(position);
-
-        if (scheduleItem instanceof ScheduleEvent) {
-            return getViewScheduleEvent((ScheduleEvent) scheduleItem, convertView, parent);
-        }
-        if (scheduleItem instanceof ScheduleDayBanner) {
-            return getViewScheduleDayBanner((ScheduleDayBanner) scheduleItem, convertView, parent);
-        }
-        return convertView;
-    }
-
-    private View getViewScheduleEvent (ScheduleEvent scheduleEvent, View convertView, ViewGroup parent){
-        convertView = LayoutInflater.from(_context).inflate(R.layout.schedule_event, parent, false);
-
-        TextView scheduleStartTime = (TextView) convertView.findViewById(R.id.schedule_start_time);
-        TextView scheduleEndTime = (TextView) convertView.findViewById(R.id.schedule_end_time);
-        TextView scheduleName = (TextView) convertView.findViewById(R.id.schedule_name);
-        TextView scheduleLecturers = (TextView) convertView.findViewById(R.id.schedule_author);
-
-        scheduleStartTime.setText(scheduleEvent.getStartTime());
-        scheduleEndTime.setText(scheduleEvent.getEndTime());
-        scheduleName.setText(scheduleEvent.getName());
-        scheduleLecturers.setText(scheduleEvent.getLecturerName());
-
-        return convertView;
-    }
-
-    private View getViewScheduleDayBanner (ScheduleDayBanner scheduleDayBanner, View convertView, ViewGroup parent){
-        convertView = LayoutInflater.from(_context).inflate(R.layout.schedule_day, parent, false);
-
-        TextView scheduleTime = (TextView) convertView.findViewById(R.id.schedule_time);
-
-        scheduleTime.setText(scheduleDayBanner.getTime());
-
-        return convertView;
+        // _context = context;
     }
 
     @Override
@@ -86,11 +46,25 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final ScheduleEvent scheduleEvent = _events.get(position);
-        holder.startTime.setText(scheduleEvent.getStartTime());
-        holder.endTime.setText(scheduleEvent.getEndTime());
-        holder.author.setText(scheduleEvent.getLecturerName());
-        holder.name.setText(scheduleEvent.getName());
+        final ScheduleItem scheduleItem = _events.get(position);
+        if (scheduleItem instanceof ScheduleEvent) {
+            ScheduleEvent scheduleEvent = (ScheduleEvent) scheduleItem;
+            holder.startTime.setText(scheduleEvent.getStartTime());
+            holder.endTime.setText(scheduleEvent.getEndTime());
+            holder.author.setText(scheduleEvent.getLecturerName());
+            holder.name.setText(scheduleEvent.getName());
+            holder.endTime.setVisibility(View.VISIBLE);
+            holder.startTime.setVisibility(View.VISIBLE);
+            holder.author.setVisibility(View.VISIBLE);
+            holder.name.setTextSize(20);
+        } else {
+            ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
+            holder.name.setTextSize(18);
+            holder.name.setText(scheduleDayBanner.getTime());
+            holder.endTime.setVisibility(View.GONE);
+            holder.startTime.setVisibility(View.GONE);
+            holder.author.setVisibility(View.GONE);
+        }
     }
 
     @Override
