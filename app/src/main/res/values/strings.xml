@@ -18,5 +18,4 @@
     <string name="users">Dalyviai</string>
     <string name="timer">Laikrodukas</string>
     <string name="schedule">Programa</string>
-    <string name="old_data_in_API">API\'uje nėra naujų duomenų.</string>
 </resources>
