@@ -1,12 +1,15 @@
 package com.nmakademija.nmaakademija;
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.nmakademija.nmaakademija.fragment.NewsFragment;
 import com.nmakademija.nmaakademija.fragment.ScheduleFragment;
@@ -62,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(color)));
         bar.setSubtitle(getResources().getString(subtitle));
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(color));
+        }
 
         transaction.replace(R.id.main_frame, fragment);
 
