@@ -3,10 +3,10 @@ package com.nmakademija.nmaakademija.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ScheduleAdapter;
@@ -29,8 +29,7 @@ import retrofit2.Response;
 
 public class ScheduleFragment extends Fragment {
 
-
-    private ListView scheduleListView;
+    private RecyclerView scheduleListView;
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
@@ -46,7 +45,7 @@ public class ScheduleFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        scheduleListView = (ListView) getView().findViewById(R.id.schedule_list);
+        scheduleListView = (RecyclerView) getView().findViewById(R.id.schedule_list);
 
         getScheduleEvents(API.nmaService);
 
@@ -72,6 +71,20 @@ public class ScheduleFragment extends Fragment {
     private void setScheduleItems(List<ScheduleEvent> scheduleEvents) {
         ArrayList<ScheduleItem> scheduleItems = new ArrayList<>();
         scheduleItems.addAll(scheduleEvents);
+        scheduleItems.addAll(scheduleEvents);
+        scheduleItems.addAll(scheduleEvents);
+        scheduleItems.addAll(scheduleEvents);
+        scheduleItems.addAll(scheduleEvents);
+        scheduleItems.addAll(scheduleEvents);
+        scheduleItems.addAll(scheduleEvents);
+        scheduleItems.addAll(scheduleEvents);
+        scheduleEvents.addAll(scheduleEvents);
+        scheduleEvents.addAll(scheduleEvents);
+        scheduleEvents.addAll(scheduleEvents);
+        scheduleEvents.addAll(scheduleEvents);
+        scheduleEvents.addAll(scheduleEvents);
+        scheduleEvents.addAll(scheduleEvents);
+        scheduleEvents.addAll(scheduleEvents);
 
         ArrayList<Date> scheduleDates = new ArrayList<>();
         for (ScheduleEvent scheduleEvent : scheduleEvents) {
@@ -84,9 +97,18 @@ public class ScheduleFragment extends Fragment {
         }
 
         Collections.sort(scheduleItems, new ScheduleItemComparator());
+        /*int i = 0;
+        Date now = new Date();
+        while(i+1 < scheduleItems.size()) {
+            if(scheduleEvents.get(i).getDate().before(now))
+                i=i+1;
+            else
+                break;
+        }*/
 
-        ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
+        ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleEvents);
         scheduleListView.setAdapter(adapter);
+        //scheduleListView.setSelected(i);
     }
 
 }

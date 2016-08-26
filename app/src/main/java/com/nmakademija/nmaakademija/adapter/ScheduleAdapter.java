@@ -1,36 +1,46 @@
 package com.nmakademija.nmaakademija.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.ScheduleDayBanner;
-import com.nmakademija.nmaakademija.entity.ScheduleItem;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
+import com.nmakademija.nmaakademija.entity.ScheduleItem;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dekedro on 16.8.22.
  */
-public class ScheduleAdapter extends ArrayAdapter<ScheduleItem> {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyViewHolder> {
 
-    public ScheduleAdapter(Context context, ArrayList<ScheduleItem> events){
-        super(context, R.layout.schedule_event, events);
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView startTime, endTime, name, author;
+
+        public MyViewHolder(View view) {
+            super(view);
+            startTime = (TextView) view.findViewById(R.id.schedule_start_time);
+            endTime = (TextView) view.findViewById(R.id.schedule_end_time);
+            name = (TextView) view.findViewById(R.id.schedule_name);
+            author = (TextView) view.findViewById(R.id.schedule_author);
+        }
     }
 
-    @Override
-    public boolean isEnabled (int position){
-        return false;
+    private List<ScheduleEvent> _events;
+    private Context _context;
+
+    public ScheduleAdapter(Context context, List<ScheduleEvent> events) {
+        _events = events;
+        _context = context;
     }
 
-    @Override
     public View getView (int position, View convertView, ViewGroup parent){
-        ScheduleItem scheduleItem = getItem (position);
+        ScheduleItem scheduleItem = _events.get(position);
 
         if (scheduleItem instanceof ScheduleEvent) {
             return getViewScheduleEvent((ScheduleEvent) scheduleItem, convertView, parent);
@@ -42,7 +52,7 @@ public class ScheduleAdapter extends ArrayAdapter<ScheduleItem> {
     }
 
     private View getViewScheduleEvent (ScheduleEvent scheduleEvent, View convertView, ViewGroup parent){
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.schedule_event, parent, false);
+        convertView = LayoutInflater.from(_context).inflate(R.layout.schedule_event, parent, false);
 
         TextView scheduleStartTime = (TextView) convertView.findViewById(R.id.schedule_start_time);
         TextView scheduleEndTime = (TextView) convertView.findViewById(R.id.schedule_end_time);
@@ -58,12 +68,33 @@ public class ScheduleAdapter extends ArrayAdapter<ScheduleItem> {
     }
 
     private View getViewScheduleDayBanner (ScheduleDayBanner scheduleDayBanner, View convertView, ViewGroup parent){
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.schedule_day, parent, false);
+        convertView = LayoutInflater.from(_context).inflate(R.layout.schedule_day, parent, false);
 
         TextView scheduleTime = (TextView) convertView.findViewById(R.id.schedule_time);
 
         scheduleTime.setText(scheduleDayBanner.getTime());
 
         return convertView;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.schedule_event, parent, false);
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        final ScheduleEvent scheduleEvent = _events.get(position);
+        holder.startTime.setText(scheduleEvent.getStartTime());
+        holder.endTime.setText(scheduleEvent.getEndTime());
+        holder.author.setText(scheduleEvent.getLecturerName());
+        holder.name.setText(scheduleEvent.getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return _events.size();
     }
 }
