@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,18 +84,20 @@ public class ScheduleFragment extends Fragment {
         }
 
         Collections.sort(scheduleItems, new ScheduleItemComparator());
-        /*int i = 0;
+        int i = 1;
         Date now = new Date();
-        while(i+1 < scheduleItems.size()) {
-            if(scheduleEvents.get(i).getDate().before(now))
+        while (i < scheduleItems.size()) {
+            if (scheduleItems.get(i).getDate().before(now))
                 i=i+1;
             else
                 break;
-        }*/
+        }
 
         ScheduleAdapter adapter = new ScheduleAdapter(scheduleItems);
         scheduleListView.setAdapter(adapter);
-        //scheduleListView.setSelected(i);
+        scheduleListView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        scheduleListView.setHasFixedSize(false);
+        scheduleListView.scrollToPosition(i - 1);
     }
 
 }
