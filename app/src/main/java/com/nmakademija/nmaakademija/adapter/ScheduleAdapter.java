@@ -56,7 +56,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
             holder.endTime.setVisibility(View.VISIBLE);
             holder.startTime.setVisibility(View.VISIBLE);
             holder.author.setVisibility(View.VISIBLE);
-            holder.name.setTextAppearance(_context, R.style.Schedule_item);
+            holder.name.setTextAppearance(_context, R.style.Schedule_item_name);
         } else {
             ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
             holder.name.setTextAppearance(_context, R.style.Schedule_day);

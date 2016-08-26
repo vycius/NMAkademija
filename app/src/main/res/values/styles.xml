@@ -13,7 +13,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="Schedule_item">
+    <style name="Schedule_item_name">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">20sp</item>
     </style>
