@@ -10,4 +10,10 @@ public class Error {
         if (view != null)
             Snackbar.make(view, R.string.request_failed, Snackbar.LENGTH_SHORT).show();
     }
+
+    public static void oldData(View view) {
+        if (view != null) {
+            Snackbar.make(view, R.string.old_data_in_API, Snackbar.LENGTH_LONG).show();
+        }
+    }
 }

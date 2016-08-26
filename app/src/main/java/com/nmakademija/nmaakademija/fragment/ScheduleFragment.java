@@ -84,11 +84,11 @@ public class ScheduleFragment extends Fragment {
         }
 
         Collections.sort(scheduleItems, new ScheduleItemComparator());
-        int i = 1;
+        int i = 0;
         Date now = new Date();
         while (i < scheduleItems.size()) {
             if (scheduleItems.get(i).getDate().before(now))
-                i=i+1;
+                i = i + 1;
             else
                 break;
         }
@@ -97,7 +97,12 @@ public class ScheduleFragment extends Fragment {
         scheduleListView.setAdapter(adapter);
         scheduleListView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         scheduleListView.setHasFixedSize(false);
-        scheduleListView.scrollToPosition(i - 1);
+        if (i < scheduleItems.size()) {
+            scheduleListView.scrollToPosition(i);
+            //TODO if(i+1==scheduleItems.size())    bottomnavigation.dontshow
+        } else {
+            Error.oldData(getView());
+        }
     }
 
 }
