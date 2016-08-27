@@ -1,10 +1,12 @@
 package com.nmakademija.nmaakademija.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
@@ -18,6 +20,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView startTime, endTime, name, author;
+        public LinearLayout event;
 
         public MyViewHolder(View view) {
             super(view);
@@ -25,6 +28,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
             endTime = (TextView) view.findViewById(R.id.schedule_end_time);
             name = (TextView) view.findViewById(R.id.schedule_name);
             author = (TextView) view.findViewById(R.id.schedule_author);
+            event = (LinearLayout) view.findViewById(R.id.schedule_event);
         }
     }
 
@@ -47,24 +51,26 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final ScheduleItem scheduleItem = events.get(position);
-            if (scheduleItem instanceof ScheduleEvent) {
-                ScheduleEvent scheduleEvent = (ScheduleEvent) scheduleItem;
-                holder.startTime.setText(scheduleEvent.getStartTime());
-                holder.endTime.setText(scheduleEvent.getEndTime());
-                holder.author.setText(scheduleEvent.getLecturerName());
-                holder.name.setText(scheduleEvent.getName());
-                holder.endTime.setVisibility(View.VISIBLE);
-                holder.startTime.setVisibility(View.VISIBLE);
-                holder.author.setVisibility(View.VISIBLE);
-                holder.name.setTextAppearance(context, R.style.Schedule_item_name);
-            } else {
-                ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
-                holder.name.setTextAppearance(context, R.style.Schedule_day);
-                holder.name.setText(scheduleDayBanner.getTime());
-                holder.endTime.setVisibility(View.GONE);
-                holder.startTime.setVisibility(View.GONE);
-                holder.author.setVisibility(View.GONE);
-            }
+        int isGone = View.VISIBLE;
+        holder.event.setBackgroundColor(Color.WHITE);
+        if (scheduleItem instanceof ScheduleEvent) {
+            ScheduleEvent scheduleEvent = (ScheduleEvent) scheduleItem;
+            holder.startTime.setText(scheduleEvent.getStartTime());
+            holder.endTime.setText(scheduleEvent.getEndTime());
+            holder.author.setText(scheduleEvent.getLecturerName());
+            holder.name.setText(scheduleEvent.getName());
+            holder.name.setTextAppearance(context, R.style.Schedule_item_name);
+            holder.name.setBackgroundColor(Color.WHITE);
+        } else {
+            ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
+            holder.name.setTextAppearance(context, R.style.Schedule_day);
+            isGone = View.GONE;
+            holder.name.setText(scheduleDayBanner.getTime());
+            holder.name.setBackgroundResource(R.drawable.schedule_event_date_border);
+        }
+        holder.endTime.setVisibility(isGone);
+        holder.startTime.setVisibility(isGone);
+        holder.author.setVisibility(isGone);
     }
 
     @Override
