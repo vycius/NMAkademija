@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
 
 
     private BottomNavigation bottomNavigation;
+    private int selectedIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +32,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
 
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottom_navigation);
 
+        selectedIndex = 0;
         bottomNavigation.setOnMenuItemClickListener(this);
-        setCurrentFragment(0);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentFragment(selectedIndex);
+        bottomNavigation.setSelectedIndex(selectedIndex, false);
+    }
+
+
+
     void setCurrentFragment(int position) {
+        selectedIndex = position;
         Fragment fragment;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
