@@ -1,0 +1,29 @@
+language: android
+
+sudo: false
+
+jdk: oraclejdk8
+
+env:
+  global:
+    - GRADLE_OPTS="-Xmx4g"
+
+android:
+  components:
+    # Use the latest platform tools
+    - platform-tools
+    - tools
+    - tools
+
+    # Use the desired build tools
+    - build-tools-24.0.2
+
+    # Project target SDK
+    - android-24
+
+    # Project extra configuration
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+script:
+  - ./gradlew -s clean assemble
