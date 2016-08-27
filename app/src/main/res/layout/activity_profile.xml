@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp">
+        
+        <ImageView android:id="@+id/profile_pic_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            tools:src="@drawable/leon"/>
+        
+        <EditText android:id="@+id/name_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1" 
+            android:layout_marginLeft="16dp"
+            android:inputType="textPersonName"
+            android:hint="@string/name_hint"/>
+    </LinearLayout>
+
+    <EditText android:id="@+id/email_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="@string/email_hint"/>
+
+    <EditText android:id="@+id/phone_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:hint="@string/phone_hint"/>
+
+    <EditText android:id="@+id/bio_edit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:inputType="textMultiLine"
+        android:hint="@string/bio_hint"
+        android:gravity="top"/>
+
+    <Button android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:text="@string/save"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+</LinearLayout>

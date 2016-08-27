@@ -1,5 +1,7 @@
 package com.nmakademija.nmaakademija.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,16 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.nmakademija.nmaakademija.ArticleActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.Article;
 
 import java.util.List;
 
-/**
- * Created by karolis on 23/08/16.
- */
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyViewHolder> {
-
     private List<Article> articlesList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -45,10 +45,19 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Article article = articlesList.get(position);
+        final Article article = articlesList.get(position);
         holder.title.setText(article.getTitle());
         holder.description.setText(article.getDescription());
-        holder.image.setImageResource(R.mipmap.ic_launcher);
+        Glide.with(holder.itemView.getContext()).load(article.getTitleImage()).into(holder.image);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context c = view.getContext();
+                Intent i = new Intent(c, ArticleActivity.class);
+                i.putExtra(ArticleActivity.EXTRA_ARTICLE_CONTENT, article.getContent());
+                c.startActivity(i);
+            }
+        });
     }
 
     @Override

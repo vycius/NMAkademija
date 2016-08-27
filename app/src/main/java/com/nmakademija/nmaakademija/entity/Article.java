@@ -1,17 +1,11 @@
 package com.nmakademija.nmaakademija.entity;
 
-/**
- * Created by NMA on 2016.08.22.
- */
 public class Article {
+    private int id;
     private String title;
     private String description;
-    private String imageUrl;
-
-    public Article(String s) {
-        title = s;
-        description = s;
-    }
+    private String content;
+    private String titleImage;
 
     public String getTitle() {
         return title;
@@ -21,7 +15,11 @@ public class Article {
         return description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getTitleImage() {
+        return titleImage;
+    }
+
+    public String getContent() {
+        return content;
     }
 }

@@ -25,10 +25,10 @@ public class UsersAdapter extends ArrayAdapter<User> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_user, parent, false);
 
-        ImageView iv = (ImageView) convertView.findViewById(R.id.user_image);
+        User u = getItem(position);
 
-        // TODO Load from url using Glide
-        Glide.with(getContext()).load(R.drawable.leon).into(iv);
+        ImageView iv = (ImageView) convertView.findViewById(R.id.user_image);
+        Glide.with(getContext()).load(u.getImage()).into(iv);
 
         TextView tv = (TextView) convertView.findViewById(R.id.user_name);
         tv.setText(getItem(position).getName());

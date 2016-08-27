@@ -1,17 +1,16 @@
 package com.nmakademija.nmaakademija.entity;
 
-/**
- * Created by NMA on 2016.08.23.
- */
-public class Role {
+import java.io.Serializable;
+
+public class Role implements Serializable {
     private String name;
-    private int sectionID;
+    private int section;
 
     public String getName() {
         return name;
     }
 
-    public int getSectionID() {
-        return sectionID;
+    public int getSection() {
+        return section;
     }
 }

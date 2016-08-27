@@ -1,29 +1,39 @@
 package com.nmakademija.nmaakademija.entity;
 
-import java.text.DateFormat;
+import android.content.Context;
+
+import com.nmakademija.nmaakademija.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class TimeUntilSession {
 
-    private long _SessionStart;
-    private long _SessionEnd;
+    private Date sessionStart;
+    private Date sessionEnd;
 
-    private final DateFormat formatter = new SimpleDateFormat("MM-dd HH:mm:ss", Locale.US);
+    private SimpleDateFormat dateFormat;
 
-    public TimeUntilSession(long StartTime, long EndTime) {
-        _SessionStart = StartTime;
-        _SessionEnd = EndTime;
+    private final long millisecondsInDay = 86400000;
+
+    public TimeUntilSession(Date StartTime, Date EndTime) {
+        sessionStart = StartTime;
+        sessionEnd = EndTime;
+        dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
     }
 
-    public String returnTime() {
+    public String returnTime(Context context) {
         long now = new Date().getTime();
 
-        long timeLeft = Math.max(_SessionStart * 1000 - now, _SessionEnd * 1000 - now);
+        long timeLeft = Math.max(sessionStart.getTime() - now, sessionEnd.getTime() - now);
+        long daysLeft = timeLeft / millisecondsInDay;
+        String timeLeftString = dateFormat.format(new Date(timeLeft));
+        return context.getString(R.string.timeUntilSessionDateFormat, daysLeft, timeLeftString);
+    }
 
-        String dateFormatted = formatter.format(timeLeft);
-
-        return dateFormatted;
+    public boolean isSession() {
+        long now = new Date().getTime();
+        return (sessionStart.getTime() - now) < 0;
     }
 }

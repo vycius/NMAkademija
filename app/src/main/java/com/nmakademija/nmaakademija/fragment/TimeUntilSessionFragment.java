@@ -10,20 +10,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
+import com.nmakademija.nmaakademija.api.API;
+import com.nmakademija.nmaakademija.entity.TimeTillSession;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
+import com.nmakademija.nmaakademija.utils.Error;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TimeUntilSessionFragment extends Fragment {
 
-    private boolean prasidejo = false;
-
-    // TODO get session start, session end from server
-    private long SessionStart = 1600000000;
-    private long SessionEnd = 1700000000;
-
-    TextView timeUntilSessionTV;
-    TimeUntilSession timeUntilSession;
-
     private CountDownTimer countDownTimer;
+
+    private TextView timeUntilSessionTV;
+    private TimeUntilSession timeUntilSession;
 
     public static TimeUntilSessionFragment getInstance() {
         return new TimeUntilSessionFragment();
@@ -38,38 +39,54 @@ public class TimeUntilSessionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
         timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
+        API.nmaService.getTimeTillSession().enqueue(new Callback<TimeTillSession>() {
+            @Override
+            public void onResponse(Call<TimeTillSession> call, Response<TimeTillSession> response) {
+                View view = getView();
+                if (view != null) {
+                    TimeTillSession timeTillSession = response.body();
+                    timeUntilSession = new TimeUntilSession(timeTillSession.getStartTime(), timeTillSession.getEndTime());
 
-        timeUntilSession = new TimeUntilSession(SessionStart, SessionEnd);
+                    TextView timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
 
-        countDownTimer = new CountDownTimer(SessionEnd, 1000) {
+                    timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
 
-            // TODO kai reikia prasidejo pakeisti i true, ir pakeisti TV teksta i iki galo liko
+                    countDownTimer = new CountDownTimer(timeTillSession.getEndTime().getTime(), 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
+                        }
 
-            public void onTick(long millisUntilFinished) {
-                timeUntilSessionTV.setText(timeUntilSession.returnTime());
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    };
+
+                    countDownTimer.start();
+                }
             }
 
             @Override
-            public void onFinish() {
-
+            public void onFailure(Call<TimeTillSession> call, Throwable t) {
+                Error.getData(getView());
             }
-        };
+        });
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onPause() {
+        if (countDownTimer != null)
+            countDownTimer.cancel();
 
-        countDownTimer.start();
+        super.onPause();
     }
 
     @Override
-    public void onStop() {
-        countDownTimer.start();
+    public void onResume() {
+        super.onResume();
 
-        super.onStop();
+        if (countDownTimer != null)
+            countDownTimer.start();
     }
 }
