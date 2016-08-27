@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ArticlesAdapter;
@@ -42,8 +42,8 @@ public class NewsFragment extends Fragment {
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
                 View v = getView();
                 if (v != null) {
-                    RecyclerView rv = (RecyclerView) getView().findViewById(R.id.recyclerView);
-                    rv.setAdapter(new ArticlesAdapter(response.body()));
+                    ListView listView = (ListView) getView().findViewById(R.id.recyclerView);
+                    listView.setAdapter(new ArticlesAdapter(getContext(), (ArrayList<Article>) response.body()));
                 }
             }
 
