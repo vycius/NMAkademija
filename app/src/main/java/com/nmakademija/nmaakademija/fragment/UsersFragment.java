@@ -30,12 +30,12 @@ import retrofit2.Response;
 
 public class UsersFragment extends Fragment {
 
+    private ViewPager pager;
+    private TabLayout tabs;
+
     public static UsersFragment getInstance() {
         return new UsersFragment();
     }
-
-    private ViewPager pager;
-    private TabLayout tabs;
 
     @Nullable
     @Override

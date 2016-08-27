@@ -1,8 +1,7 @@
 package com.nmakademija.nmaakademija.api;
 
-import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.Article;
-import com.nmakademija.nmaakademija.entity.Event;
+import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.TimeTillSession;
 import com.nmakademija.nmaakademija.entity.User;
 

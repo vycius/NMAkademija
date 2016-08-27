@@ -10,12 +10,10 @@ import java.util.Locale;
 
 public class TimeUntilSession {
 
+    private final long millisecondsInDay = 86400000;
     private Date sessionStart;
     private Date sessionEnd;
-
     private SimpleDateFormat dateFormat;
-
-    private final long millisecondsInDay = 86400000;
 
     public TimeUntilSession(Date StartTime, Date EndTime) {
         sessionStart = StartTime;

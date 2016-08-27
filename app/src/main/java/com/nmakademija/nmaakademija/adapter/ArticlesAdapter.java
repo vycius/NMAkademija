@@ -19,19 +19,6 @@ import java.util.List;
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyViewHolder> {
     private List<Article> articlesList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, description;
-        public ImageView image;
-
-        public MyViewHolder(View view) {
-            super(view);
-            title = (TextView) view.findViewById(R.id.news_title);
-            description = (TextView) view.findViewById(R.id.news_description);
-            image = (ImageView) view.findViewById(R.id.news_image);
-        }
-    }
-
-
     public ArticlesAdapter(List<Article> articlesList) {
         this.articlesList = articlesList;
     }
@@ -63,5 +50,17 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
     @Override
     public int getItemCount() {
         return articlesList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, description;
+        public ImageView image;
+
+        public MyViewHolder(View view) {
+            super(view);
+            title = (TextView) view.findViewById(R.id.news_title);
+            description = (TextView) view.findViewById(R.id.news_description);
+            image = (ImageView) view.findViewById(R.id.news_image);
+        }
     }
 }

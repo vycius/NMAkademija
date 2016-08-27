@@ -14,7 +14,6 @@ import com.nmakademija.nmaakademija.adapter.ArticlesAdapter;
 import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Article;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

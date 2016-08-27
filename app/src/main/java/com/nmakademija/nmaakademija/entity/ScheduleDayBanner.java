@@ -11,16 +11,17 @@ public class ScheduleDayBanner implements ScheduleItem {
 
     private SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
 
+    public ScheduleDayBanner(Date date) {
+        this.date = date;
+    }
+
     //region Getters
     public String getTime() {
         return dateFormater.format(date);
     }
-    public Date getDate(){
-        return this.date;
-    }
     //endregion
 
-    public ScheduleDayBanner (Date date){
-        this.date = date;
+    public Date getDate() {
+        return this.date;
     }
 }

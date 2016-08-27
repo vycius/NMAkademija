@@ -17,6 +17,14 @@ public class UserListFragment extends ListFragment {
     private final static String KEY_LIST = "list";
     private ArrayList<User> users;
 
+    public static UserListFragment newInstance(ArrayList<User> users) {
+        UserListFragment ulf = new UserListFragment();
+        Bundle b = new Bundle();
+        b.putSerializable(KEY_LIST, users);
+        ulf.setArguments(b);
+        return ulf;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +39,6 @@ public class UserListFragment extends ListFragment {
         i.putExtra(ProfileActivity.EXTRA_ALLOW_EDIT, false);
         i.putExtra(ProfileActivity.EXTRA_USER, users.get(position));
         startActivity(i);
-    }
-
-    public static UserListFragment newInstance(ArrayList<User> users) {
-        UserListFragment ulf = new UserListFragment();
-        Bundle b = new Bundle();
-        b.putSerializable(KEY_LIST, users);
-        ulf.setArguments(b);
-        return ulf;
     }
 
 }
