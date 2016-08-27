@@ -39,10 +39,10 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context c = view.getContext();
-                Intent i = new Intent(c, ArticleActivity.class);
-                i.putExtra(ArticleActivity.EXTRA_ARTICLE_CONTENT, article.getContent());
-                c.startActivity(i);
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ArticleActivity.class);
+                intent.putExtra(ArticleActivity.EXTRA_ARTICLE_CONTENT, article.getContent());
+                context.startActivity(intent);
             }
         });
     }
