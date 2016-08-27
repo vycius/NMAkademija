@@ -29,7 +29,7 @@ public class TimeUntilSession {
         long timeLeft = Math.max(sessionStart.getTime() - now, sessionEnd.getTime() - now);
         long daysLeft = timeLeft / millisecondsInDay;
         String timeLeftString = dateFormat.format(new Date(timeLeft));
-        return context.getString(R.string.timeUntilSessionDateFormat, daysLeft, timeLeftString);
+        return context.getString(R.string.timer_date_format, daysLeft, timeLeftString);
     }
 
     public boolean isSession() {

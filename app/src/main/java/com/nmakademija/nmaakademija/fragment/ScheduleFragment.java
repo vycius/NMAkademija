@@ -89,19 +89,22 @@ public class ScheduleFragment extends Fragment {
         Date now = new Date();
         for (i = 0; i < scheduleItems.size() && scheduleItems.get(i).getDate().before(now); ++i) ;
 
+        scheduleItems.add(scheduleItems.size(), null);
+
         ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
         scheduleRecyclerView.setAdapter(adapter);
-        //scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
+//        scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+//
         scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
 
-        //scheduleRecyclerView.smoothScrollToPosition(Math.min(i, scheduleItems.size() - 1));
-
-
-        //BottomNavigation bottomNavigation = (BottomNavigation) getActivity().findViewById(R.id.bottom_navigation);
-
-        //scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
-        //getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+//        scheduleRecyclerView.smoothScrollToPosition(Math.min(i, scheduleItems.size() - 1));
+//        scheduleRecyclerView.getLayoutManager().smoothScrollToPosition(scheduleRecyclerView, null, scheduleItems.size() - 1);
+//
+//
+//        BottomNavigation bottomNavigation = (BottomNavigation) getActivity().findViewById(R.id.bottom_navigation);
+//
+//        scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
+//        getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         //getActivity().getWindow().getDecorView().setScrollX(10);
         //TODO if(i+1==scheduleItems.size())        bottomnavigation -> dontshow
 

@@ -47,23 +47,30 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final ScheduleItem scheduleItem = events.get(position);
-        if (scheduleItem instanceof ScheduleEvent) {
-            ScheduleEvent scheduleEvent = (ScheduleEvent) scheduleItem;
-            holder.startTime.setText(scheduleEvent.getStartTime());
-            holder.endTime.setText(scheduleEvent.getEndTime());
-            holder.author.setText(scheduleEvent.getLecturerName());
-            holder.name.setText(scheduleEvent.getName());
-            holder.endTime.setVisibility(View.VISIBLE);
-            holder.startTime.setVisibility(View.VISIBLE);
-            holder.author.setVisibility(View.VISIBLE);
-            holder.name.setTextAppearance(context, R.style.Schedule_item_name);
+        if (scheduleItem != null) {
+            if (scheduleItem instanceof ScheduleEvent) {
+                ScheduleEvent scheduleEvent = (ScheduleEvent) scheduleItem;
+                holder.startTime.setText(scheduleEvent.getStartTime());
+                holder.endTime.setText(scheduleEvent.getEndTime());
+                holder.author.setText(scheduleEvent.getLecturerName());
+                holder.name.setText(scheduleEvent.getName());
+                holder.endTime.setVisibility(View.VISIBLE);
+                holder.startTime.setVisibility(View.VISIBLE);
+                holder.author.setVisibility(View.VISIBLE);
+                holder.name.setTextAppearance(context, R.style.Schedule_item_name);
+            } else {
+                ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
+                holder.name.setTextAppearance(context, R.style.Schedule_day);
+                holder.name.setText(scheduleDayBanner.getTime());
+                holder.endTime.setVisibility(View.GONE);
+                holder.startTime.setVisibility(View.GONE);
+                holder.author.setVisibility(View.GONE);
+            }
         } else {
-            ScheduleDayBanner scheduleDayBanner = (ScheduleDayBanner) scheduleItem;
-            holder.name.setTextAppearance(context, R.style.Schedule_day);
-            holder.name.setText(scheduleDayBanner.getTime());
-            holder.endTime.setVisibility(View.GONE);
-            holder.startTime.setVisibility(View.GONE);
-            holder.author.setVisibility(View.GONE);
+            holder.startTime.setText(((ScheduleEvent) events.get(position - 1)).getEndTime());
+            holder.endTime.setText("...");
+            holder.author.setText("");
+            holder.name.setText(R.string.session_end);
         }
     }
 
