@@ -26,4 +26,4 @@ android:
     - extra-android-m2repository
 
 script:
-  - ./gradlew clean assemble
+  - ./gradlew -s clean assemble
