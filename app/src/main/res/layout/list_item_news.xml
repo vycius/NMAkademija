@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="8dp"
-    tools:context="lt.nmakademija.nmakademija.NewsActivity"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/news_item">
 
     <ImageView android:id="@+id/news_image"
         android:layout_width="72dp"
