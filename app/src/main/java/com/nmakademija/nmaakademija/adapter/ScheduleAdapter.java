@@ -17,21 +17,6 @@ import com.nmakademija.nmaakademija.entity.ScheduleItem;
 import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyViewHolder> {
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView startTime, endTime, name, author;
-        public LinearLayout event;
-
-        public MyViewHolder(View view) {
-            super(view);
-            startTime = (TextView) view.findViewById(R.id.schedule_start_time);
-            endTime = (TextView) view.findViewById(R.id.schedule_end_time);
-            name = (TextView) view.findViewById(R.id.schedule_name);
-            author = (TextView) view.findViewById(R.id.schedule_author);
-            event = (LinearLayout) view.findViewById(R.id.schedule_event);
-        }
-    }
-
     private Context context;
     private List<ScheduleItem> events;
 
@@ -43,7 +28,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        View itemView = LayoutInflater.from(context)
                 .inflate(R.layout.schedule_event, parent, false);
         return new MyViewHolder(itemView);
     }
@@ -76,5 +61,19 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     @Override
     public int getItemCount() {
         return events.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView startTime, endTime, name, author;
+        public LinearLayout event;
+
+        public MyViewHolder(View view) {
+            super(view);
+            startTime = (TextView) view.findViewById(R.id.schedule_start_time);
+            endTime = (TextView) view.findViewById(R.id.schedule_end_time);
+            name = (TextView) view.findViewById(R.id.schedule_name);
+            author = (TextView) view.findViewById(R.id.schedule_author);
+            event = (LinearLayout) view.findViewById(R.id.schedule_event);
+        }
     }
 }
