@@ -47,7 +47,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final ScheduleItem scheduleItem = events.get(position);
-        if (scheduleItem != null) {
             if (scheduleItem instanceof ScheduleEvent) {
                 ScheduleEvent scheduleEvent = (ScheduleEvent) scheduleItem;
                 holder.startTime.setText(scheduleEvent.getStartTime());
@@ -66,12 +65,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
                 holder.startTime.setVisibility(View.GONE);
                 holder.author.setVisibility(View.GONE);
             }
-        } else {
-            holder.startTime.setText(((ScheduleEvent) events.get(position - 1)).getEndTime());
-            holder.endTime.setText("...");
-            holder.author.setText("");
-            holder.name.setText(R.string.session_end);
-        }
     }
 
     @Override

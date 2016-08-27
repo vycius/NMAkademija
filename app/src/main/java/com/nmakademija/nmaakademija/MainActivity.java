@@ -21,6 +21,7 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 public class MainActivity extends AppCompatActivity implements BottomNavigation.OnMenuItemSelectionListener {
 
     private BottomNavigation bottomNavigation;
+    private int selectedIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +33,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
 
         bottomNavigation.setOnMenuItemClickListener(this);
 
-        setCurrentFragment(0);
+        selectedIndex = 0;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentFragment(selectedIndex);
+        bottomNavigation.setSelectedIndex(selectedIndex, false);
     }
 
     void setCurrentFragment(int position) {
+        selectedIndex = position;
         Fragment fragment;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 

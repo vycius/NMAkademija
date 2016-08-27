@@ -89,8 +89,6 @@ public class ScheduleFragment extends Fragment {
         Date now = new Date();
         for (i = 0; i < scheduleItems.size() && scheduleItems.get(i).getDate().before(now); ++i) ;
 
-        scheduleItems.add(scheduleItems.size(), null);
-
         ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
         scheduleRecyclerView.setAdapter(adapter);
 //        scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
