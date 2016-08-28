@@ -15,9 +15,11 @@ import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.api.NMAService;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.Error;
+import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -71,25 +73,31 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void setScheduleItems(List<ScheduleEvent> scheduleEvents) {
+        Collections.sort(scheduleEvents, new ScheduleEventComparator());
 
         ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleEvents);
         scheduleRecyclerView.setAdapter(adapter);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        ArrayList<Date> scheduleDates = new ArrayList<>();
-        List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
-        for (int i = 0; i < scheduleEvents.size(); i++) {
-            Date eventDate = scheduleEvents.get(i).getDate();
-            Date date = new Date(eventDate.getYear(), eventDate.getMonth(), eventDate.getDate());
 
-            if (!scheduleDates.contains(date)) {
-                scheduleDates.add(date);
-                sections.add(new ScheduleSectionsAdapter.Section(i, dateFormat.format(date)));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+        String lastScheduleDay = "";
+        List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
+        int position = 0;
+
+        Date now = new Date();
+
+        for (int i = 0; i < scheduleEvents.size(); i++) {
+            Date date = scheduleEvents.get(i).getDate();
+            String dateString = dateFormat.format(date);
+
+            if (!lastScheduleDay.equals(dateString)) {
+                lastScheduleDay = dateString;
+                sections.add(new ScheduleSectionsAdapter.Section(i, dateString));
+            }
+            if (date.before(now)) {
+                position = i;
             }
         }
-
-        int i;
-        Date now = new Date();
-        for (i = 0; i < scheduleEvents.size() && scheduleEvents.get(i).getDate().before(now); ++i) ;
 
         ScheduleSectionsAdapter.Section[] dummy =
                 new ScheduleSectionsAdapter.Section[sections.size()];
@@ -98,7 +106,7 @@ public class ScheduleFragment extends Fragment {
         mSectionedAdapter.setSections(sections.toArray(dummy));
 
         scheduleRecyclerView.setAdapter(mSectionedAdapter);
-        scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleEvents.size() - 1));
+        scheduleRecyclerView.scrollToPosition(position);
     }
 
 }

@@ -2,17 +2,15 @@ package com.nmakademija.nmaakademija.entity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-/**
- * Created by dekedro on 16.8.22.
- */
-public class ScheduleEvent implements ScheduleItem {
+public class ScheduleEvent {
     private Date startTime;
     private Date endTime;
     private String name;
     private String lecturer;
 
-    private SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
+    private SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm", Locale.US);
 
     //region Getters
     public String getStartTime() {
