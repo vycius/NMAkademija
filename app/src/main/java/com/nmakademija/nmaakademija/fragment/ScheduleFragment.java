@@ -71,31 +71,6 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void setScheduleItems(List<ScheduleEvent> scheduleEvents) {
-        /*ArrayList<ScheduleItem> scheduleItems = new ArrayList<>();
-        scheduleItems.addAll(scheduleEvents);
-
-        ArrayList<Date> scheduleDates = new ArrayList<>();
-        for (ScheduleEvent scheduleEvent : scheduleEvents) {
-            Date eventDate = scheduleEvent.getDate();
-            Date date = new Date(eventDate.getYear(), eventDate.getMonth(), eventDate.getDate());
-
-            if (!scheduleDates.contains(date)) {
-                scheduleDates.add(date);
-                scheduleItems.add(new ScheduleDayBanner(date));
-            }
-        }
-
-        Collections.sort(scheduleItems, new ScheduleItemComparator());
-
-        int i;
-        Date now = new Date();
-        for (i = 0; i < scheduleItems.size() && scheduleItems.get(i).getDate().before(now); ++i);
-
-        ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleItems);
-        scheduleRecyclerView.setAdapter(adapter);
-
-        scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleItems.size() - 1));
-        */
 
         ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleEvents);
         scheduleRecyclerView.setAdapter(adapter);

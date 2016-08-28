@@ -36,7 +36,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         holder.endTime.setText(scheduleEvent.getEndTime());
         holder.author.setText(scheduleEvent.getLecturerName());
         holder.name.setText(scheduleEvent.getName());
-//        holder.name.setBackgroundColor(Color.WHITE);
     }
 
     @Override
