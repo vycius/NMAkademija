@@ -10,12 +10,10 @@ import java.util.Locale;
 
 public class TimeUntilSession {
 
+    private final long millisecondsInDay = 86400000;
     private Date sessionStart;
     private Date sessionEnd;
-
     private SimpleDateFormat dateFormat;
-
-    private final long millisecondsInDay = 86400000;
 
     public TimeUntilSession(Date StartTime, Date EndTime) {
         sessionStart = StartTime;
@@ -29,7 +27,7 @@ public class TimeUntilSession {
         long timeLeft = Math.max(sessionStart.getTime() - now, sessionEnd.getTime() - now);
         long daysLeft = timeLeft / millisecondsInDay;
         String timeLeftString = dateFormat.format(new Date(timeLeft));
-        return context.getString(R.string.timeUntilSessionDateFormat, daysLeft, timeLeftString);
+        return context.getString(R.string.timer_date_format, daysLeft, timeLeftString);
     }
 
     public boolean isSession() {

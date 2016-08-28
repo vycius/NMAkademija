@@ -1,69 +1,57 @@
 package com.nmakademija.nmaakademija.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.entity.ScheduleDayBanner;
-import com.nmakademija.nmaakademija.entity.ScheduleItem;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by dekedro on 16.8.22.
- */
-public class ScheduleAdapter extends ArrayAdapter<ScheduleItem> {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
+    private Context context;
+    private List<ScheduleEvent> events;
 
-    public ScheduleAdapter(Context context, ArrayList<ScheduleItem> events){
-        super(context, R.layout.schedule_event, events);
+    public ScheduleAdapter(Context context, List<ScheduleEvent> events) {
+        this.events = events;
+        this.context = context;
+
     }
 
     @Override
-    public boolean isEnabled (int position){
-        return false;
+    public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(context)
+                .inflate(R.layout.schedule_event, parent, false);
+        return new ScheduleViewHolder(itemView);
     }
 
     @Override
-    public View getView (int position, View convertView, ViewGroup parent){
-        ScheduleItem scheduleItem = getItem (position);
-
-        if (scheduleItem instanceof ScheduleEvent) {
-            return getViewScheduleEvent((ScheduleEvent) scheduleItem, convertView, parent);
-        }
-        if (scheduleItem instanceof ScheduleDayBanner) {
-            return getViewScheduleDayBanner((ScheduleDayBanner) scheduleItem, convertView, parent);
-        }
-        return convertView;
+    public void onBindViewHolder(ScheduleViewHolder holder, int position) {
+        final ScheduleEvent scheduleEvent = events.get(position);
+        holder.startTime.setText(scheduleEvent.getStartTime());
+        holder.endTime.setText(scheduleEvent.getEndTime());
+        holder.author.setText(scheduleEvent.getLecturerName());
+        holder.name.setText(scheduleEvent.getName());
     }
 
-    private View getViewScheduleEvent (ScheduleEvent scheduleEvent, View convertView, ViewGroup parent){
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.schedule_event, parent, false);
-
-        TextView scheduleStartTime = (TextView) convertView.findViewById(R.id.schedule_start_time);
-        TextView scheduleEndTime = (TextView) convertView.findViewById(R.id.schedule_end_time);
-        TextView scheduleName = (TextView) convertView.findViewById(R.id.schedule_name);
-        TextView scheduleLecturers = (TextView) convertView.findViewById(R.id.schedule_author);
-
-        scheduleStartTime.setText(scheduleEvent.getStartTime());
-        scheduleEndTime.setText(scheduleEvent.getEndTime());
-        scheduleName.setText(scheduleEvent.getName());
-        scheduleLecturers.setText(scheduleEvent.getLecturerName());
-
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return events.size();
     }
 
-    private View getViewScheduleDayBanner (ScheduleDayBanner scheduleDayBanner, View convertView, ViewGroup parent){
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.schedule_day, parent, false);
+    public class ScheduleViewHolder extends RecyclerView.ViewHolder {
+        public TextView startTime, endTime, name, author;
 
-        TextView scheduleTime = (TextView) convertView.findViewById(R.id.schedule_time);
-
-        scheduleTime.setText(scheduleDayBanner.getTime());
-
-        return convertView;
+        public ScheduleViewHolder(View view) {
+            super(view);
+            startTime = (TextView) view.findViewById(R.id.schedule_start_time);
+            endTime = (TextView) view.findViewById(R.id.schedule_end_time);
+            name = (TextView) view.findViewById(R.id.schedule_name);
+            author = (TextView) view.findViewById(R.id.schedule_author);
+        }
     }
 }

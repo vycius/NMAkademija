@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">NMAkademija</string>
-    <string name="loading">Loading...</string>
+    <string name="app_name">NMAkademijos sesija</string>
     <string name="akademikai">Akademikai</string>
     <string name="vadoviukai">Vadoviukai</string>
     <string name="destytojai">Dėstytojai</string>
@@ -10,13 +9,13 @@
     <string name="phone_hint">Telefono numeris</string>
     <string name="bio_hint">Apie mane</string>
     <string name="save">Išsaugoti</string>
-    <string name="timeUntilSessionDateFormat">%1$d d %2$s</string>
-    <string name="timeUntilSessionEnd">Iki sesijos pabaigos liko:</string>
-    <string name="timeUntilSessionStart">Iki sesijos pradžios liko:</string>
+    <string name="timer_date_format">%1$d d %2$s</string>
+    <string name="timer_session_end">Iki sesijos pabaigos liko:</string>
+    <string name="timer_session_start">Iki sesijos pradžios liko:</string>
     <string name="request_failed">Nepavyko gauti duomenų</string>
-    <string name="failed">Failed :(</string>
     <string name="news">Naujienos</string>
     <string name="users">Dalyviai</string>
     <string name="timer">Laikrodukas</string>
     <string name="schedule">Programa</string>
+    <string name="session_end">Sesijos pabaiga</string>
 </resources>

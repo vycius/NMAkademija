@@ -50,7 +50,7 @@ public class TimeUntilSessionFragment extends Fragment {
 
                     TextView timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
 
-                    timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timeUntilSessionEnd) : getString(R.string.timeUntilSessionStart));
+                    timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timer_session_end) : getString(R.string.timer_session_start));
 
                     countDownTimer = new CountDownTimer(timeTillSession.getEndTime().getTime(), 1000) {
                         public void onTick(long millisUntilFinished) {
