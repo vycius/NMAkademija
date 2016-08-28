@@ -78,23 +78,27 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleEvents);
         scheduleRecyclerView.setAdapter(adapter);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        HashSet<Date> scheduleDates = new HashSet<>();
-        List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
-        for (int i = 0; i < scheduleEvents.size(); i++) {
-            Date eventDate = scheduleEvents.get(i).getDate();
-            Date date = new Date(eventDate.getYear(), eventDate.getMonth(), eventDate.getDate()); // date same as eventDate, time = 00:00:00
 
-            if (!scheduleDates.contains(date)) {
-                scheduleDates.add(date);
-                sections.add(new ScheduleSectionsAdapter.Section(i, dateFormat.format(date)));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+        HashSet<String> scheduleDates = new HashSet<>();
+        List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
+        int position = 0;
+
+        Date now = new Date();
+
+        for (int i = 0; i < scheduleEvents.size(); i++) {
+            Date date = scheduleEvents.get(i).getDate();
+            String dateString = dateFormat.format(date);
+
+            if (!scheduleDates.contains(dateString)) {
+                scheduleDates.add(dateString);
+                sections.add(new ScheduleSectionsAdapter.Section(i, dateString));
+            }
+            if (date.before(now)) {
+                position = i;
             }
         }
-
-
-        int i;
-        Date now = new Date();
-        for (i = 0; i < scheduleEvents.size() && scheduleEvents.get(i).getDate().before(now); ++i) ;
 
         ScheduleSectionsAdapter.Section[] dummy =
                 new ScheduleSectionsAdapter.Section[sections.size()];
@@ -103,7 +107,7 @@ public class ScheduleFragment extends Fragment {
         mSectionedAdapter.setSections(sections.toArray(dummy));
 
         scheduleRecyclerView.setAdapter(mSectionedAdapter);
-        scheduleRecyclerView.scrollToPosition(Math.min(i, scheduleEvents.size() - 1));
+        scheduleRecyclerView.scrollToPosition(position);
     }
 
 }
