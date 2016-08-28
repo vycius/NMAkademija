@@ -16,35 +16,35 @@ import java.util.Comparator;
 public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
-    private RecyclerView.Adapter RecyclerViewAdapter;
+    private RecyclerView.Adapter recyclerViewAdapter;
     private SparseArray<Section> sections = new SparseArray<>();
     private boolean valid = true;
 
     public ScheduleSectionsAdapter(Context context, RecyclerView.Adapter adapter) {
-        this.RecyclerViewAdapter = adapter;
+        this.recyclerViewAdapter = adapter;
         this.context = context;
-        RecyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        recyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
-                valid = RecyclerViewAdapter.getItemCount() > 0;
+                valid = recyclerViewAdapter.getItemCount() > 0;
                 notifyDataSetChanged();
             }
 
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
-                valid = RecyclerViewAdapter.getItemCount() > 0;
+                valid = recyclerViewAdapter.getItemCount() > 0;
                 notifyItemRangeChanged(positionStart, itemCount);
             }
 
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
-                valid = RecyclerViewAdapter.getItemCount() > 0;
+                valid = recyclerViewAdapter.getItemCount() > 0;
                 notifyItemRangeInserted(positionStart, itemCount);
             }
 
             @Override
             public void onItemRangeRemoved(int positionStart, int itemCount) {
-                valid = RecyclerViewAdapter.getItemCount() > 0;
+                valid = recyclerViewAdapter.getItemCount() > 0;
                 notifyItemRangeRemoved(positionStart, itemCount);
             }
         });
@@ -56,7 +56,7 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
             final View view = LayoutInflater.from(context).inflate(R.layout.schedule_day, parent, false);
             return new ScheduleSectionViewHolder(view);
         } else {
-            return RecyclerViewAdapter.onCreateViewHolder(parent, viewType - 1);
+            return recyclerViewAdapter.onCreateViewHolder(parent, viewType - 1);
         }
     }
 
@@ -64,14 +64,14 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (isSectionHeaderPosition(position))
             ((ScheduleSectionViewHolder) holder).title.setText(sections.get(position).title);
-        else RecyclerViewAdapter.onBindViewHolder(holder, sectionedPositionToPosition(position));
+        else recyclerViewAdapter.onBindViewHolder(holder, sectionedPositionToPosition(position));
     }
 
     @Override
     public int getItemViewType(int position) {
         return isSectionHeaderPosition(position)
                 ? 0
-                : RecyclerViewAdapter.getItemViewType(sectionedPositionToPosition(position)) + 1;
+                : recyclerViewAdapter.getItemViewType(sectionedPositionToPosition(position)) + 1;
     }
 
     public void setSections(Section[] sectionsarray) {
@@ -130,12 +130,12 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
     public long getItemId(int position) {
         return isSectionHeaderPosition(position)
                 ? Integer.MAX_VALUE - sections.indexOfKey(position)
-                : RecyclerViewAdapter.getItemId(sectionedPositionToPosition(position));
+                : recyclerViewAdapter.getItemId(sectionedPositionToPosition(position));
     }
 
     @Override
     public int getItemCount() {
-        return (valid ? RecyclerViewAdapter.getItemCount() + sections.size() : 0);
+        return (valid ? recyclerViewAdapter.getItemCount() + sections.size() : 0);
     }
 
     public static class Section {
