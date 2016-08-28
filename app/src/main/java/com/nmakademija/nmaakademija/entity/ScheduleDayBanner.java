@@ -2,14 +2,12 @@ package com.nmakademija.nmaakademija.entity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-/**
- * Created by dekedro on 16.8.23.
- */
-public class ScheduleDayBanner implements ScheduleItem {
+public class ScheduleDayBanner {
     private Date date;
 
-    private SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
     public ScheduleDayBanner(Date date) {
         this.date = date;
