@@ -1,32 +1,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/schedule_event"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/schedule_event">
+    android:background="@android:color/white"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
-        android:padding="8dp"
-        android:gravity="center">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/schedule_start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="Hello World!"
-            android:textColor="@android:color/tab_indicator_text" />
+            android:textColor="@android:color/tab_indicator_text"
+            tools:text="Hello World!" />
 
         <TextView
             android:id="@+id/schedule_end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="Hello World!"
-            android:textColor="@android:color/tab_indicator_text" />
+            android:textColor="@android:color/tab_indicator_text"
+            tools:text="Hello World!" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,23 +35,23 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:paddingRight="4dp"
-        android:paddingBottom="4dp">
+        android:paddingTop="4dp">
 
         <TextView
             android:id="@+id/schedule_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/blackText"
             android:textSize="20sp"
-            tools:text="Hello World!"
-            android:textColor="@color/blackText" />
+            tools:text="Hello World!" />
 
         <TextView
             android:id="@+id/schedule_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Hello World!"
-            android:textColor="@android:color/tab_indicator_text" />
+            android:textColor="@android:color/tab_indicator_text"
+            tools:text="Hello World!" />
     </LinearLayout>
 </LinearLayout>
