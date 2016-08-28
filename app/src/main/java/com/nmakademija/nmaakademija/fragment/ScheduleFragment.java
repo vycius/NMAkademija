@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,7 +80,7 @@ public class ScheduleFragment extends Fragment {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-        HashSet<String> scheduleDates = new HashSet<>();
+        String lastScheduleDay = "";
         List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
         int position = 0;
 
@@ -91,8 +90,8 @@ public class ScheduleFragment extends Fragment {
             Date date = scheduleEvents.get(i).getDate();
             String dateString = dateFormat.format(date);
 
-            if (!scheduleDates.contains(dateString)) {
-                scheduleDates.add(dateString);
+            if (!lastScheduleDay.equals(dateString)) {
+                lastScheduleDay = dateString;
                 sections.add(new ScheduleSectionsAdapter.Section(i, dateString));
             }
             if (date.before(now)) {
