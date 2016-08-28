@@ -54,7 +54,7 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
             final View view = LayoutInflater.from(context).inflate(R.layout.schedule_day, parent, false);
-            return new SectionViewHolder(view);
+            return new ScheduleSectionViewHolder(view);
         } else {
             return RecyclerViewAdapter.onCreateViewHolder(parent, viewType - 1);
         }
@@ -63,7 +63,7 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (isSectionHeaderPosition(position))
-            ((SectionViewHolder) holder).title.setText(sections.get(position).title);
+            ((ScheduleSectionViewHolder) holder).title.setText(sections.get(position).title);
         else RecyclerViewAdapter.onBindViewHolder(holder, sectionedPositionToPosition(position));
     }
 
@@ -153,11 +153,11 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public static class SectionViewHolder extends RecyclerView.ViewHolder {
+    public static class ScheduleSectionViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title;
 
-        public SectionViewHolder(View view) {
+        public ScheduleSectionViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.schedule_day);
         }

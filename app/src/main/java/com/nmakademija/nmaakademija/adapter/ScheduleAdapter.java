@@ -12,7 +12,7 @@ import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 
 import java.util.List;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyViewHolder> {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
     private Context context;
     private List<ScheduleEvent> events;
 
@@ -23,14 +23,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context)
                 .inflate(R.layout.schedule_event, parent, false);
-        return new MyViewHolder(itemView);
+        return new ScheduleViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(ScheduleViewHolder holder, int position) {
         final ScheduleEvent scheduleEvent = events.get(position);
         holder.startTime.setText(scheduleEvent.getStartTime());
         holder.endTime.setText(scheduleEvent.getEndTime());
@@ -44,10 +44,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
         return events.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class ScheduleViewHolder extends RecyclerView.ViewHolder {
         public TextView startTime, endTime, name, author;
 
-        public MyViewHolder(View view) {
+        public ScheduleViewHolder(View view) {
             super(view);
             startTime = (TextView) view.findViewById(R.id.schedule_start_time);
             endTime = (TextView) view.findViewById(R.id.schedule_end_time);
