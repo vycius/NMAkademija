@@ -39,8 +39,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
     @Override
     protected void onResume() {
         super.onResume();
-        setCurrentFragment(selectedIndex);
-        bottomNavigation.setSelectedIndex(selectedIndex, false);
+        if (bottomNavigation.getSelectedIndex() == -1) {
+            setCurrentFragment(selectedIndex);
+            bottomNavigation.setSelectedIndex(selectedIndex, false);
+        }
     }
 
     void setCurrentFragment(int position) {
