@@ -75,7 +75,7 @@ public class UsersFragment extends Fragment {
                         for (Section section : sections) {
                             sectionsString[section.getId()] = section.getName();
                         }
-                        sectionsString[0] = "Visi akademikai";
+                            sectionsString[0] = getResources().getString(R.string.all_academics);
                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             ListView pager = (ListView) view.findViewById(R.id.users_list_view);
@@ -88,7 +88,6 @@ public class UsersFragment extends Fragment {
                             spinner.setAdapter(spinnerArrayAdapter);
                         }
                     }
-
                     @Override
                     public void onFailure(Call<List<Section>> call, Throwable t) {
                         Error.getData(getView());
