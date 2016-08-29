@@ -17,14 +17,14 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     private ArrayList<ArrayList<User>> users;
     private FragmentManager childFragmentManager;
 
-    public SpinnerListener(View view, ArrayList<User> usersList, FragmentManager childFragmentManager) {
+    public SpinnerListener(View view, ArrayList<User> usersList, FragmentManager childFragmentManager, int sectionsSize) {
         users = new ArrayList<>();
-        for (User user : usersList) {
-            int index = user.getSection() - 1;
-            while (index < users.size())
-                users.add(new ArrayList<User>());
-            users.get(index).add(user);
-        }
+        while (users.size() <= sectionsSize)
+            users.add(new ArrayList<User>());
+
+        for (User user : usersList)
+            users.get(user.getSection() - 1).add(user);
+
         this.childFragmentManager = childFragmentManager;
         pager = (ViewPager) view.findViewById(R.id.viewPager);
     }

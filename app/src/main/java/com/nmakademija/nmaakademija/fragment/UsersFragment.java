@@ -73,7 +73,7 @@ public class UsersFragment extends Fragment {
                         }
                         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        SpinnerListener spinnerListener = new SpinnerListener(getView(), new ArrayList<>(users), getChildFragmentManager());
+                        SpinnerListener spinnerListener = new SpinnerListener(getView(), new ArrayList<>(users), getChildFragmentManager(), sections.size());
                         spinner.setOnItemSelectedListener(spinnerListener);
                         spinner.setAdapter(spinnerArrayAdapter);
                     }
