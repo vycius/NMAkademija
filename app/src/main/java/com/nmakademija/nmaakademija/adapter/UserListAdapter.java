@@ -1,47 +1,57 @@
 package com.nmakademija.nmaakademija.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.User;
-import com.nmakademija.nmaakademija.fragment.UserListFragment;
 
 import java.util.ArrayList;
 
-public class UserListAdapter extends FragmentStatePagerAdapter {
+public class UserListAdapter extends ArrayAdapter<User> {
     private Context context;
     private ArrayList<User> users;
 
-    public UserListAdapter(Context c, ArrayList<User> u, FragmentManager fm) {
-        super(fm);
-        context = c;
-        users = u;
-    }
+    public UserListAdapter(Context context, ArrayList<User> users) {
+        super(context, 0, users);
+        this.context = context;
 
-    @Override
-    public Fragment getItem(int position) {
-        return UserListFragment.newInstance(users);
-    }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return context.getString(R.string.akademikai);
-            case 1:
-                return context.getString(R.string.vadoviukai);
-            case 2:
-                return context.getString(R.string.destytojai);
-            default:
-                return "" + position;
-        }
+        this.users = users;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return users.size();
     }
+
+    @Override
+    public User getItem(int i) {
+        return users.get(i);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        User user = getItem(position);
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_user, parent, false);
+        }
+
+        ImageView image = (ImageView) convertView.findViewById(R.id.user_image);
+        TextView name = (TextView) convertView.findViewById(R.id.user_name);
+
+        Glide.with(context).load(user.getImage()).into(image);
+        name.setText(user.getName());
+
+        return convertView;
+    }
+
+
 }

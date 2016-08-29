@@ -42,15 +42,14 @@ public class UsersFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 //        setHasOptionsMenu(true);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //        tabs = (TabLayout) getView().findViewById(R.id.tabs);
         spinner = (Spinner) getView().findViewById(R.id.spinner);
-//        tabs = (TabLayout) getView().findViewById(R.id.tabs);
         API.nmaService.getUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -71,11 +70,14 @@ public class UsersFragment extends Fragment {
                         for (int i = 0; i < sections.size(); i++) {
                             sectionsString[i] = sections.get(i).getName();
                         }
+                        View view = getView();
+                        if (view != null) {
                         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        SpinnerListener spinnerListener = new SpinnerListener(getView(), new ArrayList<>(users), getChildFragmentManager(), sections.size());
-                        spinner.setOnItemSelectedListener(spinnerListener);
-                        spinner.setAdapter(spinnerArrayAdapter);
+                            SpinnerListener spinnerListener = new SpinnerListener(view, new ArrayList<>(users), sections.size() /*, getChildFragmentManager()*/);
+                            spinner.setOnItemSelectedListener(spinnerListener);
+                            spinner.setAdapter(spinnerArrayAdapter);
+                        }
                     }
 
                     @Override
