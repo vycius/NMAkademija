@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String phone;
     private String bio;
     private String image;
+    private int section;
     private ArrayList<Role> roles;
 
     public int getId() {
@@ -54,5 +55,9 @@ public class User implements Serializable {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public int getSection() {
+        return section;
     }
 }
