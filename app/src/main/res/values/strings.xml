@@ -18,4 +18,5 @@
     <string name="timer">Laikrodukas</string>
     <string name="schedule">Programa</string>
     <string name="session_end">Sesijos pabaiga</string>
+    <string name="before_supervisor_name">Vadoviukas:</string>
 </resources>

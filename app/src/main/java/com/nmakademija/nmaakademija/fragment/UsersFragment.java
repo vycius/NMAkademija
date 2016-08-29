@@ -45,13 +45,12 @@ public class UsersFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //        tabs = (TabLayout) getView().findViewById(R.id.tabs);
         spinner = (Spinner) getView().findViewById(R.id.spinner);
         API.nmaService.getUsers().enqueue(new Callback<List<User>>() {
             @Override
@@ -62,6 +61,7 @@ public class UsersFragment extends Fragment {
 
                     @Override
                     public void onResponse(Call<List<Section>> call, Response<List<Section>> response) {
+                        getView().findViewById(R.id.spinner).setVisibility(View.VISIBLE);
                         List<Section> sections = response.body();
                         Collections.sort(sections, new Comparator<Section>() {
                             @Override
@@ -78,13 +78,12 @@ public class UsersFragment extends Fragment {
                         if (view != null) {
                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                            ArrayList<Section> sectionsArray = new ArrayList<Section>();
                             ListView pager = (ListView) view.findViewById(R.id.users_list_view);
                             UserListAdapter userListAdapter =
                                     new UserListAdapter(getContext(), (ArrayList<User>) users, sections);
                             pager.setAdapter(userListAdapter);
                             pager.setOnItemClickListener(new UserOnClickListener());
-                            SpinnerListener spinnerListener = new SpinnerListener(pager/*view, sectionsArray , new ArrayList<>(users), getChildFragmentManager()*/);
+                            SpinnerListener spinnerListener = new SpinnerListener(pager, getActivity());
                             spinner.setOnItemSelectedListener(spinnerListener);
                             spinner.setAdapter(spinnerArrayAdapter);
                         }
@@ -105,22 +104,4 @@ public class UsersFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//        inflater.inflate(R.menu.activity_user_list, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.menu_item_profile) {
-//            //TODO pass user
-//            Intent i = new Intent(getActivity(), ProfileActivity.class);
-//            i.putExtra(ProfileActivity.EXTRA_ALLOW_EDIT, true);
-//            startActivity(i);
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 }

@@ -23,8 +23,6 @@ public class UserListAdapter extends ArrayAdapter<User> implements Filterable {
     private ArrayList<User> users;
     private ArrayList<User> allUsers;
     private List<Section> sections;
-    private View supervisorLayout;
-    private TextView supervisor;
 
     public UserListAdapter(Context context, ArrayList<User> users, List<Section> sections) {
         super(context, 0, users);
@@ -32,13 +30,18 @@ public class UserListAdapter extends ArrayAdapter<User> implements Filterable {
         allUsers = users;
         this.sections = sections;
         this.users = allUsers;
-//        supervisorLayout = ((Activity) context).findViewById(R.id.supervisor_layout);
-//        supervisor = (TextView) ((Activity) context).findViewById(R.id.supervisor);
     }
 
     @Override
     public int getCount() {
         return users.size();
+    }
+
+    public String getSupervisor(int i) {
+        for (Section section : sections)
+            if (section.getId() == i)
+                return section.getSupervisor();
+        return null;
     }
 
     @Override
@@ -82,10 +85,7 @@ public class UserListAdapter extends ArrayAdapter<User> implements Filterable {
                 ArrayList<User> newUserList = new ArrayList<>();
                 if (i == 0) {
                     newUserList = allUsers;
-//                    supervisorLayout.setVisibility(View.GONE);
                 } else {
-//                    supervisor.setText(sections.get(i).getSupervisor());
-//                    supervisorLayout.setVisibility(View.VISIBLE);
                     for (User user : allUsers)
                         if (user.getSection() == i)
                             newUserList.add(user);

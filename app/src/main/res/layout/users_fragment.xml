@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,26 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        android:visibility="gone" />
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/supervisor_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:gravity="center_horizontal"-->
-    <!--android:padding="2dp">-->
+    <LinearLayout
+        android:id="@+id/supervisor_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="2dp"
+        android:visibility="gone">
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Vadoviukas: " />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/before_supervisor_name"
+            android:textSize="18sp" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/supervisor"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--tools:text="Pėčka" />-->
-    <!--</LinearLayout>-->
+        <TextView
+            android:id="@+id/supervisor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            tools:text="Pėčka" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/users_list_view"
