@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.nmakademija.nmaakademija.R;
+import com.nmakademija.nmaakademija.adapter.UserListAdapter;
 import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.User;
@@ -66,15 +68,21 @@ public class UsersFragment extends Fragment {
                                 return section.getId() - t1.getId();
                             }
                         });
-                        String[] sectionsString = new String[sections.size()];
-                        for (int i = 0; i < sections.size(); i++) {
-                            sectionsString[i] = sections.get(i).getName();
+                        String[] sectionsString = new String[sections.size() + 1];
+                        for (Section section : sections) {
+                            sectionsString[section.getId()] = section.getName();
                         }
+                        sectionsString[0] = "Visi akademikai";
                         View view = getView();
                         if (view != null) {
-                        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
-                        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            SpinnerListener spinnerListener = new SpinnerListener(view, new ArrayList<>(users), sections.size() /*, getChildFragmentManager()*/);
+                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
+                            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                            ArrayList<Section> sectionsArray = new ArrayList<Section>();
+                            ListView pager = (ListView) view.findViewById(R.id.users_list);
+                            UserListAdapter userListAdapter =
+                                    new UserListAdapter(getContext(), (ArrayList<User>) users);
+                            pager.setAdapter(userListAdapter);
+                            SpinnerListener spinnerListener = new SpinnerListener(pager/*view, sectionsArray , new ArrayList<>(users), getChildFragmentManager()*/);
                             spinner.setOnItemSelectedListener(spinnerListener);
                             spinner.setAdapter(spinnerArrayAdapter);
                         }
