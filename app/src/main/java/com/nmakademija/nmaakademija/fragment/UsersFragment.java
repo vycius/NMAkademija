@@ -16,6 +16,7 @@ import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.User;
 import com.nmakademija.nmaakademija.listener.SpinnerListener;
+import com.nmakademija.nmaakademija.listener.UserOnClickListener;
 import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.ArrayList;
@@ -78,10 +79,11 @@ public class UsersFragment extends Fragment {
                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //                            ArrayList<Section> sectionsArray = new ArrayList<Section>();
-                            ListView pager = (ListView) view.findViewById(R.id.users_list);
+                            ListView pager = (ListView) view.findViewById(R.id.users_list_view);
                             UserListAdapter userListAdapter =
-                                    new UserListAdapter(getContext(), (ArrayList<User>) users);
+                                    new UserListAdapter(getContext(), (ArrayList<User>) users, sections);
                             pager.setAdapter(userListAdapter);
+                            pager.setOnItemClickListener(new UserOnClickListener());
                             SpinnerListener spinnerListener = new SpinnerListener(pager/*view, sectionsArray , new ArrayList<>(users), getChildFragmentManager()*/);
                             spinner.setOnItemSelectedListener(spinnerListener);
                             spinner.setAdapter(spinnerArrayAdapter);
