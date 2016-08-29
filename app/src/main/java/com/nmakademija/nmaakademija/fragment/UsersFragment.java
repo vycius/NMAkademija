@@ -61,7 +61,9 @@ public class UsersFragment extends Fragment {
 
                     @Override
                     public void onResponse(Call<List<Section>> call, Response<List<Section>> response) {
-                        getView().findViewById(R.id.spinner).setVisibility(View.VISIBLE);
+                        View view = getView();
+                        if (view != null) {
+                            view.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
                         List<Section> sections = response.body();
                         Collections.sort(sections, new Comparator<Section>() {
                             @Override
@@ -74,8 +76,6 @@ public class UsersFragment extends Fragment {
                             sectionsString[section.getId()] = section.getName();
                         }
                         sectionsString[0] = "Visi akademikai";
-                        View view = getView();
-                        if (view != null) {
                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             ListView pager = (ListView) view.findViewById(R.id.users_list_view);
