@@ -2,13 +2,13 @@ package com.nmakademija.nmaakademija.listener;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.UserListAdapter;
-import com.nmakademija.nmaakademija.utils.Validate;
 
 public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     private final TextView supervisor;
@@ -29,7 +29,7 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
                 supervisor.setVisibility(View.GONE);
             } else {
                 String supervisor = ((UserListAdapter) listView.getAdapter()).getSupervisor(i);
-                if (!Validate.isNullOrEmpty(supervisor)) {
+                if (!TextUtils.isEmpty(supervisor)) {
                     this.supervisor.setText(
                             view.getContext().getString(R.string.before_supervisor_name, supervisor));
                     this.supervisor.setVisibility(View.VISIBLE);
