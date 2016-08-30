@@ -1,6 +1,8 @@
 package com.nmakademija.nmaakademija.entity;
 
-public class Article {
+import java.io.Serializable;
+
+public class Article implements Serializable {
     private int id;
     private String title;
     private String description;

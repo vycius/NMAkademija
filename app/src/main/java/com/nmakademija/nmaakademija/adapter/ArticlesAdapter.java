@@ -16,7 +16,7 @@ import com.nmakademija.nmaakademija.entity.Article;
 
 import java.util.List;
 
-public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyViewHolder> {
+public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder> {
     private List<Article> articlesList;
 
     public ArticlesAdapter(List<Article> articlesList) {
@@ -24,14 +24,14 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_news, parent, false);
-        return new MyViewHolder(itemView);
+        return new ArticleViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(ArticleViewHolder holder, int position) {
         final Article article = articlesList.get(position);
         holder.title.setText(article.getTitle());
         holder.description.setText(article.getDescription());
@@ -41,7 +41,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, ArticleActivity.class);
-                intent.putExtra(ArticleActivity.EXTRA_ARTICLE_CONTENT, article.getContent());
+                intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
                 context.startActivity(intent);
             }
         });
@@ -52,11 +52,11 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
         return articlesList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class ArticleViewHolder extends RecyclerView.ViewHolder {
         public TextView title, description;
         public ImageView image;
 
-        public MyViewHolder(View view) {
+        public ArticleViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.news_title);
             description = (TextView) view.findViewById(R.id.news_description);

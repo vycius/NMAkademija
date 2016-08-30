@@ -1,21 +1,25 @@
 package com.nmakademija.nmaakademija.listener;
 
 import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.UserListAdapter;
+import com.nmakademija.nmaakademija.utils.Validate;
 
 public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     private final TextView supervisor;
-    private ListView listView;
+    private RecyclerView listView;
 
-    public SpinnerListener(ListView listView, Activity activity) {
+    public SpinnerListener(RecyclerView listView, Activity activity) {
         this.listView = listView;
-        supervisor = (TextView) activity.findViewById(R.id.supervisor);
+        if (activity != null)
+            supervisor = (TextView) activity.findViewById(R.id.supervisor);
+        else
+            supervisor = null;
     }
 
     @Override
@@ -24,14 +28,16 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
             if (i == 0) {
                 supervisor.setVisibility(View.GONE);
             } else {
-                supervisor.setText(view.getResources().getString(
-                        R.string.before_supervisor_name).concat(
-                        ((UserListAdapter) listView.getAdapter()).
-                                getSupervisor(i)));
-                supervisor.setVisibility(View.VISIBLE);
+                String supervisor = ((UserListAdapter) listView.getAdapter()).getSupervisor(i);
+                if (!Validate.isNullOrEmpty(supervisor)) {
+                    this.supervisor.setText(
+                            view.getContext().getString(R.string.before_supervisor_name, supervisor));
+                    this.supervisor.setVisibility(View.VISIBLE);
+                } else
+                    this.supervisor.setVisibility(View.GONE);
             }
             ((UserListAdapter) listView.getAdapter()).getFilter().filter(String.valueOf(i));
-            listView.setSelectionAfterHeaderView();
+            listView.scrollToPosition(0);
         }
     }
 

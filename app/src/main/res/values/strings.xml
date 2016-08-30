@@ -18,6 +18,7 @@
     <string name="timer">Laikrodukas</string>
     <string name="schedule">Programa</string>
     <string name="session_end">Sesijos pabaiga</string>
-    <string name="before_supervisor_name">"Vadoviukas: "</string>
+    <string name="before_supervisor_name">"Vadoviukas: %1$s"</string>
     <string name="all_academics">Visi akademikai</string>
+    <string name="article_foto">Straipsnio nuotrauka</string>
 </resources>

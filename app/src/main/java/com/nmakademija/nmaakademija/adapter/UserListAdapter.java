@@ -1,16 +1,19 @@
 package com.nmakademija.nmaakademija.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.nmakademija.nmaakademija.ProfileActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.User;
@@ -18,52 +21,24 @@ import com.nmakademija.nmaakademija.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListAdapter extends ArrayAdapter<User> implements Filterable {
-    private Context context;
-    private ArrayList<User> users;
-    private ArrayList<User> allUsers;
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> implements Filterable {
+    private List<User> users;
+    private List<User> allUsers;
     private List<Section> sections;
 
-    public UserListAdapter(Context context, ArrayList<User> users, List<Section> sections) {
-        super(context, 0, users);
-        this.context = context;
+    public UserListAdapter(List<User> users, List<Section> sections) {
+        super();
         allUsers = users;
         this.sections = sections;
         this.users = allUsers;
     }
 
-    @Override
-    public int getCount() {
-        return users.size();
-    }
-
+    @Nullable
     public String getSupervisor(int i) {
         for (Section section : sections)
             if (section.getId() == i)
                 return section.getSupervisor();
         return null;
-    }
-
-    @Override
-    public User getItem(int i) {
-        return users.get(i);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        User user = getItem(position);
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_user, parent, false);
-        }
-
-        ImageView image = (ImageView) convertView.findViewById(R.id.user_image);
-        TextView name = (TextView) convertView.findViewById(R.id.user_name);
-
-        Glide.with(context).load(user.getImage()).into(image);
-        name.setText(user.getName());
-
-        return convertView;
     }
 
     @Override
@@ -73,7 +48,7 @@ public class UserListAdapter extends ArrayAdapter<User> implements Filterable {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                users = (ArrayList<User>) results.values;
+                users = (List<User>) results.values;
                 notifyDataSetChanged();
             }
 
@@ -82,7 +57,7 @@ public class UserListAdapter extends ArrayAdapter<User> implements Filterable {
 
                 int i = Integer.parseInt(constraint.toString());
 
-                ArrayList<User> newUserList = new ArrayList<>();
+                List<User> newUserList = new ArrayList<>();
                 if (i == 0) {
                     newUserList = allUsers;
                 } else {
@@ -100,4 +75,44 @@ public class UserListAdapter extends ArrayAdapter<User> implements Filterable {
         };
     }
 
+    @Override
+    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_user, parent, false);
+        return new UserViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(UserViewHolder holder, int position) {
+        final User user = users.get(position);
+        holder.name.setText(user.getName());
+        Glide.with(holder.itemView.getContext()).load(user.getImage()).into(holder.image);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra(ProfileActivity.EXTRA_ALLOW_EDIT, false);
+                intent.putExtra(ProfileActivity.EXTRA_USER, user);
+                context.startActivity(intent);
+            }
+        });
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return users.size();
+    }
+
+    public class UserViewHolder extends RecyclerView.ViewHolder {
+        public TextView name;
+        public ImageView image;
+
+        public UserViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.user_name);
+            image = (ImageView) view.findViewById(R.id.user_image);
+        }
+    }
 }

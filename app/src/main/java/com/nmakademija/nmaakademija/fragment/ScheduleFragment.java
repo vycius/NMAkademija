@@ -41,15 +41,14 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_schedule, container, false);
+        return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
-
+        View view = getView();
+        scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
         getScheduleEvents(API.nmaService);
 
     }

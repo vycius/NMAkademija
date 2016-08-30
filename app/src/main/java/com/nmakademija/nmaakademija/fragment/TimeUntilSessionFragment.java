@@ -33,7 +33,7 @@ public class TimeUntilSessionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_time_until_session, container, false);
+        return inflater.inflate(R.layout.fragment_time_until_session, container, false);
     }
 
     @Override
