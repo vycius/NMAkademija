@@ -73,15 +73,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
                 color = R.color.bottomNavigationNewsTab;
                 subtitle = R.string.news;
         }
+        int colorResource = getResources().getColor(color);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(color)));
+        bar.setBackgroundDrawable(new ColorDrawable(colorResource));
         bar.setSubtitle(getResources().getString(subtitle));
 
         if (Build.VERSION.SDK_INT >= 21) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(color));
+            window.setStatusBarColor(colorResource);
         }
 
         transaction.replace(R.id.main_frame, fragment);
