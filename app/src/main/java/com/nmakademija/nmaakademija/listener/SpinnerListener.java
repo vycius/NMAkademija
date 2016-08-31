@@ -16,10 +16,7 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
 
     public SpinnerListener(RecyclerView listView, Activity activity) {
         this.listView = listView;
-        if (activity != null)
-            supervisor = (TextView) activity.findViewById(R.id.supervisor);
-        else
-            supervisor = null;
+        supervisor = (TextView) activity.findViewById(R.id.supervisor);
     }
 
     @Override
