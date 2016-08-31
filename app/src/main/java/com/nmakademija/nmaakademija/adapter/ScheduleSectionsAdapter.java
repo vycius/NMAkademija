@@ -53,7 +53,7 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            final View view = LayoutInflater.from(context).inflate(R.layout.schedule_day, parent, false);
+            final View view = LayoutInflater.from(context).inflate(R.layout.list_item_schedule_day, parent, false);
             return new ScheduleSectionViewHolder(view);
         } else {
             return recyclerViewAdapter.onCreateViewHolder(parent, viewType - 1);
@@ -94,17 +94,6 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         notifyDataSetChanged();
-    }
-
-    public int positionToSectionedPosition(int position) {
-        int offset = 0;
-        for (int i = 0; i < sections.size(); i++) {
-            if (sections.valueAt(i).firstPosition > position) {
-                break;
-            }
-            ++offset;
-        }
-        return position + offset;
     }
 
     public int sectionedPositionToPosition(int sectionedPosition) {
