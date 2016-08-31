@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,21 +21,18 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String EXTRA_ALLOW_EDIT = "com.nmakademija.nmaakademija.allow_edit";
     public static final String EXTRA_USER = "com.nmakademija.nmaakademija.user";
 
-    private ImageView imageView;
     private EditText nameEdit;
     private EditText emailEdit;
     private EditText phoneEdit;
     private EditText bioEdit;
-    private Button saveButton;
     private User user;
-    private boolean allowEdit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        int color = getResources().getColor(R.color.bottomNavigationUsersTab);
+        int color = ContextCompat.getColor(this, R.color.bottomNavigationUsersTab);
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(color));
 
@@ -45,11 +43,11 @@ public class ProfileActivity extends AppCompatActivity {
             window.setStatusBarColor(color);
         }
 
-        allowEdit = getIntent().getBooleanExtra(EXTRA_ALLOW_EDIT, false);
+        boolean allowEdit = getIntent().getBooleanExtra(EXTRA_ALLOW_EDIT, false);
         user = (User) getIntent().getSerializableExtra(EXTRA_USER);
         if (user == null) user = new User();
 
-        imageView = (ImageView) findViewById(R.id.profile_pic_view);
+        ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
         Glide.with(this).load(user.getImage()).into(imageView);
 
         nameEdit = (EditText) findViewById(R.id.name_edit);
@@ -68,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         bioEdit.setText(user.getBio());
         bioEdit.setEnabled(allowEdit);
 
-        saveButton = (Button) findViewById(R.id.button_save);
+        Button saveButton = (Button) findViewById(R.id.button_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

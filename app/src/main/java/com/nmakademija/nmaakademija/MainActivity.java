@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigation.
                 color = R.color.bottomNavigationNewsTab;
                 subtitle = R.string.news;
         }
-        int colorResource = getResources().getColor(color);
+        int colorResource = ContextCompat.getColor(this, color);
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(colorResource));
         bar.setSubtitle(getResources().getString(subtitle));

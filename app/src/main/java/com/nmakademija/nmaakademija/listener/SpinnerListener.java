@@ -24,21 +24,19 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (listView != null) {
-            if (i == 0) {
-                supervisor.setVisibility(View.GONE);
-            } else {
-                String supervisor = ((UserListAdapter) listView.getAdapter()).getSupervisor(i);
-                if (!TextUtils.isEmpty(supervisor)) {
-                    this.supervisor.setText(
-                            view.getContext().getString(R.string.before_supervisor_name, supervisor));
-                    this.supervisor.setVisibility(View.VISIBLE);
-                } else
-                    this.supervisor.setVisibility(View.GONE);
-            }
-            ((UserListAdapter) listView.getAdapter()).getFilter().filter(String.valueOf(i));
-            listView.scrollToPosition(0);
+        if (i == 0) {
+            supervisor.setVisibility(View.GONE);
+        } else {
+            String supervisor = ((UserListAdapter) listView.getAdapter()).getSupervisor(i);
+            if (!TextUtils.isEmpty(supervisor)) {
+                this.supervisor.setText(
+                        view.getContext().getString(R.string.before_supervisor_name, supervisor));
+                this.supervisor.setVisibility(View.VISIBLE);
+            } else
+                this.supervisor.setVisibility(View.GONE);
         }
+        ((UserListAdapter) listView.getAdapter()).getFilter().filter(String.valueOf(i));
+        listView.scrollToPosition(0);
     }
 
     @Override
