@@ -1,6 +1,7 @@
 package com.nmakademija.nmaakademija;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.nmakademija.nmaakademija.fragment.NewsFragment;
 import com.nmakademija.nmaakademija.fragment.ScheduleFragment;
 import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
 import com.nmakademija.nmaakademija.fragment.UsersFragment;
+import com.nmakademija.nmaakademija.utils.Preferences;
 
 import icepick.State;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -54,6 +56,14 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        SharedPreferences settings = Preferences.get(getApplicationContext());
+        String getNotifications = Preferences.GET_NOTIFICATIONS;
+        if (!settings.contains(getNotifications)) {
+            settings.edit().putBoolean(getNotifications, true)
+                    .apply();
+        }
+
 
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottom_navigation);
 

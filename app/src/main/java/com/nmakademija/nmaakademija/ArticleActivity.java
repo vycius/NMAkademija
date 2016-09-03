@@ -2,9 +2,14 @@ package com.nmakademija.nmaakademija;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.entity.Article;
 
 public class ArticleActivity extends BaseActivity {
@@ -21,5 +26,21 @@ public class ArticleActivity extends BaseActivity {
                 article.getDescription());
         ((TextView) findViewById(R.id.new_title)).setText(
                 article.getTitle());
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setSubtitle(R.string.news);
+        Glide.with(this).load(article.getTitleImage()).into((ImageView) findViewById(R.id.new_image));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                super.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

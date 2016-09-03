@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -13,8 +14,10 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
+import com.nmakademija.nmaakademija.utils.Preferences;
 
-public class NMAFirebaseMessagingService extends FirebaseMessagingService {
+public class
+NMAFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMsgService";
 
@@ -37,10 +40,16 @@ public class NMAFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
-        String title = remoteMessage.getNotification().getTitle();
-        String message = remoteMessage.getNotification().getBody();
+        SharedPreferences settings = Preferences.get(getApplicationContext());
 
-        sendNotification(title, message);
+        boolean getNotifications = settings.getBoolean(Preferences.GET_NOTIFICATIONS, false);
+
+        if (getNotifications) {
+            String title = remoteMessage.getNotification().getTitle();
+            String message = remoteMessage.getNotification().getBody();
+
+            sendNotification(title, message);
+        }
     }
 
     private void sendNotification(String messageTitle, String messageBody) {

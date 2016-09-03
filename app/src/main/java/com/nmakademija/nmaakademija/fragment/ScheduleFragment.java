@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,7 @@ public class ScheduleFragment extends Fragment {
 
         String lastScheduleDay = "";
         List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
-        int position = 0;
+        int position = 0, position1 = 0;
 
         Date now = new Date();
 
@@ -92,6 +93,9 @@ public class ScheduleFragment extends Fragment {
             if (!lastScheduleDay.equals(dateString)) {
                 lastScheduleDay = dateString;
                 sections.add(new ScheduleSectionsAdapter.Section(i, dateString));
+                if (date.before(now)) {
+                    position1++;
+                }
             }
             if (date.before(now)) {
                 position = i;
@@ -105,7 +109,8 @@ public class ScheduleFragment extends Fragment {
         mSectionedAdapter.setSections(sections.toArray(dummy));
 
         scheduleRecyclerView.setAdapter(mSectionedAdapter);
-        scheduleRecyclerView.scrollToPosition(position);
+        Log.i("scrollToPosition", String.valueOf(position + position1));
+        scheduleRecyclerView.scrollToPosition(position + position1);
     }
 
 }

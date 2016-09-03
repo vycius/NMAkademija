@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:orientation="vertical"
-    android:overScrollMode="never"
-    android:scrollbars="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/new_image"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/article_foto"
-        android:gravity="center"
-        tools:src="@drawable/leon" />
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/new_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/blackText"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:text="NMA sesija" />
+        <ImageView
+            android:id="@+id/new_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/article_foto"
+            android:gravity="center"
+            tools:src="@drawable/leon" />
 
-    <TextView
-        android:id="@+id/new_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Vyksta NMA vasaros sesija Nidoje" />
+        <TextView
+            android:id="@+id/new_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/blackText"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="NMA sesija" />
 
-    <TextView
-        android:id="@+id/new_html_view"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        tools:text="Kažkas su html tagais." />
+        <TextView
+            android:id="@+id/new_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Vyksta NMA vasaros sesija Nidoje" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/new_html_view"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            tools:text="Kažkas su html tagais." />
+
+    </LinearLayout>
+</ScrollView>
