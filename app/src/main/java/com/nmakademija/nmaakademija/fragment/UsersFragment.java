@@ -101,6 +101,7 @@ public class UsersFragment extends Fragment {
             public void onFailure(Call<List<User>> call, Throwable t) {
                 Error.getData(getView());
             }
+
         });
 
     }
