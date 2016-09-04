@@ -2,13 +2,12 @@ package com.nmakademija.nmaakademija;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.entity.Article;
 
-public class ArticleActivity extends AppCompatActivity {
+public class ArticleActivity extends BaseActivity {
     public static final String EXTRA_ARTICLE = "com.nmakademija.nmaakademija.article";
 
     @Override

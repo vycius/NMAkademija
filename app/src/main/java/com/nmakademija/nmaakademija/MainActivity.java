@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -19,7 +18,7 @@ import com.nmakademija.nmaakademija.fragment.UsersFragment;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigation.OnMenuItemSelectionListener {
+public class MainActivity extends BaseActivity implements BottomNavigation.OnMenuItemSelectionListener {
 
     private BottomNavigation bottomNavigation;
     private int selectedIndex;
