@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="@string/notifications">
 
         <CheckBoxPreference
-            android:key="get_notifications"
+            android:key="@string/get_notifications_key"
             android:summary="@string/get_notifications_summary"
             android:title="@string/get_notifications" />
 
