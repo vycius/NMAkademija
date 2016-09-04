@@ -21,15 +21,17 @@ public class SettingsActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setSubtitle(R.string.settings);
 
-        CheckBox checkBox = (CheckBox) findViewById(R.id.get_notifications);
+        SharedPreferences preferences = Preferences.get(getApplicationContext());
+        final String getNotifications = Preferences.GET_NOTIFICATIONS;
+        final SharedPreferences.Editor editor = preferences.edit();
 
-        checkBox.setChecked(Preferences.get(getApplicationContext()).getBoolean(Preferences.GET_NOTIFICATIONS, false));
+        CheckBox checkBox = (CheckBox) findViewById(R.id.get_notifications);
+        checkBox.setChecked(preferences.getBoolean(getNotifications, false));
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences preferences = Preferences.get(getApplicationContext());
-                preferences.edit().putBoolean(Preferences.GET_NOTIFICATIONS, b)
+                editor.putBoolean(getNotifications, b)
                         .apply();
             }
         });

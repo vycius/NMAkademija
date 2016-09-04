@@ -40,11 +40,9 @@ NMAFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
-        SharedPreferences settings = Preferences.get(getApplicationContext());
+        SharedPreferences preferences = Preferences.get(getApplicationContext());
 
-        boolean getNotifications = settings.getBoolean(Preferences.GET_NOTIFICATIONS, false);
-
-        if (getNotifications) {
+        if (preferences.getBoolean(Preferences.GET_NOTIFICATIONS, false)) {
             String title = remoteMessage.getNotification().getTitle();
             String message = remoteMessage.getNotification().getBody();
 
