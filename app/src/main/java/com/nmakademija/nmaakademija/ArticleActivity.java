@@ -37,7 +37,6 @@ public class ArticleActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
-                super.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
