@@ -36,6 +36,11 @@ ext {
     firebaseVersion = '9.4.0'
     retrofitVersion = '2.1.0'
     supportVersion = '24.2.0'
+    icepickVersion = '3.2.0'
+}
+
+repositories {
+    maven {url "https://clojars.org/repo/"}
 }
 
 dependencies {
@@ -49,6 +54,9 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportVersion"
 
     testCompile 'junit:junit:4.12'
+
+    compile "frankiesardo:icepick:$icepickVersion"
+    provided "frankiesardo:icepick-processor:$icepickVersion"
 
     compile "com.google.firebase:firebase-core:$firebaseVersion"
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"
