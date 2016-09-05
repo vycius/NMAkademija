@@ -52,6 +52,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:support-v4:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
+    compile "com.android.support:preference-v7:$supportVersion"
+    compile "com.android.support:preference-v14:$supportVersion"
 
     testCompile 'junit:junit:4.12'
 
@@ -69,7 +71,6 @@ dependencies {
 
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:1.0.7'
 
-    compile "com.android.support:preference-v7:$supportVersion"
 }
 
 apply plugin: 'com.google.gms.google-services'
