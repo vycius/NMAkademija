@@ -8,4 +8,5 @@
     <color name="bottomNavigationUsersTab">#FF669900</color>
     <color name="bottomNavigationTimerTab">#FFFF8800</color>
     <color name="bottomNavigationScheduleTab">#FF5252</color>
+    <color name="background">#EEEEEE</color>
 </resources>

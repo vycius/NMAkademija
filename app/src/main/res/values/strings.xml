@@ -22,4 +22,9 @@
     <string name="all_academics">Visi akademikai</string>
     <string name="article_foto">Straipsnio nuotrauka</string>
     <string name="profile_picture">Profilio nuotrauka</string>
+    <string name="settings">Nustatymai</string>
+    <string name="get_notifications">Gauti transliacijas</string>
+    <string name="get_notifications_summary">Gauti visiems transliuojamus pranešimus</string>
+    <string name="notifications">Pranešimai</string>
+    <string name="get_notifications_key">get_notifications</string>
 </resources>
