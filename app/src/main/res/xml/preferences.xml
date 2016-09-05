@@ -3,7 +3,8 @@
 
     <PreferenceCategory android:title="@string/notifications">
 
-        <CheckBoxPreference
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="@string/get_notifications_key"
             android:summary="@string/get_notifications_summary"
             android:title="@string/get_notifications" />
