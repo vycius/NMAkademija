@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
 
     <ImageView android:id="@+id/news_image"
         android:layout_width="72dp"
@@ -21,14 +21,18 @@
         <TextView android:id="@+id/news_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            tools:text="NMA sesija"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/blackText"
             android:textSize="20sp"
-            android:textColor="@color/blackText"/>
+            android:textStyle="bold"
+            tools:text="NMA sesija" />
 
         <TextView android:id="@+id/news_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
             tools:text="Vyksta NMA vasaros sesija Nidoje" />
     </LinearLayout>
 </LinearLayout>

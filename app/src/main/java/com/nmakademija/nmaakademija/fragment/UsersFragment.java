@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.adapter.UserListAdapter;
+import com.nmakademija.nmaakademija.adapter.DividerItemDecoration;
+import com.nmakademija.nmaakademija.adapter.UsersAdapter;
 import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.User;
@@ -80,9 +82,11 @@ public class UsersFragment extends Fragment {
                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             RecyclerView pager = (RecyclerView) view.findViewById(R.id.users_list_view);
-                            UserListAdapter userListAdapter =
-                                    new UserListAdapter(users, sections);
-                            pager.setAdapter(userListAdapter);
+                            UsersAdapter usersAdapter =
+                                    new UsersAdapter(users, sections);
+                            pager.setAdapter(usersAdapter);
+                            pager.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
+
 
                             SpinnerListener spinnerListener = new SpinnerListener(pager, getActivity());
                             spinner.setOnItemSelectedListener(spinnerListener);
