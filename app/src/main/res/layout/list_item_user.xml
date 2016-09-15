@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:padding="4dp">
 
     <ImageView
         android:id="@+id/user_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="4dp"
-        tools:src="@mipmap/ic_launcher"/>
+        android:layout_alignParentTop="true"
+        tools:src="@mipmap/ic_launcher" />
+
     <TextView
         android:id="@+id/user_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="54dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="4dp"
-        tools:text="Leonas Narkevičius"
+        android:gravity="center_vertical"
+        android:textColor="@color/blackText"
         android:textSize="18sp"
-        android:textColor="@color/blackText"/>
+        tools:text="Leonas Narkevičius" />
 
-</LinearLayout>
+</RelativeLayout>
