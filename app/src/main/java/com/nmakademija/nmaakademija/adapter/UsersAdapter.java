@@ -1,7 +1,5 @@
 package com.nmakademija.nmaakademija.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,13 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nmakademija.nmaakademija.ProfileActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> implements Filterable {
     private List<User> users;
@@ -31,6 +29,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         allUsers = users;
         this.sections = sections;
         this.users = allUsers;
+    }
+
+    public User getUser(int i) {
+        return users.get(i);
     }
 
     @Nullable
@@ -87,18 +89,17 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         final User user = users.get(position);
         holder.name.setText(user.getName());
         Glide.with(holder.itemView.getContext()).load(user.getImage()).into(holder.image);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ProfileActivity.class);
-                intent.putExtra(ProfileActivity.EXTRA_ALLOW_EDIT, false);
-                intent.putExtra(ProfileActivity.EXTRA_USER, user);
-                context.startActivity(intent);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Context context = view.getContext();
+//                Intent intent = new Intent(context, ProfileActivity.class);
+//                intent.putExtra(ProfileActivity.EXTRA_ALLOW_EDIT, false);
+//                intent.putExtra(ProfileActivity.EXTRA_USER, user);
+//                context.startActivity(intent);
+//            }
+//        });
     }
-
 
     @Override
     public int getItemCount() {
