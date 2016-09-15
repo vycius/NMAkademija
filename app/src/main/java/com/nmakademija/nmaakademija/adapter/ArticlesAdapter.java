@@ -1,7 +1,5 @@
 package com.nmakademija.nmaakademija.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nmakademija.nmaakademija.ArticleActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.Article;
 
@@ -36,20 +33,24 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         holder.title.setText(article.getTitle());
         holder.description.setText(article.getDescription());
         Glide.with(holder.itemView.getContext()).load(article.getTitleImage()).into(holder.image);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ArticleActivity.class);
-                intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
-                context.startActivity(intent);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Context context = view.getContext();
+//                Intent intent = new Intent(context, ArticleActivity.class);
+//                intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
+//                context.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
         return articlesList.size();
+    }
+
+    public Article getArticle(int position) {
+        return articlesList.get(position);
     }
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
