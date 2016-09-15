@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.adapter.UserListAdapter;
+import com.nmakademija.nmaakademija.adapter.UsersAdapter;
 
 public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     private final TextView supervisor;
@@ -24,7 +24,7 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
         if (i == 0) {
             supervisor.setVisibility(View.GONE);
         } else {
-            String supervisor = ((UserListAdapter) listView.getAdapter()).getSupervisor(i);
+            String supervisor = ((UsersAdapter) listView.getAdapter()).getSupervisor(i);
             if (!TextUtils.isEmpty(supervisor)) {
                 this.supervisor.setText(
                         view.getContext().getString(R.string.before_supervisor_name, supervisor));
@@ -32,7 +32,7 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
             } else
                 this.supervisor.setVisibility(View.GONE);
         }
-        ((UserListAdapter) listView.getAdapter()).getFilter().filter(String.valueOf(i));
+        ((UsersAdapter) listView.getAdapter()).getFilter().filter(String.valueOf(i));
         listView.scrollToPosition(0);
     }
 
