@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,8 +88,6 @@ public class UsersFragment extends Fragment {
                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             final RecyclerView pager = (RecyclerView) view.findViewById(R.id.users_list_view);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                            pager.setLayoutManager(mLayoutManager);
                             pager.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
                             pager.setItemAnimator(new DefaultItemAnimator());
                             pager.setAdapter(new UsersAdapter(users, sections));
