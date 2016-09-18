@@ -1,8 +1,10 @@
 package com.nmakademija.nmaakademija.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +39,12 @@ public class ScheduleFragment extends Fragment {
         return new ScheduleFragment();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getScheduleEvents(API.nmaService);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -50,7 +58,6 @@ public class ScheduleFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View view = getView();
         scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
-        getScheduleEvents(API.nmaService);
 
     }
 
@@ -60,8 +67,20 @@ public class ScheduleFragment extends Fragment {
             public void onResponse(Call<List<ScheduleEvent>> call,
                                    Response<List<ScheduleEvent>> response) {
                 List<ScheduleEvent> scheduleEvents = response.body();
-                if (getContext() != null) {
-                    setScheduleItems(scheduleEvents);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+                int sectionId = Integer.parseInt(sharedPreferences.getString(getString(R.string.section_key), "0"));
+                if (sectionId == 0) {
+                    Log.e("Section ID", "0");
+                } else {
+                    List<ScheduleEvent> scheduleEventList = new ArrayList<>();
+                    for (ScheduleEvent s : scheduleEvents) {
+                        if (s.getSectionId() == sectionId) {
+                            scheduleEventList.add(s);
+                        }
+                    }
+                    if (getContext() != null) {
+                        setScheduleItems(scheduleEventList);
+                    }
                 }
             }
 
