@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -21,6 +20,7 @@ import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
+import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.List;
 
@@ -74,9 +74,7 @@ public class NewsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Article>> call, Throwable t) {
-                View view = getView();
-                if (view != null)
-                    Snackbar.make(view, R.string.request_failed, Snackbar.LENGTH_SHORT).show();
+                Error.getData(getView());
             }
         });
     }

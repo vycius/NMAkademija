@@ -9,6 +9,8 @@ public class ScheduleEvent {
     private Date endTime;
     private String name;
     private String lecturer;
+    private int section;
+    private int id;
 
     private SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm", Locale.US);
 
@@ -31,6 +33,14 @@ public class ScheduleEvent {
 
     public Date getDate() {
         return startTime;
+    }
+
+    public int getSectionId() {
+        return section;
+    }
+
+    public int getId() {
+        return id;
     }
     //endregion
 }
