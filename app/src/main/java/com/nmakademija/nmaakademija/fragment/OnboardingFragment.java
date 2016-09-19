@@ -68,6 +68,7 @@ public class OnboardingFragment extends Fragment {
 
                             Intent intent = new Intent(view.getContext(), MainActivity.class);
                             startActivity(intent);
+                            getActivity().finish();
                         }
 
                         @Override

@@ -17,6 +17,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent(getContext(), OnboardingActivity.class);
                 startActivity(intent);
+                getActivity().finish();
                 return true;
             }
         });
