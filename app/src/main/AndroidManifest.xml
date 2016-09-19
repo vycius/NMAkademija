@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".OnboardingActivity"
+            android:name=".StartActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".OnboardingActivity"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"></activity>
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity">
