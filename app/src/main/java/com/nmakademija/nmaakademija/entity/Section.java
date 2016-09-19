@@ -2,7 +2,7 @@ package com.nmakademija.nmaakademija.entity;
 
 public class Section {
     private int id;
-    private String name, supervisor;
+    private String name, supervisor, image;
 
     public String getSupervisor() {
         return supervisor;
@@ -14,5 +14,9 @@ public class Section {
 
     public int getId() {
         return id;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

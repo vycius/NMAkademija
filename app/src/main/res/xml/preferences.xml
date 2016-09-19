@@ -11,13 +11,13 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/section">
-        <ListPreference
-            android:dialogTitle="@string/choose_section"
-            android:key="@string/section_key"
-            android:summary="%s"
-            android:title="@string/choose_section" />
+    <!--<PreferenceCategory android:title="@string/section">-->
+    <!--<ListPreference-->
+    <!--android:dialogTitle="@string/choose_section"-->
+    <!--android:key="@string/section_key"-->
+    <!--android:summary="%s"-->
+    <!--android:title="@string/choose_section" />-->
 
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
 </PreferenceScreen>
