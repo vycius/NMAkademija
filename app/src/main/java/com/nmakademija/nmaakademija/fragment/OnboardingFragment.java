@@ -30,6 +30,8 @@ import retrofit2.Response;
 
 public class OnboardingFragment extends Fragment {
 
+    private boolean isFirstTime;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -40,6 +42,10 @@ public class OnboardingFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        isFirstTime = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext())
+                .getString(getString(R.string.section_key), "0")
+                .equals("0");
 
         super.onActivityCreated(savedInstanceState);
 
@@ -65,10 +71,11 @@ public class OnboardingFragment extends Fragment {
                                             String.valueOf(((SectionsAdapter) rv.getAdapter())
                                                     .getSection(position).getId()))
                                     .apply();
-
-                            Intent intent = new Intent(view.getContext(), MainActivity.class);
-                            startActivity(intent);
                             getActivity().finish();
+                            if (isFirstTime) {
+                                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                                startActivity(intent);
+                            }
                         }
 
                         @Override

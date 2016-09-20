@@ -51,6 +51,8 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getSupportActionBar().setHomeButtonEnabled(false);
+
         setContentView(R.layout.activity_main);
 
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottom_navigation);

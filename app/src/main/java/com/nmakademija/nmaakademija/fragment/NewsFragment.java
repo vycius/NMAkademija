@@ -49,7 +49,7 @@ public class NewsFragment extends Fragment {
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
                 View v = getView();
                 if (v != null) {
-                    final RecyclerView rv = (RecyclerView) getView().findViewById(R.id.recyclerView);
+                    final RecyclerView rv = (RecyclerView) v.findViewById(R.id.recyclerView);
 
                     rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
                     rv.setItemAnimator(new DefaultItemAnimator());

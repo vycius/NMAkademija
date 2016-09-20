@@ -50,6 +50,10 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
+    public RecyclerView.Adapter getAdapter() {
+        return recyclerViewAdapter;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
@@ -74,10 +78,10 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
                 : recyclerViewAdapter.getItemViewType(sectionedPositionToPosition(position)) + 1;
     }
 
-    public void setSections(Section[] sectionsarray) {
+    public void setSections(Section[] sectionsArray) {
         sections.clear();
 
-        Arrays.sort(sectionsarray, new Comparator<Section>() {
+        Arrays.sort(sectionsArray, new Comparator<Section>() {
             @Override
             public int compare(Section o, Section o1) {
                 return (o.firstPosition == o1.firstPosition)
@@ -87,7 +91,7 @@ public class ScheduleSectionsAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
 
         int offset = 0;
-        for (Section section : sectionsarray) {
+        for (Section section : sectionsArray) {
             section.sectionedPosition = section.firstPosition + offset;
             sections.append(section.sectionedPosition, section);
             ++offset;

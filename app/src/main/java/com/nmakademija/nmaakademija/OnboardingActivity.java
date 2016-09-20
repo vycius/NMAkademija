@@ -26,8 +26,9 @@ public class OnboardingActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (!"0".equals(PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                .getString(getString(R.string.section_key), "0"))) {
+        if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                .getString(getString(R.string.section_key), "0")
+                .equals("0")) {
             finish();
         } else if (doubleBackToExitPressedOnce) {
             finish();

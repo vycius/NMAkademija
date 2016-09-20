@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija.fragment;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,9 +41,20 @@ public class ScheduleFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         getScheduleEvents(API.nmaService);
+    }
+
+    @Override
+    public void onStop() {
+        ScheduleSectionsAdapter scheduleSectionsAdapter = (ScheduleSectionsAdapter) scheduleRecyclerView.getAdapter();
+        if (scheduleSectionsAdapter != null) {
+            ScheduleAdapter scheduleAdapter = (ScheduleAdapter) scheduleSectionsAdapter.getAdapter();
+            if (scheduleAdapter != null)
+                scheduleAdapter.deleteAll();
+        }
+        super.onStop();
     }
 
     @Nullable
@@ -58,7 +70,6 @@ public class ScheduleFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View view = getView();
         scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
-
     }
 
     private void getScheduleEvents(final NMAService nmaService) {
@@ -66,19 +77,20 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ScheduleEvent>> call,
                                    Response<List<ScheduleEvent>> response) {
-                List<ScheduleEvent> scheduleEvents = response.body();
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
-                int sectionId = Integer.parseInt(sharedPreferences.getString(getString(R.string.section_key), "0"));
-                if (sectionId == 0) {
-                    Log.e("Section ID", "0");
-                } else {
-                    List<ScheduleEvent> scheduleEventList = new ArrayList<>();
-                    for (ScheduleEvent s : scheduleEvents) {
-                        if (s.getSectionId() == sectionId) {
-                            scheduleEventList.add(s);
+                Context context = getContext();
+                if (context != null) {
+                    List<ScheduleEvent> scheduleEvents = response.body();
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+                    int sectionId = Integer.parseInt(sharedPreferences.getString(getString(R.string.section_key), "0"));
+                    if (sectionId == 0) {
+                        Log.e("Section ID", "0");
+                    } else {
+                        List<ScheduleEvent> scheduleEventList = new ArrayList<>();
+                        for (ScheduleEvent s : scheduleEvents) {
+                            if (s.getSectionId() == sectionId) {
+                                scheduleEventList.add(s);
+                            }
                         }
-                    }
-                    if (getContext() != null) {
                         setScheduleItems(scheduleEventList);
                     }
                 }

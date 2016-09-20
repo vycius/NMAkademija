@@ -31,10 +31,9 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Sectio
     public void onBindViewHolder(SectionViewHolder holder, int position) {
         final Section section = sections.get(position);
         holder.title.setText(section.getName());
-        if (section.getImage() == null || "".equals(section.getImage())) {
-
-        } else
+        if (section.getImage() != null && !section.getImage().equals("")) {
             Glide.with(holder.itemView.getContext()).load(section.getImage()).into(holder.image);
+        }
     }
 
     @Override
