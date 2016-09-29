@@ -14,7 +14,9 @@
     <PreferenceCategory android:title="@string/section">
         <Preference
             android:key="@string/section_key"
-            android:title="@string/choose_section" />
+            android:title="@string/choose_section">
+            <intent android:action="com.nmakademija.nmaakademija.OnboardingActivity" />
+        </Preference>
 
     </PreferenceCategory>
 

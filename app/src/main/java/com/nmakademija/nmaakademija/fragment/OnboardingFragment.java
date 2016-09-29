@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +20,7 @@ import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
 import com.nmakademija.nmaakademija.utils.Error;
+import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 import java.util.List;
 
@@ -43,9 +43,7 @@ public class OnboardingFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        isFirstTime = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext())
-                .getString(getString(R.string.section_key), "0")
-                .equals("0");
+        isFirstTime = NMAPreferences.getSection(getContext()) == 0;
 
         super.onActivityCreated(savedInstanceState);
 
@@ -65,12 +63,9 @@ public class OnboardingFragment extends Fragment {
                             getContext(), rv, new ClickListener() {
                         @Override
                         public void onClick(View view, int position) {
-                            PreferenceManager.getDefaultSharedPreferences(view.getContext().getApplicationContext())
-                                    .edit()
-                                    .putString(getString(R.string.section_key),
-                                            String.valueOf(((SectionsAdapter) rv.getAdapter())
-                                                    .getSection(position).getId()))
-                                    .apply();
+                            NMAPreferences.setSection(getContext(),
+                                    ((SectionsAdapter) rv.getAdapter())
+                                            .getSection(position).getId());
                             getActivity().finish();
                             if (isFirstTime) {
                                 Intent intent = new Intent(view.getContext(), MainActivity.class);

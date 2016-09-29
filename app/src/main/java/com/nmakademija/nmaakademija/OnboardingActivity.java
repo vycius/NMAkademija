@@ -2,10 +2,10 @@ package com.nmakademija.nmaakademija;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.nmakademija.nmaakademija.fragment.OnboardingFragment;
+import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 public class OnboardingActivity extends BaseActivity {
 
@@ -26,9 +26,7 @@ public class OnboardingActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                .getString(getString(R.string.section_key), "0")
-                .equals("0")) {
+        if (NMAPreferences.getSection(this) != 0) {
             finish();
         } else if (doubleBackToExitPressedOnce) {
             finish();

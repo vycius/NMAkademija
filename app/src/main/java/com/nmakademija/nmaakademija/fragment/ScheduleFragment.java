@@ -1,11 +1,9 @@
 package com.nmakademija.nmaakademija.fragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +14,9 @@ import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ScheduleAdapter;
 import com.nmakademija.nmaakademija.adapter.ScheduleSectionsAdapter;
 import com.nmakademija.nmaakademija.api.API;
-import com.nmakademija.nmaakademija.api.NMAService;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.Error;
+import com.nmakademija.nmaakademija.utils.NMAPreferences;
 import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +41,7 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getScheduleEvents(API.nmaService);
+        getScheduleEvents();
     }
 
     @Override
@@ -72,16 +70,15 @@ public class ScheduleFragment extends Fragment {
         scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
     }
 
-    private void getScheduleEvents(final NMAService nmaService) {
-        nmaService.getEvents().enqueue(new Callback<List<ScheduleEvent>>() {
+    private void getScheduleEvents() {
+        API.nmaService.getEvents().enqueue(new Callback<List<ScheduleEvent>>() {
             @Override
             public void onResponse(Call<List<ScheduleEvent>> call,
                                    Response<List<ScheduleEvent>> response) {
                 Context context = getContext();
                 if (context != null) {
                     List<ScheduleEvent> scheduleEvents = response.body();
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-                    int sectionId = Integer.parseInt(sharedPreferences.getString(getString(R.string.section_key), "0"));
+                    int sectionId = NMAPreferences.getSection(getContext());
                     if (sectionId == 0) {
                         Log.e("Section ID", "0");
                     } else {

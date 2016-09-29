@@ -1,7 +1,8 @@
 package com.nmakademija.nmaakademija;
 
 import android.content.Intent;
-import android.support.v7.preference.PreferenceManager;
+
+import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 public class StartActivity extends BaseActivity {
     @Override
@@ -9,9 +10,7 @@ public class StartActivity extends BaseActivity {
         super.onResume();
 
         Intent intent;
-        if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                .getString(getString(R.string.section_key), "0")
-                .equals("0")) {
+        if (NMAPreferences.getSection(this) == 0) {
             intent = new Intent(this, OnboardingActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
