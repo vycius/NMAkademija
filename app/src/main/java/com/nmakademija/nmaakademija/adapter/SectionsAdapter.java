@@ -31,9 +31,7 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Sectio
     public void onBindViewHolder(SectionViewHolder holder, int position) {
         final Section section = sections.get(position);
         holder.title.setText(section.getName());
-        if (section.getImage() != null && !section.getImage().equals("")) {
-            Glide.with(holder.itemView.getContext()).load(section.getImage()).into(holder.image);
-        }
+        Glide.with(holder.itemView.getContext()).load(section.getImage()).error(R.mipmap.ic_launcher).into(holder.image);
     }
 
     @Override
@@ -45,11 +43,11 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Sectio
         return sections.get(position);
     }
 
-    public class SectionViewHolder extends RecyclerView.ViewHolder {
+    class SectionViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public ImageView image;
 
-        public SectionViewHolder(View view) {
+        SectionViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.section_name);
             image = (ImageView) view.findViewById(R.id.section_image);

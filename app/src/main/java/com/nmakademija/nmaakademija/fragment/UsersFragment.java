@@ -58,6 +58,12 @@ public class UsersFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         spinner = (Spinner) getView().findViewById(R.id.spinner);
+
+        getData();
+    }
+
+    private void getData() {
+
         API.nmaService.getUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -116,17 +122,26 @@ public class UsersFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<List<Section>> call, Throwable t) {
-                        Error.getData(getView());
+                        Error.getData(getView(), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                getData();
+                            }
+                        });
                     }
                 });
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Error.getData(getView());
+                Error.getData(getView(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getData();
+                    }
+                });
             }
         });
-
     }
 
 }

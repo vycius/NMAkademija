@@ -44,6 +44,10 @@ public class NewsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        getData();
+    }
+
+    private void getData() {
         API.nmaService.getArticles().enqueue(new Callback<List<Article>>() {
             @Override
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
@@ -74,7 +78,12 @@ public class NewsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Article>> call, Throwable t) {
-                Error.getData(getView());
+                Error.getData(getView(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getData();
+                    }
+                });
             }
         });
     }

@@ -11,6 +11,10 @@ public class NMAPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
+    public static boolean isFirstTime(Context context) {
+        return getSection(context) == 0;
+    }
+
     public static int getSection(Context context) {
         return getDefault(context)
                 .getInt(context.getString(R.string.section_key), 0);
@@ -27,11 +31,4 @@ public class NMAPreferences {
         return getDefault(context)
                 .getBoolean(context.getString(R.string.get_notifications_key), true);
     }
-//
-//    public static void setNotifications(Context context, boolean getNotifications) {
-//        PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
-//                .edit()
-//                .putBoolean(context.getString(R.string.get_notifications_key), getNotifications)
-//                .apply();
-//    }
 }

@@ -43,10 +43,14 @@ public class OnboardingFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        isFirstTime = NMAPreferences.getSection(getContext()) == 0;
+        isFirstTime = NMAPreferences.isFirstTime(getContext());
 
         super.onActivityCreated(savedInstanceState);
 
+        getData();
+    }
+
+    public void getData() {
         API.nmaService.getSections().enqueue(new Callback<List<Section>>() {
             @Override
             public void onResponse(Call<List<Section>> call, Response<List<Section>> response) {
@@ -83,7 +87,12 @@ public class OnboardingFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Section>> call, Throwable t) {
-                Error.getData(getView());
+                Error.getData(getView(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getData();
+                    }
+                });
             }
         });
     }

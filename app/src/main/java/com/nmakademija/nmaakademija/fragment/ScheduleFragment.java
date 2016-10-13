@@ -95,7 +95,12 @@ public class ScheduleFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<ScheduleEvent>> call, Throwable t) {
-                Error.getData(getView());
+                Error.getData(getView(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getScheduleEvents();
+                    }
+                });
             }
         });
     }
