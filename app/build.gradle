@@ -37,7 +37,7 @@ android {
 }
 
 ext {
-    firebaseVersion = '9.4.0'
+    firebaseVersion = '9.6.1'
     retrofitVersion = '2.1.0'
     supportVersion = '24.2.1'
     icepickVersion = '3.2.0'
