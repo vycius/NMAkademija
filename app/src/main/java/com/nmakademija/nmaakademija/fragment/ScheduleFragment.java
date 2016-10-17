@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,9 @@ import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ScheduleAdapter;
 import com.nmakademija.nmaakademija.adapter.ScheduleSectionsAdapter;
 import com.nmakademija.nmaakademija.api.API;
-import com.nmakademija.nmaakademija.api.NMAService;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.Error;
+import com.nmakademija.nmaakademija.utils.NMAPreferences;
 import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +38,23 @@ public class ScheduleFragment extends Fragment {
         return new ScheduleFragment();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getScheduleEvents();
+    }
+
+    @Override
+    public void onStop() {
+        ScheduleSectionsAdapter scheduleSectionsAdapter = (ScheduleSectionsAdapter) scheduleRecyclerView.getAdapter();
+        if (scheduleSectionsAdapter != null) {
+            ScheduleAdapter scheduleAdapter = (ScheduleAdapter) scheduleSectionsAdapter.getAdapter();
+            if (scheduleAdapter != null)
+                scheduleAdapter.deleteAll();
+        }
+        super.onStop();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -50,24 +68,39 @@ public class ScheduleFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View view = getView();
         scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
-        getScheduleEvents(API.nmaService);
-
     }
 
-    private void getScheduleEvents(final NMAService nmaService) {
-        nmaService.getEvents().enqueue(new Callback<List<ScheduleEvent>>() {
+    private void getScheduleEvents() {
+        API.nmaService.getEvents().enqueue(new Callback<List<ScheduleEvent>>() {
             @Override
             public void onResponse(Call<List<ScheduleEvent>> call,
                                    Response<List<ScheduleEvent>> response) {
-                List<ScheduleEvent> scheduleEvents = response.body();
-                if (getContext() != null) {
-                    setScheduleItems(scheduleEvents);
+                Context context = getContext();
+                if (context != null) {
+                    List<ScheduleEvent> scheduleEvents = response.body();
+                    int sectionId = NMAPreferences.getSection(getContext());
+                    if (sectionId == 0) {
+                        Log.e("Section ID", "0");
+                    } else {
+                        List<ScheduleEvent> scheduleEventList = new ArrayList<>();
+                        for (ScheduleEvent s : scheduleEvents) {
+                            if (s.getSectionId() == sectionId) {
+                                scheduleEventList.add(s);
+                            }
+                        }
+                        setScheduleItems(scheduleEventList);
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<ScheduleEvent>> call, Throwable t) {
-                Error.getData(getView());
+                Error.getData(getView(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getScheduleEvents();
+                    }
+                });
             }
         });
     }

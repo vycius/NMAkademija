@@ -40,6 +40,11 @@ public class TimeUntilSessionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
+        getData();
+    }
+
+    private void getData() {
+
         API.nmaService.getTimeTillSession().enqueue(new Callback<TimeTillSession>() {
             @Override
             public void onResponse(Call<TimeTillSession> call, Response<TimeTillSession> response) {
@@ -69,7 +74,12 @@ public class TimeUntilSessionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TimeTillSession> call, Throwable t) {
-                Error.getData(getView());
+                Error.getData(getView(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getData();
+                    }
+                });
             }
         });
     }

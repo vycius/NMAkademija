@@ -1,6 +1,5 @@
 package com.nmakademija.nmaakademija.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,15 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nmakademija.nmaakademija.ArticleActivity;
+import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.adapter.ArticlesAdapter;
 import com.nmakademija.nmaakademija.adapter.DividerItemDecoration;
+import com.nmakademija.nmaakademija.adapter.SectionsAdapter;
 import com.nmakademija.nmaakademija.api.API;
-import com.nmakademija.nmaakademija.entity.Article;
+import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
 import com.nmakademija.nmaakademija.utils.Error;
+import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 import java.util.List;
 
@@ -28,56 +28,65 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewsFragment extends Fragment {
+public class OnboardingFragment extends Fragment {
 
-    public static NewsFragment getInstance() {
-        return new NewsFragment();
-    }
+    private boolean isFirstTime;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_news, container, false);
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_onboarding, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
+
+        isFirstTime = NMAPreferences.isFirstTime(getContext());
 
         getData();
     }
 
-    private void getData() {
-        API.nmaService.getArticles().enqueue(new Callback<List<Article>>() {
+    public void getData() {
+        API.nmaService.getSections().enqueue(new Callback<List<Section>>() {
             @Override
-            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+            public void onResponse(Call<List<Section>> call, Response<List<Section>> response) {
                 View v = getView();
                 if (v != null) {
-                    final RecyclerView rv = (RecyclerView) v.findViewById(R.id.recyclerView);
+
+                    final RecyclerView rv = (RecyclerView) v.findViewById(R.id.sections);
 
                     rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
                     rv.setItemAnimator(new DefaultItemAnimator());
-                    rv.setAdapter(new ArticlesAdapter(response.body()));
+                    SectionsAdapter sectionsAdapter = new SectionsAdapter(response.body());
+                    rv.setAdapter(sectionsAdapter);
                     rv.addOnItemTouchListener(new RecyclerTouchListener(
                             getContext(), rv, new ClickListener() {
                         @Override
                         public void onClick(View view, int position) {
-                            Context context = view.getContext();
-                            Intent intent = new Intent(context, ArticleActivity.class);
-                            intent.putExtra(ArticleActivity.EXTRA_ARTICLE, ((ArticlesAdapter) rv.getAdapter()).getArticle(position));
-                            context.startActivity(intent);
+                            NMAPreferences.setSection(getContext(),
+                                    ((SectionsAdapter) rv.getAdapter())
+                                            .getSection(position).getId());
+                            getActivity().finish();
+                            if (isFirstTime) {
+                                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                                startActivity(intent);
+                            }
                         }
 
                         @Override
                         public void onLongClick(View view, int position) {
-                            this.onClick(view, position);
+
                         }
                     }));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Article>> call, Throwable t) {
+            public void onFailure(Call<List<Section>> call, Throwable t) {
                 Error.getData(getView(), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -87,5 +96,4 @@ public class NewsFragment extends Fragment {
             }
         });
     }
-
 }

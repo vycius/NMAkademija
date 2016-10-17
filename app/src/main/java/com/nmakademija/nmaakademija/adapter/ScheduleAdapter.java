@@ -19,7 +19,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     public ScheduleAdapter(Context context, List<ScheduleEvent> events) {
         this.events = events;
         this.context = context;
-
     }
 
     @Override
@@ -41,6 +40,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     @Override
     public int getItemCount() {
         return events.size();
+    }
+
+    public void deleteAll() {
+        events.clear();
+        notifyDataSetChanged();
     }
 
     public class ScheduleViewHolder extends RecyclerView.ViewHolder {
