@@ -43,9 +43,9 @@ public class OnboardingFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        isFirstTime = NMAPreferences.isFirstTime(getContext());
-
         super.onActivityCreated(savedInstanceState);
+
+        isFirstTime = NMAPreferences.isFirstTime(getContext());
 
         getData();
     }
