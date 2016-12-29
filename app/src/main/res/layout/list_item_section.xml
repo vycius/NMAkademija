@@ -9,21 +9,14 @@
     android:focusable="true"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/section_image"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        tools:src="@mipmap/ic_launcher" />
-
     <TextView
         android:id="@+id/section_name"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="40dp"
         android:ellipsize="end"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:maxLines="2"
         android:textColor="@color/blackText"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:textSize="22sp"
         tools:text="NMA sesija" />
 </LinearLayout>
