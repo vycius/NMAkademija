@@ -87,7 +87,10 @@ public class UsersFragment extends Fragment {
                             });
                             String[] sectionsString = new String[sections.size() + 1];
                             for (Section section : sections) {
-                                sectionsString[section.getId()] = section.getName();
+                                /**
+                                 * TEMPORARY FIX
+                                 */
+                                sectionsString[section.getId()-9] = section.getName();
                             }
                             sectionsString[0] = getResources().getString(R.string.all_academics);
 
