@@ -32,19 +32,24 @@ public class AppEvent {
     }
 
     public void trackArticleClicked(int id) {
-        Bundle bundle = new Bundle();
-
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(id));
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "article");
-
-        logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        trackSelectContent(String.valueOf(id), "article");
     }
 
     public void trackUserClicked(@NonNull String name) {
+        trackSelectContent(name, "user");
+    }
+
+    public void trackSectionSelected(@NonNull String name) {
+        trackSelectContent(name, "section");
+
+        firebaseAnalytics.setUserProperty("section", name);
+    }
+
+    private void trackSelectContent(@NonNull String id, @NonNull String contentType) {
         Bundle bundle = new Bundle();
 
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, name);
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "user");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, contentType);
 
         logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }

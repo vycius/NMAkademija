@@ -32,6 +32,7 @@ import retrofit2.Response;
 public class OnboardingFragment extends Fragment {
 
     private boolean isFirstTime;
+    private AppEvent appEvent;
 
     @Nullable
     @Override
@@ -48,7 +49,7 @@ public class OnboardingFragment extends Fragment {
 
         isFirstTime = NMAPreferences.isFirstTime(getContext());
 
-        AppEvent appEvent = AppEvent.getInstance(getContext());
+        appEvent = AppEvent.getInstance(getContext());
 
         if (isFirstTime) {
             appEvent.trackCurrentScreen(getActivity(), "open_onboarding");
@@ -76,9 +77,13 @@ public class OnboardingFragment extends Fragment {
                             getContext(), rv, new ClickListener() {
                         @Override
                         public void onClick(View view, int position) {
+                            Section section = ((SectionsAdapter) rv.getAdapter())
+                                    .getSection(position);
                             NMAPreferences.setSection(getContext(),
-                                    ((SectionsAdapter) rv.getAdapter())
-                                            .getSection(position).getId());
+                                    section.getId());
+
+                            appEvent.trackSectionSelected(section.getName());
+
                             getActivity().finish();
                             if (isFirstTime) {
                                 Intent intent = new Intent(view.getContext(), MainActivity.class);
