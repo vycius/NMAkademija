@@ -62,7 +62,9 @@ public class TimeUntilSessionFragment extends Fragment {
 
                     countDownTimer = new CountDownTimer(timeTillSession.getEndTime().getTime(), 1000) {
                         public void onTick(long millisUntilFinished) {
-                            timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
+                            if (isVisible()) {
+                                timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
+                            }
                         }
 
                         @Override
