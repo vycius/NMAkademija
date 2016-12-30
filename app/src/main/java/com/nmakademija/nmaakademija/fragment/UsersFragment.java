@@ -86,11 +86,9 @@ public class UsersFragment extends Fragment {
                                 }
                             });
                             String[] sectionsString = new String[sections.size() + 1];
+                            int i = 1;
                             for (Section section : sections) {
-                                /**
-                                 * TEMPORARY FIX
-                                 */
-                                sectionsString[section.getId()-9] = section.getName();
+                                sectionsString[i++] = section.getName();
                             }
                             sectionsString[0] = getResources().getString(R.string.all_academics);
 
@@ -99,7 +97,7 @@ public class UsersFragment extends Fragment {
                             final RecyclerView pager = (RecyclerView) view.findViewById(R.id.users_list_view);
                             pager.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
                             pager.setItemAnimator(new DefaultItemAnimator());
-                            pager.setAdapter(new UsersAdapter(users, sections));
+                            pager.setAdapter(new UsersAdapter(users, sections.toArray(new Section[sections.size()])));
                             pager.addOnItemTouchListener(new RecyclerTouchListener(
                                     getContext(), pager, new ClickListener() {
                                 @Override

@@ -22,9 +22,9 @@ import java.util.List;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> implements Filterable {
     private List<User> users;
     private List<User> allUsers;
-    private List<Section> sections;
+    private Section sections[];
 
-    public UsersAdapter(List<User> users, List<Section> sections) {
+    public UsersAdapter(List<User> users, Section sections[]) {
         super();
         allUsers = users;
         this.sections = sections;
@@ -37,9 +37,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     @Nullable
     public String getSupervisor(int i) {
-        for (Section section : sections)
-            if (section.getId() == i)
-                return section.getSupervisor();
+        i--;
+        if(i<sections.length && i>=0)
+            return sections[i].getSupervisor();
         return null;
     }
 
@@ -63,8 +63,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
                 if (i == 0) {
                     newUserList = allUsers;
                 } else {
+                    int id=sections[i-1].getId();
                     for (User user : allUsers)
-                        if (user.getSection() == i)
+                        if (user.getSection() == id)
                             newUserList.add(user);
                 }
 
