@@ -84,7 +84,7 @@ public class ScheduleFragment extends Fragment {
                     } else {
                         List<ScheduleEvent> scheduleEventList = new ArrayList<>();
                         for (ScheduleEvent s : scheduleEvents) {
-                            if (s.getSectionId() == sectionId) {
+                            if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
                                 scheduleEventList.add(s);
                             }
                         }
