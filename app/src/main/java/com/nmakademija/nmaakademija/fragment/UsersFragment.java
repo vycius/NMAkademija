@@ -70,6 +70,13 @@ public class UsersFragment extends Fragment {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 final List<User> users = response.body();
 
+                Collections.sort(users, new Comparator<User>() {
+                    @Override
+                    public int compare(User a, User b) {
+                        return a.getName().compareTo(b.getName());
+                    }
+                });
+
                 API.nmaService.getSections().enqueue(new Callback<List<Section>>() {
 
                     @Override
@@ -80,12 +87,6 @@ public class UsersFragment extends Fragment {
                             view.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
 
                             List<Section> sections = response.body();
-                            Collections.sort(sections, new Comparator<Section>() {
-                                @Override
-                                public int compare(Section section, Section t1) {
-                                    return section.getId() - t1.getId();
-                                }
-                            });
                             List<String> sectionNames = new ArrayList<>();
                             sectionNames.add(getResources().getString(R.string.all_academics));
                             for (Section section : sections) {
