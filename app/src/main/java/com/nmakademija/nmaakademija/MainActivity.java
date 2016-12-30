@@ -5,19 +5,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.nmakademija.nmaakademija.fragment.NewsFragment;
-import com.nmakademija.nmaakademija.fragment.ScheduleFragment;
-import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
-import com.nmakademija.nmaakademija.fragment.UsersFragment;
+import com.nmakademija.nmaakademija.adapter.BottomNavigationFragmentPagerAdapter;
 
 import icepick.State;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -27,6 +23,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     @State
     protected int selectedIndex;
     private BottomNavigation bottomNavigation;
+    private ViewPager viewPager;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,47 +53,52 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
         setContentView(R.layout.activity_main);
 
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottom_navigation);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+
+        initBottomNavigation();
+    }
+
+    void initBottomNavigation() {
+        viewPager.setAdapter(new BottomNavigationFragmentPagerAdapter(getSupportFragmentManager()));
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(final int position) {
+                bottomNavigation.setSelectedIndex(position, false);
+            }
+        });
+
+        bottomNavigation.setSelectedIndex(selectedIndex, false);
+        setCurrentFragmentProperties(selectedIndex);
+
 
         bottomNavigation.setOnMenuItemClickListener(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (bottomNavigation.getSelectedIndex() == -1) {
-            setCurrentFragment(selectedIndex);
-            bottomNavigation.setSelectedIndex(selectedIndex, false);
-        }
-    }
-
-    void setCurrentFragment(int position) {
+    void setCurrentFragmentProperties(int position) {
         selectedIndex = position;
-        Fragment fragment;
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         int color, subtitle;
 
         switch (position) {
+            case 0:
+                color = R.color.bottomNavigationNewsTab;
+                subtitle = R.string.news;
+                break;
             case 1:
-                fragment = UsersFragment.getInstance();
                 color = R.color.bottomNavigationUsersTab;
                 subtitle = R.string.users;
                 break;
             case 2:
-                fragment = TimeUntilSessionFragment.getInstance();
                 color = R.color.bottomNavigationTimerTab;
                 subtitle = R.string.timer;
                 break;
             case 3:
-                fragment = ScheduleFragment.getInstance();
                 color = R.color.bottomNavigationScheduleTab;
                 subtitle = R.string.schedule;
                 break;
             default:
-                fragment = NewsFragment.getInstance();
-                color = R.color.bottomNavigationNewsTab;
-                subtitle = R.string.news;
+                throw new IllegalArgumentException("Tab with index " + position + " does not exists");
         }
         int colorResource = ContextCompat.getColor(this, color);
         ActionBar bar = getSupportActionBar();
@@ -109,19 +111,17 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(colorResource);
         }
-
-        transaction.replace(R.id.main_frame, fragment);
-
-        transaction.commit();
     }
 
     @Override
-    public void onMenuItemSelect(@IdRes int itemId, final int position, boolean b) {
-        setCurrentFragment(position);
+    public void onMenuItemSelect(@IdRes int itemId, final int position, boolean fromUser) {
+        setCurrentFragmentProperties(position);
+        if (fromUser) {
+            viewPager.setCurrentItem(position);
+        }
     }
 
     @Override
-    public void onMenuItemReselect(@IdRes int itemId, final int position, boolean b) {
-
+    public void onMenuItemReselect(@IdRes int itemId, final int position, boolean fromUser) {
     }
 }
