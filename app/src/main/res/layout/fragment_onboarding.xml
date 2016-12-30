@@ -14,7 +14,8 @@
         android:background="@drawable/choose_section_border"
         android:gravity="center_horizontal"
         android:text="@string/choose_section"
-        android:textColor="@color/blackText" />
+        android:textColor="@color/blackText"
+        android:paddingBottom="5dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sections"
