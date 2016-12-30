@@ -116,12 +116,12 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     }
 
     @Override
-    public void onMenuItemSelect(@IdRes final int itemId, final int position) {
+    public void onMenuItemSelect(@IdRes int itemId, final int position, boolean b) {
         setCurrentFragment(position);
     }
 
     @Override
-    public void onMenuItemReselect(@IdRes final int itemId, final int position) {
+    public void onMenuItemReselect(@IdRes int itemId, final int position, boolean b) {
 
     }
 }
