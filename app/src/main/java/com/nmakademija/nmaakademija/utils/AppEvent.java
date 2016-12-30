@@ -45,6 +45,20 @@ public class AppEvent {
         firebaseAnalytics.setUserProperty("section", name);
     }
 
+    public void setNotificationEnabledUserProperty(boolean enabled) {
+        firebaseAnalytics.setUserProperty("notifications_enabled", String.valueOf(enabled));
+    }
+
+    public void trackNotificationsEnabled(boolean enabled) {
+        setNotificationEnabledUserProperty(enabled);
+
+        if (enabled) {
+            logEvent("notifications_enabled", null);
+        } else {
+            logEvent("notifications_disabled", null);
+        }
+    }
+
     private void trackSelectContent(@NonNull String id, @NonNull String contentType) {
         Bundle bundle = new Bundle();
 
