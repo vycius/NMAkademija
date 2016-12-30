@@ -54,6 +54,7 @@ com_crashlytics_export_strings.xml
 .idea/modules.xml
 .idea/scopes/scope_settings.xml
 .idea/vcs.xml
+.idea/
 *.iml
 
 # OS-specific files
