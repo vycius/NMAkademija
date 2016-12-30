@@ -24,6 +24,7 @@ import com.nmakademija.nmaakademija.entity.User;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
 import com.nmakademija.nmaakademija.listener.SpinnerListener;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import retrofit2.Response;
 public class UsersFragment extends Fragment {
 
     private Spinner spinner;
+    private AppEvent appEvent;
 
     public static UsersFragment getInstance() {
         return new UsersFragment();
@@ -50,14 +52,12 @@ public class UsersFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        appEvent = AppEvent.getInstance(getContext());
+
+        appEvent.trackCurrentScreen(getActivity(), "open_users_list");
+
         spinner = (Spinner) getView().findViewById(R.id.spinner);
 
         getData();
@@ -105,7 +105,10 @@ public class UsersFragment extends Fragment {
                                 public void onClick(View view, int position) {
                                     Context context = view.getContext();
                                     Intent intent = new Intent(context, ProfileActivity.class);
-                                    intent.putExtra(ProfileActivity.EXTRA_USER, ((UsersAdapter) pager.getAdapter()).getUser(position));
+                                    User user = ((UsersAdapter) pager.getAdapter()).getUser(position);
+                                    appEvent.trackUserClicked(user.getName());
+
+                                    intent.putExtra(ProfileActivity.EXTRA_USER, user);
                                     context.startActivity(intent);
                                 }
 

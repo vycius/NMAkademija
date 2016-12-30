@@ -59,6 +59,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportVersion"
     compile "com.android.support:preference-v7:$supportVersion"
     compile "com.android.support:preference-v14:$supportVersion"
+    compile "com.android.support:support-annotations:$supportVersion"
 
     testCompile 'junit:junit:4.12'
 

@@ -15,6 +15,7 @@ import com.nmakademija.nmaakademija.adapter.ScheduleAdapter;
 import com.nmakademija.nmaakademija.adapter.ScheduleSectionsAdapter;
 import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
@@ -66,6 +67,10 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
+
+
         View view = getView();
         scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
     }

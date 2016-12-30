@@ -19,6 +19,7 @@ import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
@@ -46,6 +47,14 @@ public class OnboardingFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         isFirstTime = NMAPreferences.isFirstTime(getContext());
+
+        AppEvent appEvent = AppEvent.getInstance(getContext());
+
+        if (isFirstTime) {
+            appEvent.trackCurrentScreen(getActivity(), "open_onboarding");
+        } else {
+            appEvent.trackCurrentScreen(getActivity(), "open_change_section");
+        }
 
         getData();
     }
