@@ -17,8 +17,6 @@ import com.nmakademija.nmaakademija.entity.User;
 public class ProfileActivity extends BaseActivity {
     public static final String EXTRA_USER = "com.nmakademija.nmaakademija.user";
 
-    private User user;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +33,7 @@ public class ProfileActivity extends BaseActivity {
             window.setStatusBarColor(color);
         }
 
-        user = (User) getIntent().getSerializableExtra(EXTRA_USER);
+        User user = (User) getIntent().getSerializableExtra(EXTRA_USER);
         if (user == null) user = new User();
 
         ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
