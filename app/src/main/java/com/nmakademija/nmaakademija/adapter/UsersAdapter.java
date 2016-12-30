@@ -89,7 +89,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     public void onBindViewHolder(UserViewHolder holder, int position) {
         final User user = users.get(position);
         holder.name.setText(user.getName());
-        Glide.with(holder.itemView.getContext()).load(user.getImage()).into(holder.image);
+        Glide.with(holder.itemView.getContext()).load(user.getImage()).error(R.drawable.profile).into(holder.image);
     }
 
     @Override

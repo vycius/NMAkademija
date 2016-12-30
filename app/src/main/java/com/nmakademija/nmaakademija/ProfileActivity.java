@@ -44,7 +44,7 @@ public class ProfileActivity extends BaseActivity {
         if (user == null) user = new User();
 
         ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
-        Glide.with(this).load(user.getImage()).into(imageView);
+        Glide.with(this).load(user.getImage()).error(R.drawable.profile).into(imageView);
 
         TextView nameView = (TextView) findViewById(R.id.name_edit);
         nameView.setText(user.getName());
