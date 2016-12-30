@@ -105,7 +105,6 @@ public class UsersFragment extends Fragment {
                                 public void onClick(View view, int position) {
                                     Context context = view.getContext();
                                     Intent intent = new Intent(context, ProfileActivity.class);
-                                    intent.putExtra(ProfileActivity.EXTRA_ALLOW_EDIT, false);
                                     intent.putExtra(ProfileActivity.EXTRA_USER, ((UsersAdapter) pager.getAdapter()).getUser(position));
                                     context.startActivity(intent);
                                 }

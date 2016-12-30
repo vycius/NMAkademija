@@ -1,5 +1,8 @@
 package com.nmakademija.nmaakademija;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,21 +12,16 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.entity.User;
 
 public class ProfileActivity extends BaseActivity {
-    public static final String EXTRA_ALLOW_EDIT = "com.nmakademija.nmaakademija.allow_edit";
     public static final String EXTRA_USER = "com.nmakademija.nmaakademija.user";
 
-    private EditText nameEdit;
-    private EditText emailEdit;
-    private EditText phoneEdit;
-    private EditText bioEdit;
     private User user;
 
     @Override
@@ -42,40 +40,44 @@ public class ProfileActivity extends BaseActivity {
             window.setStatusBarColor(color);
         }
 
-        boolean allowEdit = getIntent().getBooleanExtra(EXTRA_ALLOW_EDIT, false);
         user = (User) getIntent().getSerializableExtra(EXTRA_USER);
         if (user == null) user = new User();
 
         ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
         Glide.with(this).load(user.getImage()).into(imageView);
 
-        nameEdit = (EditText) findViewById(R.id.name_edit);
-        nameEdit.setText(user.getName());
-        nameEdit.setEnabled(allowEdit);
+        TextView nameView = (TextView) findViewById(R.id.name_edit);
+        nameView.setText(user.getName());
 
-        emailEdit = (EditText) findViewById(R.id.email_edit);
-        emailEdit.setText(user.getEmail());
-        emailEdit.setEnabled(allowEdit);
+        TextView emailView = (TextView) findViewById(R.id.email_edit);
+        emailView.setText(user.getEmail());
 
-        phoneEdit = (EditText) findViewById(R.id.phone_edit);
-        phoneEdit.setText(user.getPhone());
-        phoneEdit.setEnabled(allowEdit);
-
-        bioEdit = (EditText) findViewById(R.id.bio_edit);
-        bioEdit.setText(user.getBio());
-        bioEdit.setEnabled(allowEdit);
-
-        Button saveButton = (Button) findViewById(R.id.button_save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user.setName(nameEdit.getText().toString());
-                user.setEmail(emailEdit.getText().toString());
-                user.setPhone(phoneEdit.getText().toString());
-                user.setBio(bioEdit.getText().toString());
-                finish();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(getString(R.string.email),user.getEmail());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(view.getContext(), R.string.email_copied,
+                        Toast.LENGTH_SHORT).show();
             }
         });
-        saveButton.setVisibility(allowEdit ? View.VISIBLE : View.INVISIBLE);
+
+        TextView phoneView = (TextView) findViewById(R.id.phone_edit);
+        phoneView.setText(user.getPhone());
+
+        phoneView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(getString(R.string.phone),user.getPhone());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(view.getContext(), R.string.phone_copied,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView bioView = (TextView) findViewById(R.id.bio_edit);
+        bioView.setText(user.getBio());
     }
 }

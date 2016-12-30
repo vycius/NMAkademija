@@ -19,39 +19,34 @@
             android:contentDescription="@string/profile_picture"
             tools:src="@drawable/leon" />
         
-        <EditText android:id="@+id/name_edit"
+        <TextView android:id="@+id/name_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content" 
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
             android:hint="@string/name_hint"
-            android:inputType="textPersonName" />
+            android:textSize="20sp"/>
     </LinearLayout>
 
-    <EditText android:id="@+id/email_edit"
+    <TextView android:id="@+id/email_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email_hint"
-        android:inputType="textEmailAddress" />
+        android:textSize="18sp"
+        android:layout_marginBottom="5dp"/>
 
-    <EditText android:id="@+id/phone_edit"
+    <TextView android:id="@+id/phone_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/phone_hint"
-        android:inputType="phone" />
+        android:textSize="18sp"
+        android:layout_marginBottom="5dp"/>
 
-    <EditText android:id="@+id/bio_edit"
+    <TextView android:id="@+id/bio_edit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/bio_hint"
-        android:inputType="textMultiLine" />
-
-    <Button android:id="@+id/button_save"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:text="@string/save" />
+        android:textSize="16sp"/>
 </LinearLayout>

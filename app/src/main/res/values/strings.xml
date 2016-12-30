@@ -32,4 +32,8 @@
     <string name="section_key">choose_section</string>
     <string name="get_notifications_key">get_notifications</string>
     <string name="retry">Dar kart</string>
+    <string name="email_copied">E-mail\'as nukopijuotas</string>
+    <string name="phone_copied">Telefono nr. nukopijuotas</string>
+    <string name="email">email</string>
+    <string name="phone">phone</string>
 </resources>
