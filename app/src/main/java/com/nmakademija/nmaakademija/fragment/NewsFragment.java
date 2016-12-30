@@ -20,6 +20,7 @@ import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class NewsFragment extends Fragment {
         return new NewsFragment();
     }
 
+    private AppEvent appEvent;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class NewsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        appEvent = AppEvent.getInstance(getContext());
+        appEvent.trackCurrentScreen(getActivity(), "open_news");
         getData();
     }
 
@@ -64,7 +69,9 @@ public class NewsFragment extends Fragment {
                         public void onClick(View view, int position) {
                             Context context = view.getContext();
                             Intent intent = new Intent(context, ArticleActivity.class);
-                            intent.putExtra(ArticleActivity.EXTRA_ARTICLE, ((ArticlesAdapter) rv.getAdapter()).getArticle(position));
+                            Article article = ((ArticlesAdapter) rv.getAdapter()).getArticle(position);
+                            appEvent.trackArticleClicked(article.getId());
+                            intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
                             context.startActivity(intent);
                         }
 

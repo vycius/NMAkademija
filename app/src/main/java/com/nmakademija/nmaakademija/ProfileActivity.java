@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.entity.User;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 
 public class ProfileActivity extends BaseActivity {
     public static final String EXTRA_USER = "com.nmakademija.nmaakademija.user";
@@ -21,6 +22,8 @@ public class ProfileActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        AppEvent.getInstance(this).trackCurrentScreen(this, "open_profile");
 
         int color = ContextCompat.getColor(this, R.color.bottomNavigationUsersTab);
         ActionBar bar = getSupportActionBar();

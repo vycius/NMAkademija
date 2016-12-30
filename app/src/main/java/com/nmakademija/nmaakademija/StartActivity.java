@@ -1,10 +1,22 @@
 package com.nmakademija.nmaakademija;
 
 import android.content.Intent;
+import android.os.Bundle;
 
+import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 public class StartActivity extends BaseActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        boolean notificationsEnabled = NMAPreferences.getNotifications(this);
+
+        AppEvent.getInstance(this).setNotificationEnabledUserProperty(notificationsEnabled);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -15,6 +27,7 @@ public class StartActivity extends BaseActivity {
         } else {
             intent = new Intent(this, MainActivity.class);
         }
+
         startActivity(intent);
         finish();
     }

@@ -13,6 +13,7 @@ import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.TimeTillSession;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 
 import retrofit2.Call;
@@ -39,6 +40,8 @@ public class TimeUntilSessionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_time_until_session");
+
         timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
         getData();
     }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.entity.Article;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 
 public class ArticleActivity extends BaseActivity {
     public static final String EXTRA_ARTICLE = "com.nmakademija.nmaakademija.article";
@@ -28,5 +29,7 @@ public class ArticleActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setSubtitle(R.string.news);
         Glide.with(this).load(article.getTitleImage()).into((ImageView) findViewById(R.id.new_image));
+        AppEvent.getInstance(this).trackCurrentScreen(this, "open_article");
+
     }
 }

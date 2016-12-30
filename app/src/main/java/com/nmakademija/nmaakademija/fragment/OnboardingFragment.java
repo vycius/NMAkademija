@@ -19,6 +19,7 @@ import com.nmakademija.nmaakademija.api.API;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
+import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
@@ -31,6 +32,7 @@ import retrofit2.Response;
 public class OnboardingFragment extends Fragment {
 
     private boolean isFirstTime;
+    private AppEvent appEvent;
 
     @Nullable
     @Override
@@ -46,6 +48,14 @@ public class OnboardingFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         isFirstTime = NMAPreferences.isFirstTime(getContext());
+
+        appEvent = AppEvent.getInstance(getContext());
+
+        if (isFirstTime) {
+            appEvent.trackCurrentScreen(getActivity(), "open_onboarding");
+        } else {
+            appEvent.trackCurrentScreen(getActivity(), "open_change_section");
+        }
 
         getData();
     }
@@ -67,9 +77,13 @@ public class OnboardingFragment extends Fragment {
                             getContext(), rv, new ClickListener() {
                         @Override
                         public void onClick(View view, int position) {
+                            Section section = ((SectionsAdapter) rv.getAdapter())
+                                    .getSection(position);
                             NMAPreferences.setSection(getContext(),
-                                    ((SectionsAdapter) rv.getAdapter())
-                                            .getSection(position).getId());
+                                    section.getId());
+
+                            appEvent.trackSectionSelected(section.getName());
+
                             getActivity().finish();
                             if (isFirstTime) {
                                 Intent intent = new Intent(view.getContext(), MainActivity.class);

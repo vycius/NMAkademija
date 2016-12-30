@@ -9,6 +9,10 @@ public class Article implements Serializable {
     private String content;
     private String titleImage;
 
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
