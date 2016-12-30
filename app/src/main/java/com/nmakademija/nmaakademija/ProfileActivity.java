@@ -1,20 +1,15 @@
 package com.nmakademija.nmaakademija;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.entity.User;
@@ -52,30 +47,8 @@ public class ProfileActivity extends BaseActivity {
         TextView emailView = (TextView) findViewById(R.id.email_edit);
         emailView.setText(user.getEmail());
 
-        emailView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(getString(R.string.email),user.getEmail());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(view.getContext(), R.string.email_copied,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
         TextView phoneView = (TextView) findViewById(R.id.phone_edit);
         phoneView.setText(user.getPhone());
-
-        phoneView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(getString(R.string.phone),user.getPhone());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(view.getContext(), R.string.phone_copied,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
         TextView bioView = (TextView) findViewById(R.id.bio_edit);
         bioView.setText(user.getBio());
