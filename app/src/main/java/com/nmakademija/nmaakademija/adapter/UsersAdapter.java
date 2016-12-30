@@ -37,10 +37,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     @Nullable
     public String getSupervisor(int i) {
-        i--;
-        if(i<sections.length && i>=0)
-            return sections[i].getSupervisor();
-        return null;
+        if (i == 0) {
+            return null;
+        }
+        return sections[--i].getSupervisor();
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
 import com.nmakademija.nmaakademija.listener.SpinnerListener;
 import com.nmakademija.nmaakademija.utils.Error;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -85,15 +86,15 @@ public class UsersFragment extends Fragment {
                                     return section.getId() - t1.getId();
                                 }
                             });
-                            String[] sectionsString = new String[sections.size() + 1];
-                            int i = 1;
+                            List<String> sectionNames = new ArrayList<>();
+                            sectionNames.add(getResources().getString(R.string.all_academics));
                             for (Section section : sections) {
-                                sectionsString[i++] = section.getName();
+                                sectionNames.add(section.getName());
                             }
-                            sectionsString[0] = getResources().getString(R.string.all_academics);
 
-                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionsString);
+                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionNames);
                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
                             final RecyclerView pager = (RecyclerView) view.findViewById(R.id.users_list_view);
                             pager.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
                             pager.setItemAnimator(new DefaultItemAnimator());
