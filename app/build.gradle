@@ -74,7 +74,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.1-rc1'
-
 }
 
 // https://github.com/ben-manes/gradle-versions-plugin
