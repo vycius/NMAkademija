@@ -8,7 +8,6 @@ public class TimeTillSession {
 
     private Date endTime;
 
-
     public Date getEndTime() {
         return endTime;
     }

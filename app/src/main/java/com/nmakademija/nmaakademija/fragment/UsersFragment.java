@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filterable;
 import android.widget.Spinner;
 
 import com.nmakademija.nmaakademija.ProfileActivity;
@@ -45,9 +44,9 @@ public class UsersFragment extends Fragment {
     private ArrayList<Section> sections;
     private int lastFilter = 0;
 
-    public String EXTRA_USERS = "users";
-    public String EXTRA_SECTIONS = "sections";
-    public String EXTRA_LAST_FILTER = "pager_filter";
+    private String EXTRA_USERS = "users";
+    private String EXTRA_SECTIONS = "sections";
+    private String EXTRA_LAST_FILTER = "pager_filter";
 
     public static UsersFragment getInstance() {
         return new UsersFragment();
@@ -61,6 +60,8 @@ public class UsersFragment extends Fragment {
             users = savedInstanceState.getParcelableArrayList(EXTRA_USERS);
             sections = savedInstanceState.getParcelableArrayList(EXTRA_SECTIONS);
             lastFilter = savedInstanceState.getInt(EXTRA_LAST_FILTER);
+            if(lastFilter == -1)
+                lastFilter = 0;
         }
     }
 
@@ -68,6 +69,9 @@ public class UsersFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(EXTRA_USERS, users);
         outState.putParcelableArrayList(EXTRA_SECTIONS, sections);
+        if(spinner == null){
+            spinner = (Spinner) getView().findViewById(R.id.spinner);
+        }
         outState.putInt(EXTRA_LAST_FILTER, spinner.getSelectedItemPosition());
 
         super.onSaveInstanceState(outState);
@@ -109,7 +113,10 @@ public class UsersFragment extends Fragment {
             final RecyclerView pager = (RecyclerView) getView().findViewById(R.id.users_list_view);
             pager.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
             pager.setItemAnimator(new DefaultItemAnimator());
-            pager.setAdapter(new UsersAdapter(users, sections.toArray(new Section[0])));
+            UsersAdapter usersAdapter = new UsersAdapter(users, sections.toArray(new Section[0]));
+            pager.setAdapter(usersAdapter);
+            usersAdapter.getFilter().filter(String.valueOf(lastFilter));
+
             pager.addOnItemTouchListener(new RecyclerTouchListener(
                     getContext(), pager, new ClickListener() {
                 @Override
@@ -128,10 +135,8 @@ public class UsersFragment extends Fragment {
                     this.onClick(view, position);
                 }
             }));
+
             spinner.setAdapter(spinnerArrayAdapter);
-
-            ((Filterable)pager.getAdapter()).getFilter().filter(String.valueOf(lastFilter));
-
             spinner.setOnItemSelectedListener(new SpinnerListener(pager, getView(), lastFilter));
         }
     }
