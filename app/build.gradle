@@ -40,7 +40,6 @@ ext {
     firebaseVersion = '10.0.1'
     retrofitVersion = '2.1.0'
     supportVersion = '25.1.0'
-    icepickVersion = '3.2.0'
     okhttpVersion = '3.5.0'
 }
 
@@ -63,9 +62,6 @@ dependencies {
     compile "com.android.support:support-annotations:$supportVersion"
 
     testCompile 'junit:junit:4.12'
-
-    compile "frankiesardo:icepick:$icepickVersion"
-    provided "frankiesardo:icepick-processor:$icepickVersion"
 
     compile "com.google.firebase:firebase-core:$firebaseVersion"
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"
