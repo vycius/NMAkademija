@@ -9,9 +9,9 @@
 
     <Spinner
         android:id="@+id/spinner"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
         android:visibility="gone" />
 
@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:padding="3dp"
         android:textSize="18sp"
         tools:text="Vadoviukas: Pėčka" />
 
