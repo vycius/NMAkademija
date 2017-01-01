@@ -13,18 +13,18 @@ import retrofit2.http.GET;
 
 public interface NMAService {
 
-    @GET("api/events")
+    @GET("api/events/")
     Call<List<ScheduleEvent>> getEvents();
 
-    @GET("api/tts")
+    @GET("api/tts/")
     Call<TimeTillSession> getTimeTillSession();
 
-    @GET("api/users")
+    @GET("api/users/")
     Call<List<User>> getUsers();
 
-    @GET("api/news")
+    @GET("api/news/")
     Call<List<Article>> getArticles();
 
-    @GET("api/sections")
+    @GET("api/sections/")
     Call<List<Section>> getSections();
 }
