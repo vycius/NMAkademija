@@ -39,5 +39,6 @@
         android:id="@+id/news_image"
         android:layout_width="72dp"
         android:layout_height="72dp"
+        android:layout_gravity="center_vertical"
         tools:src="@mipmap/ic_launcher" />
 </LinearLayout>
