@@ -11,12 +11,13 @@ import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.api.API;
-import com.nmakademija.nmaakademija.entity.TimeTillSession;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,10 +25,12 @@ import retrofit2.Response;
 
 public class TimeUntilSessionFragment extends Fragment {
 
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss", Locale.US);
+    private static final long millisecondsInDay = 86400000L;
     private CountDownTimer countDownTimer;
-
     private TimeUntilSession timeUntilSession;
-
+    private TextView timeUntilSessionTV;
+    private TextView timeUntilSessionTextTV;
     private String EXTRA_TIME_UNTIL_SESSION = "time_until_session";
 
     public static TimeUntilSessionFragment getInstance() {
@@ -61,6 +64,9 @@ public class TimeUntilSessionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_time_until_session");
 
+        timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
+        timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
+
         if(timeUntilSession == null)
             getData();
         else
@@ -68,43 +74,51 @@ public class TimeUntilSessionFragment extends Fragment {
     }
 
     private void setData(){
-        View view = getView();
-        if (view != null) {
-            TextView timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
+        if (isAdded()) {
 
-            timeUntilSessionTextTV.setText(timeUntilSession.isSession() ? getString(R.string.timer_session_end) : getString(R.string.timer_session_start));
+            timeUntilSessionTextTV.setText(
+                    timeUntilSession.isSession() ?
+                            getString(R.string.timer_session_end) : getString(R.string.timer_session_start));
 
-            final TextView timeUntilSessionTV;
-            timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
-            countDownTimer = new CountDownTimer(( timeUntilSession.isSession() ? timeUntilSession.getEndTime() : timeUntilSession.getStartTime() ).getTime() - new Date().getTime(), 1000) {
+            countDownTimer = new CountDownTimer(
+                    timeUntilSession.getEndTime().getTime() - new Date().getTime(), 1000) {
                 public void onTick(long millisUntilFinished) {
-                    if (isVisible()) {
-                        timeUntilSessionTV.setText(timeUntilSession.returnTime(getContext()));
-                    }
+                    updateTime();
                 }
 
                 @Override
                 public void onFinish() {
-                    setData();
+
                 }
             };
-
+            updateTime();
             countDownTimer.start();
+        }
+    }
+
+    private void updateTime() {
+        if (isAdded()) {
+
+            long now = new Date().getTime();
+            long timeLeft = timeUntilSession.isSession() ? timeUntilSession.getEndTime().getTime() - now : timeUntilSession.getStartTime().getTime() - now;
+            long daysLeft = timeLeft / millisecondsInDay;
+            String timeLeftString = DATE_FORMAT.format(new Date(timeLeft));
+
+            timeUntilSessionTV.setText(getContext().getString(R.string.timer_date_format, daysLeft, timeLeftString));
         }
     }
 
     private void getData() {
 
-        API.nmaService.getTimeTillSession().enqueue(new Callback<TimeTillSession>() {
+        API.nmaService.getTimeTillSession().enqueue(new Callback<TimeUntilSession>() {
             @Override
-            public void onResponse(Call<TimeTillSession> call, Response<TimeTillSession> response) {
-                TimeTillSession timeTillSession = response.body();
-                timeUntilSession = new TimeUntilSession(timeTillSession.getStartTime(), timeTillSession.getEndTime());
+            public void onResponse(Call<TimeUntilSession> call, Response<TimeUntilSession> response) {
+                timeUntilSession = response.body();
                 setData();
             }
 
             @Override
-            public void onFailure(Call<TimeTillSession> call, Throwable t) {
+            public void onFailure(Call<TimeUntilSession> call, Throwable t) {
                 Error.getData(getView(), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
