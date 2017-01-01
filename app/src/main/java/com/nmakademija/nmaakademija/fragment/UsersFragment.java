@@ -132,7 +132,7 @@ public class UsersFragment extends Fragment {
 
                 @Override
                 public void onLongClick(View view, int position) {
-                    this.onClick(view, position);
+
                 }
             }));
 
