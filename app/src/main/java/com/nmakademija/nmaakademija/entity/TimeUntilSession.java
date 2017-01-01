@@ -7,19 +7,21 @@ import java.util.Date;
 
 public class TimeUntilSession implements Parcelable {
 
-    public static final Parcelable.Creator<TimeUntilSession> CREATOR = new Parcelable.Creator<TimeUntilSession>() {
-        @Override
-        public TimeUntilSession createFromParcel(Parcel source) {
-            return new TimeUntilSession(source);
-        }
-
-        @Override
-        public TimeUntilSession[] newArray(int size) {
-            return new TimeUntilSession[size];
-        }
-    };
     private Date startTime;
     private Date endTime;
+
+    public boolean isSession() {
+        long now = new Date().getTime();
+        return startTime.getTime() < now;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
 
     public TimeUntilSession() {
     }
@@ -29,14 +31,6 @@ public class TimeUntilSession implements Parcelable {
         this.startTime = tmpStartTime == -1 ? null : new Date(tmpStartTime);
         long tmpEndTime = in.readLong();
         this.endTime = tmpEndTime == -1 ? null : new Date(tmpEndTime);
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public Date getStartTime() {
-        return startTime;
     }
 
     @Override
@@ -50,8 +44,15 @@ public class TimeUntilSession implements Parcelable {
         dest.writeLong(this.endTime != null ? this.endTime.getTime() : -1);
     }
 
-    public boolean isSession() {
-        long now = new Date().getTime();
-        return startTime.getTime() < now;
-    }
+    public static final Parcelable.Creator<TimeUntilSession> CREATOR = new Parcelable.Creator<TimeUntilSession>() {
+        @Override
+        public TimeUntilSession createFromParcel(Parcel source) {
+            return new TimeUntilSession(source);
+        }
+
+        @Override
+        public TimeUntilSession[] newArray(int size) {
+            return new TimeUntilSession[size];
+        }
+    };
 }
