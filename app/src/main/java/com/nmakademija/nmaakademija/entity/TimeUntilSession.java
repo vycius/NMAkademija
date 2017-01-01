@@ -12,18 +12,20 @@ import java.util.Locale;
 
 public class TimeUntilSession implements Parcelable {
 
-    private final static long millisecondsInDay = 86400000;
+    private static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat("HH:mm:ss", Locale.US);
+
+    private final static long millisecondsInDay = 86400000L;
     private Date sessionStart;
     private Date sessionEnd;
-    private SimpleDateFormat dateFormat;
+
 
     public TimeUntilSession(Date StartTime, Date EndTime) {
         sessionStart = StartTime;
         sessionEnd = EndTime;
-        dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
     }
 
-    public Date getEndTime(){
+    public Date getEndTime() {
         return sessionEnd;
     }
 
@@ -36,13 +38,13 @@ public class TimeUntilSession implements Parcelable {
 
         long timeLeft = isSession() ? sessionEnd.getTime() - now : sessionStart.getTime() - now;
         long daysLeft = timeLeft / millisecondsInDay;
-        String timeLeftString = dateFormat.format(new Date(timeLeft));
+        String timeLeftString = DATE_FORMAT.format(new Date(timeLeft));
         return context.getString(R.string.timer_date_format, daysLeft, timeLeftString);
     }
 
     public boolean isSession() {
         long now = new Date().getTime();
-        return sessionEnd.getTime()>now;
+        return sessionEnd.getTime() > now;
     }
 
     @Override
@@ -54,7 +56,6 @@ public class TimeUntilSession implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.sessionStart != null ? this.sessionStart.getTime() : -1);
         dest.writeLong(this.sessionEnd != null ? this.sessionEnd.getTime() : -1);
-        dest.writeSerializable(this.dateFormat);
     }
 
     protected TimeUntilSession(Parcel in) {
@@ -62,7 +63,6 @@ public class TimeUntilSession implements Parcelable {
         this.sessionStart = tmpSessionStart == -1 ? null : new Date(tmpSessionStart);
         long tmpSessionEnd = in.readLong();
         this.sessionEnd = tmpSessionEnd == -1 ? null : new Date(tmpSessionEnd);
-        this.dateFormat = (SimpleDateFormat) in.readSerializable();
     }
 
     public static final Parcelable.Creator<TimeUntilSession> CREATOR = new Parcelable.Creator<TimeUntilSession>() {

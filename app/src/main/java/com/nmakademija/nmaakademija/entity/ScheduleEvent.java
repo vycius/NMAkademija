@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ScheduleEvent implements Parcelable {
+
+    private static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat("HH:mm", Locale.US);
+
     private Date startTime;
     private Date endTime;
     private String name;
@@ -15,15 +19,13 @@ public class ScheduleEvent implements Parcelable {
     private int section;
     private int id;
 
-    private SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm", Locale.US);
-
     //region Getters
     public String getStartTime() {
-        return dateFormater.format(startTime);
+        return DATE_FORMAT.format(startTime);
     }
 
     public String getEndTime() {
-        return dateFormater.format(endTime);
+        return DATE_FORMAT.format(endTime);
     }
 
     public String getName() {
@@ -60,10 +62,6 @@ public class ScheduleEvent implements Parcelable {
         dest.writeString(this.lecturer);
         dest.writeInt(this.section);
         dest.writeInt(this.id);
-        dest.writeSerializable(this.dateFormater);
-    }
-
-    public ScheduleEvent() {
     }
 
     protected ScheduleEvent(Parcel in) {
@@ -75,10 +73,9 @@ public class ScheduleEvent implements Parcelable {
         this.lecturer = in.readString();
         this.section = in.readInt();
         this.id = in.readInt();
-        this.dateFormater = (SimpleDateFormat) in.readSerializable();
     }
 
-    public static final Parcelable.Creator<ScheduleEvent> CREATOR = new Parcelable.Creator<ScheduleEvent>() {
+    public static final Creator<ScheduleEvent> CREATOR = new Creator<ScheduleEvent>() {
         @Override
         public ScheduleEvent createFromParcel(Parcel source) {
             return new ScheduleEvent(source);
