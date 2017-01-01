@@ -15,13 +15,14 @@ import android.view.WindowManager;
 
 import com.nmakademija.nmaakademija.adapter.BottomNavigationFragmentPagerAdapter;
 
-import icepick.State;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
 public class MainActivity extends BaseActivity implements BottomNavigation.OnMenuItemSelectionListener {
 
-    @State
-    protected int selectedIndex;
+    public static final String EXTRA_SELECTED_TAB_INDEX = "selected_index";
+
+    private int selectedIndex;
+
     private BottomNavigation bottomNavigation;
     private ViewPager viewPager;
 
@@ -52,6 +53,10 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState != null) {
+            selectedIndex = savedInstanceState.getInt(EXTRA_SELECTED_TAB_INDEX);
+        }
+
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottom_navigation);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
@@ -73,6 +78,13 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
 
         bottomNavigation.setOnMenuItemClickListener(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(EXTRA_SELECTED_TAB_INDEX, selectedIndex);
+
+        super.onSaveInstanceState(outState);
     }
 
     void setCurrentFragmentProperties(int position) {
