@@ -38,8 +38,11 @@ import retrofit2.Response;
 
 public class UsersFragment extends Fragment {
 
+    private RecyclerView pager;
     private Spinner spinner;
+
     private AppEvent appEvent;
+
     private ArrayList<User> users;
     private ArrayList<Section> sections;
     private int lastFilter = 0;
@@ -56,12 +59,10 @@ public class UsersFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             users = savedInstanceState.getParcelableArrayList(EXTRA_USERS);
             sections = savedInstanceState.getParcelableArrayList(EXTRA_SECTIONS);
             lastFilter = savedInstanceState.getInt(EXTRA_LAST_FILTER);
-            if(lastFilter == -1)
-                lastFilter = 0;
         }
     }
 
@@ -69,10 +70,7 @@ public class UsersFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(EXTRA_USERS, users);
         outState.putParcelableArrayList(EXTRA_SECTIONS, sections);
-        if(spinner == null){
-            spinner = (Spinner) getView().findViewById(R.id.spinner);
-        }
-        outState.putInt(EXTRA_LAST_FILTER, spinner.getSelectedItemPosition());
+        outState.putInt(EXTRA_LAST_FILTER, spinner.getSelectedItemPosition() != -1 ? spinner.getSelectedItemPosition() : 0);
 
         super.onSaveInstanceState(outState);
     }
@@ -90,16 +88,18 @@ public class UsersFragment extends Fragment {
 
         appEvent.trackCurrentScreen(getActivity(), "open_users_list");
 
-        if(users == null || sections == null)
+        spinner = (Spinner) getView().findViewById(R.id.spinner);
+        pager = (RecyclerView) getView().findViewById(R.id.users_list_view);
+
+        if (users == null || sections == null)
             getData();
         else
             setData();
     }
 
-    private void setData(){
+    private void setData() {
         if (isAdded()) {
-            spinner = (Spinner) getView().findViewById(R.id.spinner);
-            getView().findViewById(R.id.spinner).setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.VISIBLE);
 
             List<String> sectionNames = new ArrayList<>();
             sectionNames.add(getResources().getString(R.string.all_academics));
@@ -110,7 +110,6 @@ public class UsersFragment extends Fragment {
             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sectionNames);
             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            final RecyclerView pager = (RecyclerView) getView().findViewById(R.id.users_list_view);
             pager.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
             pager.setItemAnimator(new DefaultItemAnimator());
             UsersAdapter usersAdapter = new UsersAdapter(users, sections.toArray(new Section[0]));
@@ -145,7 +144,7 @@ public class UsersFragment extends Fragment {
         API.nmaService.getUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                users = new ArrayList<>( response.body() );
+                users = new ArrayList<>(response.body());
                 Collections.sort(users, new Comparator<User>() {
                     @Override
                     public int compare(User a, User b) {
@@ -158,6 +157,7 @@ public class UsersFragment extends Fragment {
                         sections = new ArrayList<>(response.body());
                         setData();
                     }
+
                     @Override
                     public void onFailure(Call<List<Section>> call, Throwable t) {
                         Error.getData(getView(), new View.OnClickListener() {
