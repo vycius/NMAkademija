@@ -36,7 +36,7 @@ public class ProfileActivity extends BaseActivity {
             window.setStatusBarColor(color);
         }
 
-        User user = (User) getIntent().getSerializableExtra(EXTRA_USER);
+        User user = getIntent().getParcelableExtra(EXTRA_USER);
         if (user == null) user = new User();
 
         ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);

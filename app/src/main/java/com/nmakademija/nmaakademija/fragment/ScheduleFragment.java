@@ -1,11 +1,9 @@
 package com.nmakademija.nmaakademija.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,26 +32,12 @@ import retrofit2.Response;
 public class ScheduleFragment extends Fragment {
 
     private RecyclerView scheduleRecyclerView;
+    private ArrayList<ScheduleEvent> scheduleEvents;
+
+    private String EXTRA_EVENTS = "schedule_events";
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getScheduleEvents();
-    }
-
-    @Override
-    public void onStop() {
-        ScheduleSectionsAdapter scheduleSectionsAdapter = (ScheduleSectionsAdapter) scheduleRecyclerView.getAdapter();
-        if (scheduleSectionsAdapter != null) {
-            ScheduleAdapter scheduleAdapter = (ScheduleAdapter) scheduleSectionsAdapter.getAdapter();
-            if (scheduleAdapter != null)
-                scheduleAdapter.deleteAll();
-        }
-        super.onStop();
     }
 
     @Nullable
@@ -65,14 +49,32 @@ public class ScheduleFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null)
+            scheduleEvents = savedInstanceState.getParcelableArrayList(EXTRA_EVENTS);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(EXTRA_EVENTS, scheduleEvents);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
 
+        scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
 
-        View view = getView();
-        scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
+        if(scheduleEvents == null)
+            getScheduleEvents();
+        else
+            setScheduleItems();
     }
 
     private void getScheduleEvents() {
@@ -80,22 +82,16 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ScheduleEvent>> call,
                                    Response<List<ScheduleEvent>> response) {
-                Context context = getContext();
-                if (context != null) {
-                    List<ScheduleEvent> scheduleEvents = response.body();
-                    int sectionId = NMAPreferences.getSection(getContext());
-                    if (sectionId == 0) {
-                        Log.e("Section ID", "0");
-                    } else {
-                        List<ScheduleEvent> scheduleEventList = new ArrayList<>();
-                        for (ScheduleEvent s : scheduleEvents) {
-                            if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
-                                scheduleEventList.add(s);
-                            }
-                        }
-                        setScheduleItems(scheduleEventList);
+                List<ScheduleEvent> scheduleEventsList = response.body();
+                int sectionId = NMAPreferences.getSection(getContext());
+                scheduleEvents = new ArrayList<>();
+                for (ScheduleEvent s : scheduleEventsList) {
+                    if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
+                        scheduleEvents.add(s);
                     }
                 }
+                Collections.sort(scheduleEvents, new ScheduleEventComparator());
+                setScheduleItems();
             }
 
             @Override
@@ -110,45 +106,45 @@ public class ScheduleFragment extends Fragment {
         });
     }
 
-    private void setScheduleItems(List<ScheduleEvent> scheduleEvents) {
-        Collections.sort(scheduleEvents, new ScheduleEventComparator());
+    private void setScheduleItems() {
+        if (isAdded()) {
 
-        ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleEvents);
-        scheduleRecyclerView.setAdapter(adapter);
+            ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleEvents);
+            scheduleRecyclerView.setAdapter(adapter);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-        String lastScheduleDay = "";
-        List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
-        int position = 0, position1 = 0;
+            String lastScheduleDay = "";
+            List<ScheduleSectionsAdapter.Section> sections = new ArrayList<>();
+            int position = 0, position1 = 0;
 
-        Date now = new Date();
+            Date now = new Date();
 
-        for (int i = 0; i < scheduleEvents.size(); i++) {
-            Date date = scheduleEvents.get(i).getDate();
-            String dateString = dateFormat.format(date);
+            for (int i = 0; i < scheduleEvents.size(); i++) {
+                Date date = scheduleEvents.get(i).getDate();
+                String dateString = dateFormat.format(date);
 
-            if (!lastScheduleDay.equals(dateString)) {
-                lastScheduleDay = dateString;
-                sections.add(new ScheduleSectionsAdapter.Section(i, dateString));
+                if (!lastScheduleDay.equals(dateString)) {
+                    lastScheduleDay = dateString;
+                    sections.add(new ScheduleSectionsAdapter.Section(i, dateString));
+                    if (date.before(now)) {
+                        position1++;
+                    }
+                }
                 if (date.before(now)) {
-                    position1++;
+                    position = i;
                 }
             }
-            if (date.before(now)) {
-                position = i;
-            }
+
+            ScheduleSectionsAdapter.Section[] dummy =
+                    new ScheduleSectionsAdapter.Section[sections.size()];
+            ScheduleSectionsAdapter mSectionedAdapter = new
+                    ScheduleSectionsAdapter(getContext(), adapter);
+            mSectionedAdapter.setSections(sections.toArray(dummy));
+
+            scheduleRecyclerView.setAdapter(mSectionedAdapter);
+            scheduleRecyclerView.scrollToPosition(position + position1);
         }
-
-        ScheduleSectionsAdapter.Section[] dummy =
-                new ScheduleSectionsAdapter.Section[sections.size()];
-        ScheduleSectionsAdapter mSectionedAdapter = new
-                ScheduleSectionsAdapter(getContext(), adapter);
-        mSectionedAdapter.setSections(sections.toArray(dummy));
-
-        scheduleRecyclerView.setAdapter(mSectionedAdapter);
-        Log.i("scrollToPosition", String.valueOf(position + position1));
-        scheduleRecyclerView.scrollToPosition(position + position1);
     }
 
 }

@@ -18,7 +18,7 @@ public class ArticleActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
-        Article article = (Article) getIntent().getSerializableExtra(EXTRA_ARTICLE);
+        Article article = getIntent().getParcelableExtra(EXTRA_ARTICLE);
         TextView tv = (TextView) findViewById(R.id.new_html_view);
         tv.setText(Html.fromHtml(article.getContent()));
         ((TextView) findViewById(R.id.new_description)).setText(
