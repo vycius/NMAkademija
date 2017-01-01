@@ -79,7 +79,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void setData(List<Article> articles) {
-        if (isVisible()) {
+        if (isAdded()) {
             final RecyclerView rv = (RecyclerView) getActivity().findViewById(R.id.recyclerView);
 
             rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
