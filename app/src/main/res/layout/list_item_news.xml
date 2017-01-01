@@ -4,21 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="8dp">
+    android:padding="10dp">
 
-    <ImageView android:id="@+id/news_image"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_margin="8dp"
-        tools:src="@mipmap/ic_launcher"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
 
-        <TextView android:id="@+id/news_title"
+        <TextView
+            android:id="@+id/news_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -28,11 +25,19 @@
             android:textStyle="bold"
             tools:text="NMA sesija" />
 
-        <TextView android:id="@+id/news_description"
+        <TextView
+            android:id="@+id/news_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
             tools:text="Vyksta NMA vasaros sesija Nidoje" />
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/news_image"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        tools:src="@mipmap/ic_launcher" />
 </LinearLayout>
