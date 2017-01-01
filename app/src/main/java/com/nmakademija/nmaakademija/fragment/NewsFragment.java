@@ -23,6 +23,7 @@ import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,7 +36,27 @@ public class NewsFragment extends Fragment {
         return new NewsFragment();
     }
 
+    public static final String EXTRA_ARTICLES = "articles";
+
+    ArrayList<Article> articles;
+
     private AppEvent appEvent;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            articles = savedInstanceState.getParcelableArrayList(EXTRA_ARTICLES);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(EXTRA_ARTICLES, articles);
+
+        super.onSaveInstanceState(outState);
+    }
 
     @Nullable
     @Override
@@ -49,38 +70,48 @@ public class NewsFragment extends Fragment {
 
         appEvent = AppEvent.getInstance(getContext());
         appEvent.trackCurrentScreen(getActivity(), "open_news");
-        getData();
+
+        if (articles == null) {
+            getData();
+        } else {
+            setData(articles);
+        }
+    }
+
+    private void setData(List<Article> articles) {
+        if (isVisible()) {
+            final RecyclerView rv = (RecyclerView) getActivity().findViewById(R.id.recyclerView);
+
+            rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
+            rv.setItemAnimator(new DefaultItemAnimator());
+            rv.setAdapter(new ArticlesAdapter(articles));
+            rv.addOnItemTouchListener(new RecyclerTouchListener(
+                    getContext(), rv, new ClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, ArticleActivity.class);
+                    Article article = ((ArticlesAdapter) rv.getAdapter()).getArticle(position);
+                    appEvent.trackArticleClicked(article.getId());
+                    intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void onLongClick(View view, int position) {
+                    this.onClick(view, position);
+                }
+            }));
+        }
     }
 
     private void getData() {
         API.nmaService.getArticles().enqueue(new Callback<List<Article>>() {
             @Override
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
-                View v = getView();
-                if (v != null) {
-                    final RecyclerView rv = (RecyclerView) v.findViewById(R.id.recyclerView);
+                articles = new ArrayList<>(response.body());
 
-                    rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
-                    rv.setItemAnimator(new DefaultItemAnimator());
-                    rv.setAdapter(new ArticlesAdapter(response.body()));
-                    rv.addOnItemTouchListener(new RecyclerTouchListener(
-                            getContext(), rv, new ClickListener() {
-                        @Override
-                        public void onClick(View view, int position) {
-                            Context context = view.getContext();
-                            Intent intent = new Intent(context, ArticleActivity.class);
-                            Article article = ((ArticlesAdapter) rv.getAdapter()).getArticle(position);
-                            appEvent.trackArticleClicked(article.getId());
-                            intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
-                            context.startActivity(intent);
-                        }
-
-                        @Override
-                        public void onLongClick(View view, int position) {
-                            this.onClick(view, position);
-                        }
-                    }));
-                }
+                setData(articles);
             }
 
             @Override
