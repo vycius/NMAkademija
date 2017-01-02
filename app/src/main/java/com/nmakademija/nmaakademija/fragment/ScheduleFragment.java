@@ -32,7 +32,7 @@ import retrofit2.Response;
 public class ScheduleFragment extends Fragment {
 
     private RecyclerView scheduleRecyclerView;
-    private ArrayList<ScheduleEvent> scheduleEvents;
+    private ArrayList<ScheduleEvent> allScheduleEvents;
 
     private String EXTRA_EVENTS = "schedule_events";
 
@@ -52,13 +52,13 @@ public class ScheduleFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null)
-            scheduleEvents = savedInstanceState.getParcelableArrayList(EXTRA_EVENTS);
+        if (savedInstanceState != null)
+            allScheduleEvents = savedInstanceState.getParcelableArrayList(EXTRA_EVENTS);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(EXTRA_EVENTS, scheduleEvents);
+        outState.putParcelableArrayList(EXTRA_EVENTS, allScheduleEvents);
 
         super.onSaveInstanceState(outState);
     }
@@ -68,10 +68,14 @@ public class ScheduleFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
-
         scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
+    }
 
-        if(scheduleEvents == null)
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (allScheduleEvents == null)
             getScheduleEvents();
         else
             setScheduleItems();
@@ -82,15 +86,8 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ScheduleEvent>> call,
                                    Response<List<ScheduleEvent>> response) {
-                List<ScheduleEvent> scheduleEventsList = response.body();
-                int sectionId = NMAPreferences.getSection(getContext());
-                scheduleEvents = new ArrayList<>();
-                for (ScheduleEvent s : scheduleEventsList) {
-                    if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
-                        scheduleEvents.add(s);
-                    }
-                }
-                Collections.sort(scheduleEvents, new ScheduleEventComparator());
+                allScheduleEvents = new ArrayList<>(response.body());
+
                 setScheduleItems();
             }
 
@@ -108,8 +105,17 @@ public class ScheduleFragment extends Fragment {
 
     private void setScheduleItems() {
         if (isAdded()) {
+            int sectionId = NMAPreferences.getSection(getContext());
+            ArrayList<ScheduleEvent> sectionEvents = new ArrayList<>();
 
-            ScheduleAdapter adapter = new ScheduleAdapter(getContext(), scheduleEvents);
+            for (ScheduleEvent s : allScheduleEvents) {
+                if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
+                    sectionEvents.add(s);
+                }
+            }
+            Collections.sort(sectionEvents, new ScheduleEventComparator());
+
+            ScheduleAdapter adapter = new ScheduleAdapter(getContext(), sectionEvents);
             scheduleRecyclerView.setAdapter(adapter);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -120,8 +126,8 @@ public class ScheduleFragment extends Fragment {
 
             Date now = new Date();
 
-            for (int i = 0; i < scheduleEvents.size(); i++) {
-                Date date = scheduleEvents.get(i).getDate();
+            for (int i = 0; i < sectionEvents.size(); i++) {
+                Date date = sectionEvents.get(i).getDate();
                 String dateString = dateFormat.format(date);
 
                 if (!lastScheduleDay.equals(dateString)) {
