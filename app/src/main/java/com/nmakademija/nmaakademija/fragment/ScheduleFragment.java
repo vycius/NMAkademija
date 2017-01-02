@@ -33,8 +33,10 @@ public class ScheduleFragment extends Fragment {
 
     private RecyclerView scheduleRecyclerView;
     private ArrayList<ScheduleEvent> scheduleEvents;
+    private int sectionId = -1;
 
     private String EXTRA_EVENTS = "schedule_events";
+    private String EXTRA_SECTION = "section";
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
@@ -52,13 +54,16 @@ public class ScheduleFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null)
+        if (savedInstanceState != null) {
             scheduleEvents = savedInstanceState.getParcelableArrayList(EXTRA_EVENTS);
+            sectionId = savedInstanceState.getInt(EXTRA_SECTION);
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(EXTRA_EVENTS, scheduleEvents);
+        outState.putInt(EXTRA_SECTION, sectionId);
 
         super.onSaveInstanceState(outState);
     }
@@ -70,21 +75,21 @@ public class ScheduleFragment extends Fragment {
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
 
         scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
-
-        if(scheduleEvents == null)
-            getScheduleEvents();
+        int sectionTemp = NMAPreferences.getSection(getContext());
+        if (scheduleEvents == null || sectionId != sectionTemp)
+            getScheduleEvents(sectionTemp);
         else
             setScheduleItems();
     }
 
-    private void getScheduleEvents() {
+    private void getScheduleEvents(final int realSectionId) {
         API.nmaService.getEvents().enqueue(new Callback<List<ScheduleEvent>>() {
             @Override
             public void onResponse(Call<List<ScheduleEvent>> call,
                                    Response<List<ScheduleEvent>> response) {
                 List<ScheduleEvent> scheduleEventsList = response.body();
-                int sectionId = NMAPreferences.getSection(getContext());
                 scheduleEvents = new ArrayList<>();
+                sectionId = realSectionId;
                 for (ScheduleEvent s : scheduleEventsList) {
                     if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
                         scheduleEvents.add(s);
@@ -99,7 +104,7 @@ public class ScheduleFragment extends Fragment {
                 Error.getData(getView(), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getScheduleEvents();
+                        getScheduleEvents(realSectionId);
                     }
                 });
             }
