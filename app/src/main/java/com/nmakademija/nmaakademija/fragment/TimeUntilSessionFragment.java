@@ -83,8 +83,10 @@ public class TimeUntilSessionFragment extends Fragment {
                     : timeUntilSession.getStartTime()).getTime();
 
             final long now = new Date().getTime();
-            if (until < now)
+            if (until < now) {
+                timeUntilSessionTV.setText(R.string.session_ended);
                 return;
+            }
             countDownTimer = new CountDownTimer(
                     until - now, 1000) {
                 public void onTick(long millisUntilFinished) {
