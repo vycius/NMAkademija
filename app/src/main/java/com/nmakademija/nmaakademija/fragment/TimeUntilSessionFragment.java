@@ -25,8 +25,6 @@ import retrofit2.Response;
 
 public class TimeUntilSessionFragment extends Fragment {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss", Locale.US);
-    private static final long millisecondsInDay = 86400000L;
     private CountDownTimer countDownTimer;
     private TimeUntilSession timeUntilSession;
     private TextView timeUntilSessionTV;
@@ -80,31 +78,42 @@ public class TimeUntilSessionFragment extends Fragment {
                     timeUntilSession.isSession() ?
                             getString(R.string.timer_session_end) : getString(R.string.timer_session_start));
 
+            long until = (timeUntilSession.isSession() ?
+                    timeUntilSession.getEndTime()
+                    : timeUntilSession.getStartTime()).getTime();
+
+            final long now = new Date().getTime();
+            if (until < now) {
+                timeUntilSessionTV.setText(R.string.session_ended);
+                return;
+            }
             countDownTimer = new CountDownTimer(
-                    timeUntilSession.getEndTime().getTime() - new Date().getTime(), 1000) {
+                    until - now, 1000) {
                 public void onTick(long millisUntilFinished) {
-                    updateTime();
+                    updateTime(millisUntilFinished);
                 }
 
                 @Override
                 public void onFinish() {
-
+                    setData();
                 }
             };
-            updateTime();
+            updateTime(until - now);
             countDownTimer.start();
         }
     }
 
-    private void updateTime() {
+    private void updateTime(long timeLeft) {
         if (isAdded()) {
+            timeLeft /= 1000;
+            long secondsLeft = timeLeft % 60;
+            timeLeft /= 60;
+            long minutesLeft = timeLeft % 60;
+            timeLeft /= 60;
+            long hoursLeft = timeLeft % 24;
+            timeLeft /= 24;
 
-            long now = new Date().getTime();
-            long timeLeft = timeUntilSession.isSession() ? timeUntilSession.getEndTime().getTime() - now : timeUntilSession.getStartTime().getTime() - now;
-            long daysLeft = timeLeft / millisecondsInDay;
-            String timeLeftString = DATE_FORMAT.format(new Date(timeLeft));
-
-            timeUntilSessionTV.setText(getContext().getString(R.string.timer_date_format, daysLeft, timeLeftString));
+            timeUntilSessionTV.setText(getContext().getString(R.string.timer_date_format, timeLeft, hoursLeft, minutesLeft, secondsLeft));
         }
     }
 
