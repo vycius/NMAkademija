@@ -12,31 +12,26 @@ import com.nmakademija.nmaakademija.adapter.UsersAdapter;
 public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     private TextView supervisor;
     private RecyclerView listView;
-    private boolean isRestored = false;
+    private int lastFilter = -1;
 
     public SpinnerListener(RecyclerView listView, View view, int lastFilter) {
         this.listView = listView;
         supervisor = (TextView) view.findViewById(R.id.supervisor);
-        if (lastFilter != 0) {
-            isRestored = true;
-        }
+        this.lastFilter = lastFilter;
 
         setCurrentSectionProperties(view, lastFilter);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (view == null)
+        if (view == null || lastFilter == i)
             return;
 
-        if(!isRestored) {
-            setCurrentSectionProperties(view, i);
+        setCurrentSectionProperties(view, i);
 
-            ((UsersAdapter) listView.getAdapter()).getFilter().filter(String.valueOf(i));
-            listView.scrollToPosition(0);
-        }
-        else
-            isRestored = false;
+        ((UsersAdapter) listView.getAdapter()).getFilter().filter(String.valueOf(i));
+        listView.scrollToPosition(0);
+        lastFilter = i;
     }
 
     private void setCurrentSectionProperties(View view, int i){
