@@ -70,9 +70,15 @@ public class UsersFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(EXTRA_USERS, users);
         outState.putParcelableArrayList(EXTRA_SECTIONS, sections);
-        outState.putInt(EXTRA_LAST_FILTER, spinner.getSelectedItemPosition() != -1 ? spinner.getSelectedItemPosition() : 0);
-
+        outState.putInt(EXTRA_LAST_FILTER, lastFilter);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        lastFilter = spinner.getSelectedItemPosition();
+
+        super.onPause();
     }
 
     @Nullable

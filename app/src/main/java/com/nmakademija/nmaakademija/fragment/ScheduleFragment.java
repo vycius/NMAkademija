@@ -33,8 +33,11 @@ public class ScheduleFragment extends Fragment {
 
     private RecyclerView scheduleRecyclerView;
     private ArrayList<ScheduleEvent> allScheduleEvents;
+    private boolean needScroll = true;
+    private int lastFilter = 0;
 
     private String EXTRA_EVENTS = "schedule_events";
+    private String EXTRA_FILTER = "last_section_id";
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
@@ -52,8 +55,10 @@ public class ScheduleFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             allScheduleEvents = savedInstanceState.getParcelableArrayList(EXTRA_EVENTS);
+            needScroll = false;
+        }
     }
 
     @Override
@@ -69,16 +74,28 @@ public class ScheduleFragment extends Fragment {
 
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
         scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         if (allScheduleEvents == null)
             getScheduleEvents();
         else
             setScheduleItems();
+    }
+
+    @Override
+    public void onPause() {
+        needScroll = false;
+        super.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (lastFilter != NMAPreferences.getSection(getContext())) {
+            if (allScheduleEvents == null)
+                getScheduleEvents();
+            else
+                setScheduleItems();
+        }
     }
 
     private void getScheduleEvents() {
@@ -115,6 +132,8 @@ public class ScheduleFragment extends Fragment {
             }
             Collections.sort(sectionEvents, new ScheduleEventComparator());
 
+            lastFilter = sectionId;
+
             ScheduleAdapter adapter = new ScheduleAdapter(getContext(), sectionEvents);
             scheduleRecyclerView.setAdapter(adapter);
 
@@ -149,7 +168,8 @@ public class ScheduleFragment extends Fragment {
             mSectionedAdapter.setSections(sections.toArray(dummy));
 
             scheduleRecyclerView.setAdapter(mSectionedAdapter);
-            scheduleRecyclerView.scrollToPosition(position + position1);
+            if (needScroll)
+                scheduleRecyclerView.scrollToPosition(position + position1);
         }
     }
 
