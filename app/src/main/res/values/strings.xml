@@ -37,4 +37,5 @@
     <string name="email">email</string>
     <string name="phone">phone</string>
     <string name="session_ended">Sesija baigėsi :)</string>
+    <string name="loading">Kraunama</string>
 </resources>

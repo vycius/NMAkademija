@@ -65,7 +65,11 @@ dependencies {
 
     compile "com.google.firebase:firebase-core:$firebaseVersion"
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"
+    compile "com.google.firebase:firebase-database:$firebaseVersion"
     compile "com.google.firebase:firebase-crash:$firebaseVersion"
+
+    compile 'com.firebaseui:firebase-ui-database:1.0.1'
+
 
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
