@@ -17,11 +17,9 @@ import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
-import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +28,8 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
 
     private View loadingView;
     private RecyclerView scheduleRecyclerView;
+
+    private int sectionId;
 
 
     public static ScheduleFragment getInstance() {
@@ -41,7 +41,12 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
+        View view = inflater.inflate(R.layout.fragment_schedule, container, false);
+
+        scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
+        loadingView = view.findViewById(R.id.loading_view);
+
+        return view;
     }
 
     @Override
@@ -50,8 +55,7 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
 
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
 
-        scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
-        loadingView = getView().findViewById(R.id.loading_view);
+        sectionId = NMAPreferences.getSection(getContext());
 
         loadScheduleEvents();
     }
@@ -59,21 +63,12 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
     private void loadScheduleEvents() {
         showLoading();
 
-        FirebaseRealtimeApi.getSchedules(this);
+        FirebaseRealtimeApi.getSchedules(this, sectionId);
     }
 
     @Override
-    public void onSchedulesLoaded(ArrayList<ScheduleEvent> allScheduleEvents) {
+    public void onSchedulesLoaded(ArrayList<ScheduleEvent> sectionEvents) {
         if (isAdded()) {
-            int sectionId = NMAPreferences.getSection(getContext());
-            ArrayList<ScheduleEvent> sectionEvents = new ArrayList<>();
-
-            for (ScheduleEvent s : allScheduleEvents) {
-                if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
-                    sectionEvents.add(s);
-                }
-            }
-            Collections.sort(sectionEvents, new ScheduleEventComparator());
 
             ScheduleAdapter adapter = new ScheduleAdapter(getContext(), sectionEvents);
             scheduleRecyclerView.setAdapter(adapter);
@@ -133,7 +128,6 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
     public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
         scheduleRecyclerView.setVisibility(View.GONE);
-
     }
 
     public void hideLoading() {

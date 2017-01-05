@@ -17,18 +17,14 @@ public abstract class ApiReferenceListener<T> implements ValueEventListener {
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        try {
-            ArrayList<T> items = new ArrayList<>();
+        ArrayList<T> items = new ArrayList<>();
 
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                T item = snapshot.getValue(clz);
-                items.add(item);
-            }
-
-            onLoaded(items);
-        } catch (Exception ex) {
-            handleException(ex);
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            T item = snapshot.getValue(clz);
+            items.add(item);
         }
+
+        onLoaded(items);
     }
 
     @Override

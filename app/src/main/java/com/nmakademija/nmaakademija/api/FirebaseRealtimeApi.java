@@ -9,9 +9,11 @@ import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.Section;
+import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FirebaseRealtimeApi {
 
@@ -102,7 +104,7 @@ public class FirebaseRealtimeApi {
                         });
     }
 
-    public static void getSchedules(SchedulesLoadedListener listener) {
+    public static void getSchedules(SchedulesLoadedListener listener, final int sectionId) {
         final WeakReference<SchedulesLoadedListener> loadedListener =
                 new WeakReference<>(listener);
 
@@ -114,7 +116,17 @@ public class FirebaseRealtimeApi {
                             public void onLoaded(ArrayList<ScheduleEvent> scheduleEvents) {
                                 SchedulesLoadedListener apiLoadedListener = loadedListener.get();
                                 if (apiLoadedListener != null) {
-                                    apiLoadedListener.onSchedulesLoaded(scheduleEvents);
+                                    ArrayList<ScheduleEvent> filteredSchedules = new ArrayList<>();
+
+                                    for (ScheduleEvent scheduleEvent : scheduleEvents) {
+                                        if (scheduleEvent.getSectionId() == 0 ||
+                                                scheduleEvent.getSectionId() == sectionId) {
+                                            filteredSchedules.add(scheduleEvent);
+                                        }
+                                    }
+                                    Collections.sort(filteredSchedules, new ScheduleEventComparator());
+
+                                    apiLoadedListener.onSchedulesLoaded(filteredSchedules);
                                 }
                             }
 
