@@ -3,17 +3,15 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.text.SimpleDateFormat;
+import com.nmakademija.nmaakademija.utils.DateUtils;
+
 import java.util.Date;
-import java.util.Locale;
 
 public class ScheduleEvent implements Parcelable {
 
-    private static final SimpleDateFormat DATE_FORMAT =
-            new SimpleDateFormat("HH:mm", Locale.US);
 
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
     private String name;
     private String lecturer;
     private int section;
@@ -21,11 +19,11 @@ public class ScheduleEvent implements Parcelable {
 
     //region Getters
     public String getStartTime() {
-        return DATE_FORMAT.format(startTime);
+        return DateUtils.formatTime(DateUtils.parseTZDate(startTime));
     }
 
     public String getEndTime() {
-        return DATE_FORMAT.format(endTime);
+        return DateUtils.formatTime(DateUtils.parseTZDate(endTime));
     }
 
     public String getName() {
@@ -37,7 +35,7 @@ public class ScheduleEvent implements Parcelable {
     }
 
     public Date getDate() {
-        return startTime;
+        return DateUtils.parseTZDate(startTime);
     }
 
     public int getSectionId() {
@@ -49,6 +47,10 @@ public class ScheduleEvent implements Parcelable {
     }
     //endregion
 
+    public ScheduleEvent() {
+
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -56,8 +58,8 @@ public class ScheduleEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.startTime != null ? this.startTime.getTime() : -1);
-        dest.writeLong(this.endTime != null ? this.endTime.getTime() : -1);
+        dest.writeString(this.startTime);
+        dest.writeString(this.endTime);
         dest.writeString(this.name);
         dest.writeString(this.lecturer);
         dest.writeInt(this.section);
@@ -65,10 +67,8 @@ public class ScheduleEvent implements Parcelable {
     }
 
     protected ScheduleEvent(Parcel in) {
-        long tmpStartTime = in.readLong();
-        this.startTime = tmpStartTime == -1 ? null : new Date(tmpStartTime);
-        long tmpEndTime = in.readLong();
-        this.endTime = tmpEndTime == -1 ? null : new Date(tmpEndTime);
+        this.startTime = in.readString();
+        this.endTime = in.readString();
         this.name = in.readString();
         this.lecturer = in.readString();
         this.section = in.readInt();
