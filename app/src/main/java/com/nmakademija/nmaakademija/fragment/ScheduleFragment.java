@@ -15,6 +15,7 @@ import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.AppEvent;
+import com.nmakademija.nmaakademija.utils.Error;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
@@ -56,6 +57,8 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
     }
 
     private void loadScheduleEvents() {
+        showLoading();
+
         FirebaseRealtimeApi.getSchedules(this);
     }
 
@@ -105,16 +108,36 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
                     ScheduleSectionsAdapter(getContext(), adapter);
             mSectionedAdapter.setSections(sections.toArray(dummy));
 
-            loadingView.setVisibility(View.GONE);
-            scheduleRecyclerView.setVisibility(View.VISIBLE);
-
             scheduleRecyclerView.setAdapter(mSectionedAdapter);
             scheduleRecyclerView.scrollToPosition(position + position1);
+
+            hideLoading();
         }
     }
 
     @Override
     public void onSchedulesLoadingFailed(Exception exception) {
+        if (isAdded()) {
+            hideLoading();
 
+            Error.getData(getView(), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loadScheduleEvents();
+                }
+            });
+        }
+
+    }
+
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        scheduleRecyclerView.setVisibility(View.GONE);
+
+    }
+
+    public void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+        scheduleRecyclerView.setVisibility(View.VISIBLE);
     }
 }
