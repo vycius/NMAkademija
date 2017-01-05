@@ -22,6 +22,7 @@ import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.User;
 import com.nmakademija.nmaakademija.listener.SpinnerListener;
 import com.nmakademija.nmaakademija.utils.AppEvent;
+import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,10 @@ public class UsersFragment extends Fragment implements
         SpinnerListener.SectionSelectedListener,
         AcademicsLoadedListener, SectionsLoadedListener {
 
+    private static final String EXTRA_LAST_FILTER = "pager_filter";
+
+    private View contentView;
+    private View loadingView;
     private RecyclerView usersRecyclerView;
     private Spinner spinner;
     private TextView supervisorView;
@@ -40,9 +45,6 @@ public class UsersFragment extends Fragment implements
     private AppEvent appEvent;
 
     private int sectionLastFilter = 0;
-
-
-    private String EXTRA_LAST_FILTER = "pager_filter";
 
     public static UsersFragment getInstance() {
         return new UsersFragment();
@@ -72,6 +74,8 @@ public class UsersFragment extends Fragment implements
         spinner = (Spinner) view.findViewById(R.id.spinner);
         usersRecyclerView = (RecyclerView) view.findViewById(R.id.users_list_view);
         supervisorView = (TextView) view.findViewById(supervisor);
+        contentView = view.findViewById(R.id.content);
+        loadingView = view.findViewById(R.id.loading_view);
 
         return view;
     }
@@ -87,6 +91,7 @@ public class UsersFragment extends Fragment implements
     }
 
     private void loadSections() {
+        showLoading();
         FirebaseRealtimeApi.getSections(this);
     }
 
@@ -111,10 +116,6 @@ public class UsersFragment extends Fragment implements
         } else {
             FirebaseRealtimeApi.getSectionAcademics(this, sectionId);
         }
-    }
-
-    private void onLoadCompleted() {
-        spinner.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -143,23 +144,36 @@ public class UsersFragment extends Fragment implements
 
     @Override
     public void onAcademicsLoaded(ArrayList<User> academics) {
-        if(isAdded()) {
+        if (isAdded()) {
             AcademicsAdapter academicsAdapter = new AcademicsAdapter(academics, this);
 
             usersRecyclerView.setAdapter(academicsAdapter);
 
-            onLoadCompleted();
+            hideLoading();
         }
+    }
+
+    public void onLoadingFailed() {
+        hideLoading();
+
+        Error.getData(getView(), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadSections();
+            }
+        });
     }
 
     @Override
     public void onAcademicsLoadingFailed(Exception exception) {
-        // // TODO: Do something on error
+        if (isAdded()) {
+            onLoadingFailed();
+        }
     }
 
     @Override
     public void onSectionsLoaded(ArrayList<Section> sections) {
-        if(isAdded()) {
+        if (isAdded()) {
             setSectionsAdapter(sections);
 
             loadUsers(sectionLastFilter);
@@ -168,6 +182,20 @@ public class UsersFragment extends Fragment implements
 
     @Override
     public void onSectionsLoadingFailed(Exception exception) {
-        // // TODO: Do something on error
+        if (isAdded()) {
+            onLoadingFailed();
+        }
+    }
+
+
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
+
+    }
+
+    public void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+        contentView.setVisibility(View.VISIBLE);
     }
 }

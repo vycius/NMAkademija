@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteBackground"
-    android:orientation="vertical">
+    android:background="@color/whiteBackground">
 
-    <Spinner
-        android:id="@+id/spinner"
-        style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:theme="@style/ThemeSpinner"
-        android:visibility="gone" />
+    <include layout="@layout/loading_indicator" />
 
-    <TextView
-        android:id="@+id/supervisor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="3dp"
-        android:textSize="18sp"
-        tools:text="Vadoviukas: Pėčka" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/users_list_view"
+    <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-</LinearLayout>
+        android:background="@color/whiteBackground"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Spinner
+            android:id="@+id/spinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:theme="@style/ThemeSpinner" />
+
+        <TextView
+            android:id="@+id/supervisor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="3dp"
+            android:textSize="18sp"
+            tools:text="Vadoviukas: Pėčka" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/users_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+    </LinearLayout>
+
+
+</FrameLayout>

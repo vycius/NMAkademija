@@ -14,27 +14,7 @@
         android:visibility="gone"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-    <LinearLayout
-        android:id="@+id/loading_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ProgressBar
-            android:id="@+id/address_looking_up"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="6dp" />
-
-        <TextView
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading" />
-    </LinearLayout>
+    <include layout="@layout/loading_indicator" />
 
 
 </FrameLayout>
