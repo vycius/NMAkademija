@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija;
 import android.app.Application;
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
 
@@ -17,6 +18,13 @@ public class App extends Application {
         }
         LeakCanary.install(this);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        setFirebaseOptions();
+    }
+
+    public void setFirebaseOptions() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+
+        firebaseDatabase.setPersistenceEnabled(true);
+        firebaseDatabase.setLogLevel(BuildConfig.DEBUG ? Logger.Level.INFO : Logger.Level.NONE);
     }
 }

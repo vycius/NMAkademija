@@ -3,12 +3,13 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.nmakademija.nmaakademija.utils.DateUtils;
 
 import java.util.Date;
 
+@IgnoreExtraProperties
 public class ScheduleEvent implements Parcelable {
-
 
     private String startTime;
     private String endTime;
