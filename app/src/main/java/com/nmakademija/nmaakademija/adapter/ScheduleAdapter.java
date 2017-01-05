@@ -30,11 +30,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
     @Override
     public void onBindViewHolder(ScheduleViewHolder holder, int position) {
-        final ScheduleEvent scheduleEvent = events.get(position);
-        holder.startTime.setText(scheduleEvent.getStartTime());
-        holder.endTime.setText(scheduleEvent.getEndTime());
-        holder.author.setText(scheduleEvent.getLecturerName());
-        holder.name.setText(scheduleEvent.getName());
+        holder.bindData(events.get(position));
     }
 
     @Override
@@ -42,20 +38,22 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         return events.size();
     }
 
-    public void deleteAll() {
-        events.clear();
-        notifyDataSetChanged();
-    }
+    class ScheduleViewHolder extends RecyclerView.ViewHolder {
+        private TextView startTime, endTime, name, author;
 
-    public class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        public TextView startTime, endTime, name, author;
-
-        public ScheduleViewHolder(View view) {
+        ScheduleViewHolder(View view) {
             super(view);
             startTime = (TextView) view.findViewById(R.id.schedule_start_time);
             endTime = (TextView) view.findViewById(R.id.schedule_end_time);
             name = (TextView) view.findViewById(R.id.schedule_name);
             author = (TextView) view.findViewById(R.id.schedule_author);
+        }
+
+        void bindData(ScheduleEvent scheduleEvent) {
+            startTime.setText(scheduleEvent.getStartTime());
+            endTime.setText(scheduleEvent.getEndTime());
+            author.setText(scheduleEvent.getLecturerName());
+            name.setText(scheduleEvent.getName());
         }
     }
 }
