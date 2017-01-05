@@ -31,7 +31,10 @@ public class OnboardingFragment extends Fragment implements SectionsLoadedListen
     private boolean isFirstTime;
     private AppEvent appEvent;
 
+    private View contentView;
+    private View loadingView;
     private RecyclerView sectionRecyclerView;
+
 
     @Nullable
     @Override
@@ -41,6 +44,8 @@ public class OnboardingFragment extends Fragment implements SectionsLoadedListen
         View view = inflater.inflate(R.layout.fragment_onboarding, container, false);
 
         sectionRecyclerView = (RecyclerView) view.findViewById(R.id.sections);
+        contentView = view.findViewById(R.id.content);
+        loadingView = view.findViewById(R.id.loading_view);
 
         return view;
     }
@@ -63,13 +68,13 @@ public class OnboardingFragment extends Fragment implements SectionsLoadedListen
     }
 
     public void loadSections() {
+        showLoading();
         FirebaseRealtimeApi.getSections(this);
     }
 
     @Override
     public void onSectionsLoaded(ArrayList<Section> sections) {
         if (isAdded()) {
-
             sectionRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
             sectionRecyclerView.setItemAnimator(new DefaultItemAnimator());
             SectionsAdapter sectionsAdapter = new SectionsAdapter(sections);
@@ -97,12 +102,15 @@ public class OnboardingFragment extends Fragment implements SectionsLoadedListen
 
                 }
             }));
+
+            hideLoading();
         }
     }
 
     @Override
     public void onSectionsLoadingFailed(Exception exception) {
         if (isAdded()) {
+            hideLoading();
             Error.getData(getView(), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -110,5 +118,16 @@ public class OnboardingFragment extends Fragment implements SectionsLoadedListen
                 }
             });
         }
+    }
+
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
+
+    }
+
+    public void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+        contentView.setVisibility(View.VISIBLE);
     }
 }
