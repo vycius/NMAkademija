@@ -44,7 +44,7 @@ public class AcademicsFragment extends Fragment implements
 
     private AppEvent appEvent;
 
-    private int sectionLastFilter = 0;
+    private int sectionSelectedPosition = 0;
 
     public static AcademicsFragment getInstance() {
         return new AcademicsFragment();
@@ -55,13 +55,13 @@ public class AcademicsFragment extends Fragment implements
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            sectionLastFilter = savedInstanceState.getInt(EXTRA_LAST_FILTER);
+            sectionSelectedPosition = savedInstanceState.getInt(EXTRA_LAST_FILTER);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(EXTRA_LAST_FILTER, sectionsSpinner.getSelectedItemPosition() != -1 ? sectionsSpinner.getSelectedItemPosition() : 0);
+        outState.putInt(EXTRA_LAST_FILTER, sectionSelectedPosition);
 
         super.onSaveInstanceState(outState);
     }
@@ -108,6 +108,9 @@ public class AcademicsFragment extends Fragment implements
 
         sectionsSpinner.setAdapter(spinnerArrayAdapter);
         sectionsSpinner.setOnItemSelectedListener(new SpinnerListener(this, sections));
+        if (sectionSelectedPosition < sections.size()) {
+            sectionsSpinner.setSelection(sectionSelectedPosition);
+        }
     }
 
     private void loadUsers(@Nullable Integer sectionId) {
@@ -129,7 +132,9 @@ public class AcademicsFragment extends Fragment implements
     }
 
     @Override
-    public void onSectionSelected(@Nullable Section section) {
+    public void onSectionSelected(@Nullable Section section, int position) {
+        sectionSelectedPosition = position;
+
         if (section == null) {
             supervisorView.setVisibility(View.GONE);
 
@@ -176,7 +181,9 @@ public class AcademicsFragment extends Fragment implements
         if (isAdded()) {
             setSectionsAdapter(sections);
 
-            loadUsers(sectionLastFilter);
+            Integer sectionId = getSectionId(sections, sectionSelectedPosition);
+
+            loadUsers(sectionId);
         }
     }
 
@@ -197,5 +204,14 @@ public class AcademicsFragment extends Fragment implements
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
+    }
+
+    @Nullable
+    public static Integer getSectionId(List<Section> sections, int sectionIndex) {
+        if (sectionIndex == 0 || sectionIndex > sections.size()) {
+            return null;
+        }
+
+        return sections.get(sectionIndex).getId();
     }
 }

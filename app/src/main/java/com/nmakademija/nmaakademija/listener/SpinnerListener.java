@@ -21,9 +21,9 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
         if (pos == 0) {
-            sectionSelectedListener.onSectionSelected(null);
+            sectionSelectedListener.onSectionSelected(null, pos);
         } else {
-            sectionSelectedListener.onSectionSelected(sections.get(pos - 1));
+            sectionSelectedListener.onSectionSelected(sections.get(pos - 1), pos);
         }
     }
 
@@ -33,6 +33,6 @@ public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     }
 
     public interface SectionSelectedListener {
-        void onSectionSelected(@Nullable Section section);
+        void onSectionSelected(@Nullable Section section, int position);
     }
 }
