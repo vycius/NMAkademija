@@ -1,12 +1,12 @@
 package com.nmakademija.nmaakademija.api.listener;
 
-import com.nmakademija.nmaakademija.entity.User;
+import com.nmakademija.nmaakademija.entity.Academic;
 
 import java.util.ArrayList;
 
 public interface AcademicsLoadedListener {
 
-    void onAcademicsLoaded(ArrayList<User> academics);
+    void onAcademicsLoaded(ArrayList<Academic> academics);
 
     void onAcademicsLoadingFailed(Exception exception);
 

@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.nmakademija.nmaakademija.fragment.NewsFragment;
 import com.nmakademija.nmaakademija.fragment.ScheduleFragment;
 import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
-import com.nmakademija.nmaakademija.fragment.UsersFragment;
+import com.nmakademija.nmaakademija.fragment.AcademicsFragment;
 
 public class BottomNavigationFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -22,7 +22,7 @@ public class BottomNavigationFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return NewsFragment.getInstance();
             case 1:
-                return UsersFragment.getInstance();
+                return AcademicsFragment.getInstance();
             case 2:
                 return TimeUntilSessionFragment.getInstance();
             case 3:

@@ -4,7 +4,7 @@ import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
-import com.nmakademija.nmaakademija.entity.User;
+import com.nmakademija.nmaakademija.entity.Academic;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface NMAService {
     Call<TimeUntilSession> getTimeTillSession();
 
     @GET("api/users/")
-    Call<List<User>> getUsers();
+    Call<List<Academic>> getUsers();
 
     @GET("api/news/")
     Call<List<Article>> getArticles();

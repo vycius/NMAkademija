@@ -18,8 +18,8 @@ import com.nmakademija.nmaakademija.adapter.AcademicsAdapter;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
+import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.entity.Section;
-import com.nmakademija.nmaakademija.entity.User;
 import com.nmakademija.nmaakademija.listener.SpinnerListener;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
@@ -29,7 +29,7 @@ import java.util.List;
 
 import static com.nmakademija.nmaakademija.R.id.supervisor;
 
-public class UsersFragment extends Fragment implements
+public class AcademicsFragment extends Fragment implements
         AcademicsAdapter.OnAcademicSelectedListener,
         SpinnerListener.SectionSelectedListener,
         AcademicsLoadedListener, SectionsLoadedListener {
@@ -39,15 +39,15 @@ public class UsersFragment extends Fragment implements
     private View contentView;
     private View loadingView;
     private RecyclerView usersRecyclerView;
-    private Spinner spinner;
+    private Spinner sectionsSpinner;
     private TextView supervisorView;
 
     private AppEvent appEvent;
 
     private int sectionLastFilter = 0;
 
-    public static UsersFragment getInstance() {
-        return new UsersFragment();
+    public static AcademicsFragment getInstance() {
+        return new AcademicsFragment();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class UsersFragment extends Fragment implements
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(EXTRA_LAST_FILTER, spinner.getSelectedItemPosition() != -1 ? spinner.getSelectedItemPosition() : 0);
+        outState.putInt(EXTRA_LAST_FILTER, sectionsSpinner.getSelectedItemPosition() != -1 ? sectionsSpinner.getSelectedItemPosition() : 0);
 
         super.onSaveInstanceState(outState);
     }
@@ -71,7 +71,7 @@ public class UsersFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
-        spinner = (Spinner) view.findViewById(R.id.spinner);
+        sectionsSpinner = (Spinner) view.findViewById(R.id.spinner);
         usersRecyclerView = (RecyclerView) view.findViewById(R.id.users_list_view);
         supervisorView = (TextView) view.findViewById(supervisor);
         contentView = view.findViewById(R.id.content);
@@ -106,8 +106,8 @@ public class UsersFragment extends Fragment implements
                 android.R.layout.simple_spinner_dropdown_item, sectionNames);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setOnItemSelectedListener(new SpinnerListener(this, sections));
+        sectionsSpinner.setAdapter(spinnerArrayAdapter);
+        sectionsSpinner.setOnItemSelectedListener(new SpinnerListener(this, sections));
     }
 
     private void loadUsers(@Nullable Integer sectionId) {
@@ -119,11 +119,11 @@ public class UsersFragment extends Fragment implements
     }
 
     @Override
-    public void onAcademicSelected(User user) {
-        appEvent.trackUserClicked(user.getName());
+    public void onAcademicSelected(Academic academic) {
+        appEvent.trackUserClicked(academic.getName());
 
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
-        intent.putExtra(ProfileActivity.EXTRA_USER, user);
+        intent.putExtra(ProfileActivity.EXTRA_USER, academic);
 
         startActivity(intent);
     }
@@ -143,7 +143,7 @@ public class UsersFragment extends Fragment implements
     }
 
     @Override
-    public void onAcademicsLoaded(ArrayList<User> academics) {
+    public void onAcademicsLoaded(ArrayList<Academic> academics) {
         if (isAdded()) {
             AcademicsAdapter academicsAdapter = new AcademicsAdapter(academics, this);
 

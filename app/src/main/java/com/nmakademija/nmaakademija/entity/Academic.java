@@ -3,10 +3,7 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-public class User implements Parcelable {
+public class Academic implements Parcelable {
     private int id;
     private String name;
     private String email;
@@ -59,10 +56,10 @@ public class User implements Parcelable {
         dest.writeInt(this.section);
     }
 
-    public User() {
+    public Academic() {
     }
 
-    protected User(Parcel in) {
+    protected Academic(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
         this.email = in.readString();
@@ -72,15 +69,15 @@ public class User implements Parcelable {
         this.section = in.readInt();
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
+    public static final Creator<Academic> CREATOR = new Creator<Academic>() {
         @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);
+        public Academic createFromParcel(Parcel source) {
+            return new Academic(source);
         }
 
         @Override
-        public User[] newArray(int size) {
-            return new User[size];
+        public Academic[] newArray(int size) {
+            return new Academic[size];
         }
     };
 }

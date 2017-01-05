@@ -6,9 +6,9 @@ import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
+import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.Section;
-import com.nmakademija.nmaakademija.entity.User;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -22,13 +22,13 @@ public class FirebaseRealtimeApi {
 
         FirebaseDatabase.getInstance().getReference("academics")
                 .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<User>(User.class) {
+                        new ApiReferenceListener<Academic>(Academic.class) {
 
                             @Override
-                            public void onLoaded(ArrayList<User> users) {
+                            public void onLoaded(ArrayList<Academic> academics) {
                                 AcademicsLoadedListener apiLoadedListener = loadedListener.get();
                                 if (apiLoadedListener != null) {
-                                    apiLoadedListener.onAcademicsLoaded(users);
+                                    apiLoadedListener.onAcademicsLoaded(academics);
                                 }
                             }
 
@@ -49,19 +49,19 @@ public class FirebaseRealtimeApi {
 
         getAllAcademics(new AcademicsLoadedListener() {
             @Override
-            public void onAcademicsLoaded(ArrayList<User> academics) {
+            public void onAcademicsLoaded(ArrayList<Academic> academics) {
                 AcademicsLoadedListener apiLoadedListener = loadedListener.get();
 
                 if (apiLoadedListener != null) {
-                    ArrayList<User> filteredUsers = new ArrayList<>();
+                    ArrayList<Academic> filteredAcademics = new ArrayList<>();
 
-                    for (User user : academics) {
-                        if (user.getSection() == sectionId) {
-                            filteredUsers.add(user);
+                    for (Academic academic : academics) {
+                        if (academic.getSection() == sectionId) {
+                            filteredAcademics.add(academic);
                         }
                     }
 
-                    apiLoadedListener.onAcademicsLoaded(filteredUsers);
+                    apiLoadedListener.onAcademicsLoaded(filteredAcademics);
                 }
             }
 

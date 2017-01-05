@@ -13,7 +13,7 @@
         android:id="@+id/bbn_item2"
         android:color="@color/bottomNavigationUsersTab"
         android:icon="@drawable/ic_users"
-        android:title="@string/users" />
+        android:title="@string/academics" />
     <item
         android:id="@+id/bbn_item3"
         android:color="@color/bottomNavigationTimerTab"

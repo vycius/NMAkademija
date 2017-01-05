@@ -9,17 +9,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.entity.User;
+import com.nmakademija.nmaakademija.entity.Academic;
 
 import java.util.List;
 
 
 public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.UserViewHolder> {
 
-    private List<User> academics;
+    private List<Academic> academics;
     private OnAcademicSelectedListener onAcademicSelectedListener;
 
-    public AcademicsAdapter(List<User> academics, OnAcademicSelectedListener onAcademicSelectedListener) {
+    public AcademicsAdapter(List<Academic> academics, OnAcademicSelectedListener onAcademicSelectedListener) {
         this.academics = academics;
         this.onAcademicSelectedListener = onAcademicSelectedListener;
     }
@@ -34,7 +34,7 @@ public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.User
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
-        final User academic = academics.get(position);
+        final Academic academic = academics.get(position);
         holder.bindData(academic);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +52,7 @@ public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.User
 
 
     public interface OnAcademicSelectedListener {
-        void onAcademicSelected(User user);
+        void onAcademicSelected(Academic academic);
     }
 
     class UserViewHolder extends RecyclerView.ViewHolder {
@@ -65,12 +65,12 @@ public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.User
             image = (ImageView) view.findViewById(R.id.user_image);
         }
 
-        void bindData(final User user) {
-            name.setText(user.getName());
+        void bindData(final Academic academic) {
+            name.setText(academic.getName());
 
-            if (user.getImage() != null) {
+            if (academic.getImage() != null) {
                 Glide.with(itemView.getContext())
-                        .load(user.getImage())
+                        .load(academic.getImage())
                         .error(R.drawable.profile)
                         .into(image);
 
