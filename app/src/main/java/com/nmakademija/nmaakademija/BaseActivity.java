@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class BaseActivity extends AppCompatActivity {
 
-    protected FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
     protected FirebaseAuth.AuthStateListener mAuthListener;
 
     protected void onUserChange(@Nullable FirebaseUser user) {

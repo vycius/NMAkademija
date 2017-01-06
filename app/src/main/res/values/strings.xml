@@ -42,4 +42,7 @@
     <string name="login_message">Prisijunkite naudodami tą elektroninį paštą, kurį nurodėte registruodamiesi:</string>
     <string name="logout">Atsijungti</string>
     <string name="error_user_collision">Šis elektroninis paštas susietas su kita paskyra.</string>
+    <string name="continue_anonymously">Tęsti neprisijungus</string>
+    <string name="academics_need_login">Kad peržiūrėtumėte akademikus, turite prisijungti.</string>
+    <string name="login">Prisijungti</string>
 </resources>

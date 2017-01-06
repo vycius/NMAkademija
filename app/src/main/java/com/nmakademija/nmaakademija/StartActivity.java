@@ -94,6 +94,12 @@ public class StartActivity extends BaseActivity {
             public void onError(FacebookException error) {
             }
         });
+        findViewById(R.id.anonymous_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNextActivity();
+            }
+        });
     }
 
     @Override
@@ -139,16 +145,20 @@ public class StartActivity extends BaseActivity {
     protected void onUserChange(@Nullable FirebaseUser user) {
         super.onUserChange(user);
         if (user != null) {
-            Intent intent;
-            if (NMAPreferences.getSection(this) == 0) {
-                intent = new Intent(this, OnboardingActivity.class);
-            } else {
-                intent = new Intent(this, MainActivity.class);
-            }
-
-            startActivity(intent);
-            finish();
+            startNextActivity();
         }
+    }
+
+    private void startNextActivity() {
+        Intent intent;
+        if (NMAPreferences.getSection(this) == 0) {
+            intent = new Intent(this, OnboardingActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
+
+        startActivity(intent);
+        finish();
     }
 
 }
