@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings_button, menu);
+        getMenuInflater().inflate(R.menu.buttons, menu);
         return true;
     }
 
@@ -39,6 +39,11 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
         if (id == R.id.settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+            return true;
+        } else if (id == R.id.logout) {
+            mAuth.signOut();
+            startActivity(new Intent(this, StartActivity.class));
+            finish();
             return true;
         }
 

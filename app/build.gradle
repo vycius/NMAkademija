@@ -45,6 +45,7 @@ ext {
 
 repositories {
     maven {url "https://clojars.org/repo/"}
+    mavenCentral()
 }
 
 dependencies {
@@ -68,8 +69,10 @@ dependencies {
     compile "com.google.firebase:firebase-database:$firebaseVersion"
     compile "com.google.firebase:firebase-crash:$firebaseVersion"
 
-    compile 'com.firebaseui:firebase-ui-database:1.0.1'
+    compile "com.google.firebase:firebase-auth:$firebaseVersion"
+    compile "com.google.android.gms:play-services-auth:$firebaseVersion"
 
+    compile 'com.firebaseui:firebase-ui-database:1.0.1'
 
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -80,6 +83,8 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.1-rc1'
+
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
 
 task versionName() << {
