@@ -4,9 +4,11 @@ package com.nmakademija.nmaakademija.api;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
+import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
+import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
@@ -135,6 +137,35 @@ public class FirebaseRealtimeApi {
                                 SchedulesLoadedListener apiLoadedListener = loadedListener.get();
                                 if (apiLoadedListener != null) {
                                     apiLoadedListener.onSchedulesLoadingFailed(ex);
+                                }
+                            }
+
+                        });
+    }
+
+    public static void getArticles(ArticlesLoadedListener listener) {
+        final WeakReference<ArticlesLoadedListener> loadedListener =
+                new WeakReference<>(listener);
+
+        FirebaseDatabase.getInstance().getReference("articles")
+                .addListenerForSingleValueEvent(
+                        new ApiReferenceListener<Article>(Article.class) {
+
+                            @Override
+                            public void onLoaded(ArrayList<Article> articles) {
+                                ArticlesLoadedListener apiLoadedListener = loadedListener.get();
+                                if (apiLoadedListener != null) {
+                                    Collections.sort(articles);
+
+                                    apiLoadedListener.onArticlesLoaded(articles);
+                                }
+                            }
+
+                            @Override
+                            public void onFailed(Exception ex) {
+                                ArticlesLoadedListener apiLoadedListener = loadedListener.get();
+                                if (apiLoadedListener != null) {
+                                    apiLoadedListener.onArticlesLoadingFailed(ex);
                                 }
                             }
 

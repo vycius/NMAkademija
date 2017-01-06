@@ -2,13 +2,16 @@ package com.nmakademija.nmaakademija.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
-public class Article implements Parcelable {
-    private int id;
-    private String title;
-    private String description;
-    private String content;
-    private String titleImage;
+@SuppressWarnings("WeakerAccess")
+public class Article implements Parcelable, Comparable<Article> {
+
+    public int id;
+    public String title;
+    public String description;
+    public String content;
+    public String titleImage;
 
     public int getId() {
         return id;
@@ -66,4 +69,10 @@ public class Article implements Parcelable {
             return new Article[size];
         }
     };
+
+    @Override
+    public int compareTo(@NonNull Article article) {
+        return Integer.valueOf(article.getId()).compareTo(getId());
+    }
+
 }
