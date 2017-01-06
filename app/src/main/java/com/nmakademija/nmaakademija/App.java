@@ -6,7 +6,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
-
 public class App extends Application {
     @Override
     public void onCreate() {
