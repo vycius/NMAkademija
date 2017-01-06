@@ -113,11 +113,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     }
 
     private void loadUsers(@Nullable Integer sectionId) {
-        if (sectionId == null) {
-            FirebaseRealtimeApi.getAllAcademics(this);
-        } else {
-            FirebaseRealtimeApi.getSectionAcademics(this, sectionId);
-        }
+        FirebaseRealtimeApi.getAcademics(this, sectionId);
     }
 
     @Override
