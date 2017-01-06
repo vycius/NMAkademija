@@ -10,26 +10,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.api.API;
+import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.listener.TimeUntilSessionLoadingListener;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class TimeUntilSessionFragment extends Fragment {
+public class TimeUntilSessionFragment extends Fragment implements TimeUntilSessionLoadingListener {
 
     private CountDownTimer countDownTimer;
-    private TimeUntilSession timeUntilSession;
-    private TextView timeUntilSessionTV;
     private TextView timeUntilSessionTextTV;
-    private String EXTRA_TIME_UNTIL_SESSION = "time_until_session";
+    private TextView timeUntilSessionTimeTV;
 
     public static TimeUntilSessionFragment getInstance() {
         return new TimeUntilSessionFragment();
@@ -38,23 +31,11 @@ public class TimeUntilSessionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_time_until_session, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_time_until_session, container, false);
+        timeUntilSessionTimeTV = (TextView) view.findViewById(R.id.timeUntilSession);
+        timeUntilSessionTextTV = (TextView) view.findViewById(R.id.timeUntilSessionText);
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            timeUntilSession = savedInstanceState.getParcelable(EXTRA_TIME_UNTIL_SESSION);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(EXTRA_TIME_UNTIL_SESSION, timeUntilSession);
-
-        super.onSaveInstanceState(outState);
+        return view;
     }
 
     @Override
@@ -62,45 +43,11 @@ public class TimeUntilSessionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_time_until_session");
 
-        timeUntilSessionTV = (TextView) getView().findViewById(R.id.timeUntilSession);
-        timeUntilSessionTextTV = (TextView) getView().findViewById(R.id.timeUntilSessionText);
-
-        if(timeUntilSession == null)
-            getData();
-        else
-            setData();
+        loadTimeUntilSession();
     }
 
-    private void setData(){
-        if (isAdded()) {
-
-            timeUntilSessionTextTV.setText(
-                    timeUntilSession.isSession() ?
-                            getString(R.string.timer_session_end) : getString(R.string.timer_session_start));
-
-            long until = (timeUntilSession.isSession() ?
-                    timeUntilSession.getEndTime()
-                    : timeUntilSession.getStartTime()).getTime();
-
-            final long now = new Date().getTime();
-            if (until < now) {
-                timeUntilSessionTV.setText(R.string.session_ended);
-                return;
-            }
-            countDownTimer = new CountDownTimer(
-                    until - now, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    updateTime(millisUntilFinished);
-                }
-
-                @Override
-                public void onFinish() {
-                    setData();
-                }
-            };
-            updateTime(until - now);
-            countDownTimer.start();
-        }
+    private void loadTimeUntilSession() {
+        FirebaseRealtimeApi.getTimeUntillSession(this);
     }
 
     private void updateTime(long timeLeft) {
@@ -113,29 +60,8 @@ public class TimeUntilSessionFragment extends Fragment {
             long hoursLeft = timeLeft % 24;
             timeLeft /= 24;
 
-            timeUntilSessionTV.setText(getContext().getString(R.string.timer_date_format, timeLeft, hoursLeft, minutesLeft, secondsLeft));
+            timeUntilSessionTimeTV.setText(getContext().getString(R.string.timer_date_format, timeLeft, hoursLeft, minutesLeft, secondsLeft));
         }
-    }
-
-    private void getData() {
-
-        API.nmaService.getTimeTillSession().enqueue(new Callback<TimeUntilSession>() {
-            @Override
-            public void onResponse(Call<TimeUntilSession> call, Response<TimeUntilSession> response) {
-                timeUntilSession = response.body();
-                setData();
-            }
-
-            @Override
-            public void onFailure(Call<TimeUntilSession> call, Throwable t) {
-                Error.getData(getView(), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getData();
-                    }
-                });
-            }
-        });
     }
 
     @Override
@@ -152,5 +78,49 @@ public class TimeUntilSessionFragment extends Fragment {
 
         if (countDownTimer != null)
             countDownTimer.start();
+    }
+
+    @Override
+    public void onTimeUntilSessionLoaded(TimeUntilSession timeUntilSession) {
+        if (isAdded()) {
+            timeUntilSessionTextTV.setText(
+                    timeUntilSession.isSession() ?
+                            R.string.timer_session_end : R.string.timer_session_start);
+
+            long until = (timeUntilSession.isSession() ?
+                    timeUntilSession.getEndTime()
+                    : timeUntilSession.getStartTime()).getTime();
+
+            final long now = new Date().getTime();
+            if (until < now) {
+                timeUntilSessionTimeTV.setText(R.string.session_ended);
+                return;
+            }
+            countDownTimer = new CountDownTimer(
+                    until - now, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    updateTime(millisUntilFinished);
+                }
+
+                @Override
+                public void onFinish() {
+                    loadTimeUntilSession();
+                }
+            };
+            updateTime(until - now);
+            countDownTimer.start();
+        }
+    }
+
+    @Override
+    public void onTimeUntilSessionLoadingFailed(Exception exception) {
+        if (isAdded()) {
+            Error.getData(getView(), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loadTimeUntilSession();
+                }
+            });
+        }
     }
 }
