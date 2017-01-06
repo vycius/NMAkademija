@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
                 break;
             case 1:
                 color = R.color.bottomNavigationUsersTab;
-                subtitle = R.string.users;
+                subtitle = R.string.academics;
                 break;
             case 2:
                 color = R.color.bottomNavigationTimerTab;

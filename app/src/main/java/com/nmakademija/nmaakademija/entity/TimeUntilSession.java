@@ -3,34 +3,29 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.nmakademija.nmaakademija.utils.DateUtils;
+
 import java.util.Date;
 
 public class TimeUntilSession implements Parcelable {
 
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
 
     public boolean isSession() {
         long now = new Date().getTime();
-        return startTime.getTime() < now;
+        return getStartTime().getTime() < now;
     }
 
     public Date getEndTime() {
-        return endTime;
+        return DateUtils.parseTZDate(endTime);
     }
 
     public Date getStartTime() {
-        return startTime;
+        return DateUtils.parseTZDate(startTime);
     }
 
     public TimeUntilSession() {
-    }
-
-    protected TimeUntilSession(Parcel in) {
-        long tmpStartTime = in.readLong();
-        this.startTime = tmpStartTime == -1 ? null : new Date(tmpStartTime);
-        long tmpEndTime = in.readLong();
-        this.endTime = tmpEndTime == -1 ? null : new Date(tmpEndTime);
     }
 
     @Override
@@ -40,11 +35,16 @@ public class TimeUntilSession implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.startTime != null ? this.startTime.getTime() : -1);
-        dest.writeLong(this.endTime != null ? this.endTime.getTime() : -1);
+        dest.writeString(this.startTime);
+        dest.writeString(this.endTime);
     }
 
-    public static final Parcelable.Creator<TimeUntilSession> CREATOR = new Parcelable.Creator<TimeUntilSession>() {
+    protected TimeUntilSession(Parcel in) {
+        this.startTime = in.readString();
+        this.endTime = in.readString();
+    }
+
+    public static final Creator<TimeUntilSession> CREATOR = new Creator<TimeUntilSession>() {
         @Override
         public TimeUntilSession createFromParcel(Parcel source) {
             return new TimeUntilSession(source);

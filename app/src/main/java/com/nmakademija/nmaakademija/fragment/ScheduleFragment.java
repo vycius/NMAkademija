@@ -11,33 +11,26 @@ import android.view.ViewGroup;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ScheduleAdapter;
 import com.nmakademija.nmaakademija.adapter.ScheduleSectionsAdapter;
-import com.nmakademija.nmaakademija.api.API;
+import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
-import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+public class ScheduleFragment extends Fragment implements SchedulesLoadedListener {
 
-public class ScheduleFragment extends Fragment {
-
+    private View loadingView;
     private RecyclerView scheduleRecyclerView;
-    private ArrayList<ScheduleEvent> allScheduleEvents;
-    private boolean needScroll = true;
-    private int lastFilter = 0;
 
-    private String EXTRA_EVENTS = "schedule_events";
-    private String EXTRA_FILTER = "last_section_id";
+    private int sectionId;
+
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
@@ -48,24 +41,12 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        scheduleRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
+        loadingView = view.findViewById(R.id.loading_view);
 
-        if (savedInstanceState != null) {
-            allScheduleEvents = savedInstanceState.getParcelableArrayList(EXTRA_EVENTS);
-            needScroll = false;
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(EXTRA_EVENTS, allScheduleEvents);
-
-        super.onSaveInstanceState(outState);
+        return view;
     }
 
     @Override
@@ -73,66 +54,21 @@ public class ScheduleFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
-        scheduleRecyclerView = (RecyclerView) getView().findViewById(R.id.schedule_list);
 
-        if (allScheduleEvents == null)
-            getScheduleEvents();
-        else
-            setScheduleItems();
+        sectionId = NMAPreferences.getSection(getContext());
+
+        loadScheduleEvents();
+    }
+
+    private void loadScheduleEvents() {
+        showLoading();
+
+        FirebaseRealtimeApi.getSchedules(this, sectionId);
     }
 
     @Override
-    public void onPause() {
-        needScroll = false;
-        super.onPause();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (lastFilter != NMAPreferences.getSection(getContext())) {
-            if (allScheduleEvents == null)
-                getScheduleEvents();
-            else
-                setScheduleItems();
-        }
-    }
-
-    private void getScheduleEvents() {
-        API.nmaService.getEvents().enqueue(new Callback<List<ScheduleEvent>>() {
-            @Override
-            public void onResponse(Call<List<ScheduleEvent>> call,
-                                   Response<List<ScheduleEvent>> response) {
-                allScheduleEvents = new ArrayList<>(response.body());
-
-                setScheduleItems();
-            }
-
-            @Override
-            public void onFailure(Call<List<ScheduleEvent>> call, Throwable t) {
-                Error.getData(getView(), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getScheduleEvents();
-                    }
-                });
-            }
-        });
-    }
-
-    private void setScheduleItems() {
+    public void onSchedulesLoaded(ArrayList<ScheduleEvent> sectionEvents) {
         if (isAdded()) {
-            int sectionId = NMAPreferences.getSection(getContext());
-            ArrayList<ScheduleEvent> sectionEvents = new ArrayList<>();
-
-            for (ScheduleEvent s : allScheduleEvents) {
-                if (s.getSectionId() == 0 || s.getSectionId() == sectionId) {
-                    sectionEvents.add(s);
-                }
-            }
-            Collections.sort(sectionEvents, new ScheduleEventComparator());
-
-            lastFilter = sectionId;
 
             ScheduleAdapter adapter = new ScheduleAdapter(getContext(), sectionEvents);
             scheduleRecyclerView.setAdapter(adapter);
@@ -168,9 +104,34 @@ public class ScheduleFragment extends Fragment {
             mSectionedAdapter.setSections(sections.toArray(dummy));
 
             scheduleRecyclerView.setAdapter(mSectionedAdapter);
-            if (needScroll)
-                scheduleRecyclerView.scrollToPosition(position + position1);
+            scheduleRecyclerView.scrollToPosition(position + position1);
+
+            hideLoading();
         }
     }
 
+    @Override
+    public void onSchedulesLoadingFailed(Exception exception) {
+        if (isAdded()) {
+            hideLoading();
+
+            Error.getData(getView(), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loadScheduleEvents();
+                }
+            });
+        }
+
+    }
+
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        scheduleRecyclerView.setVisibility(View.GONE);
+    }
+
+    public void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+        scheduleRecyclerView.setVisibility(View.VISIBLE);
+    }
 }
