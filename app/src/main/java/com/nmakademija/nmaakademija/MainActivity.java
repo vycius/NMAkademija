@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.facebook.login.LoginManager;
 import com.nmakademija.nmaakademija.adapter.BottomNavigationFragmentPagerAdapter;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -42,6 +43,8 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
             return true;
         } else if (id == R.id.logout) {
             mAuth.signOut();
+            LoginManager.getInstance().logOut();
+
             startActivity(new Intent(this, StartActivity.class));
             finish();
             return true;

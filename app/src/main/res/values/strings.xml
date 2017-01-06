@@ -41,4 +41,5 @@
     <string name="facebook_app_id">1814977905435170</string>
     <string name="login_message">Prisijunkite naudodami tą elektroninį paštą, kurį nurodėte registruodamiesi:</string>
     <string name="logout">Atsijungti</string>
+    <string name="error_user_collision">Šis elektroninis paštas susietas su kita paskyra.</string>
 </resources>
