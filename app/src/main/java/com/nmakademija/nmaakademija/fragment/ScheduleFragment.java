@@ -71,6 +71,7 @@ public class ScheduleFragment extends Fragment implements SchedulesLoadedListene
         if (isAdded()) {
 
             ScheduleAdapter adapter = new ScheduleAdapter(getContext(), sectionEvents);
+            adapter.setHasStableIds(true);
             scheduleRecyclerView.setAdapter(adapter);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);

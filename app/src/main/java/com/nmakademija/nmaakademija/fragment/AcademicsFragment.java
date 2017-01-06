@@ -147,8 +147,10 @@ public class AcademicsFragment extends Fragment implements
     public void onAcademicsLoaded(ArrayList<Academic> academics) {
         if (isAdded()) {
             AcademicsAdapter academicsAdapter = new AcademicsAdapter(academics, this);
+            academicsAdapter.setHasStableIds(true);
 
             usersRecyclerView.setAdapter(academicsAdapter);
+            usersRecyclerView.setHasFixedSize(true);
 
             hideLoading();
         }

@@ -4,10 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.Section;
 
@@ -31,6 +29,11 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Sectio
     public void onBindViewHolder(SectionViewHolder holder, int position) {
         final Section section = sections.get(position);
         holder.title.setText(section.getName());
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return sections.get(position).getId();
     }
 
     @Override
