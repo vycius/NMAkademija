@@ -3,9 +3,10 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@SuppressWarnings("WeakerAccess")
 public class Section implements Parcelable {
-    private int id;
-    private String name, supervisor, image;
+    public int id;
+    public String name, supervisor, image;
 
     public String getSupervisor() {
         return supervisor;

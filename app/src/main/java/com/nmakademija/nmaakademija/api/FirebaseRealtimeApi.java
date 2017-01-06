@@ -119,7 +119,7 @@ public class FirebaseRealtimeApi {
                                     ArrayList<ScheduleEvent> filteredSchedules = new ArrayList<>();
 
                                     for (ScheduleEvent scheduleEvent : scheduleEvents) {
-                                        if (scheduleEvent.getSectionId() == 0 ||
+                                        if (scheduleEvent.getSectionId() == -1 ||
                                                 scheduleEvent.getSectionId() == sectionId) {
                                             filteredSchedules.add(scheduleEvent);
                                         }

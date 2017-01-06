@@ -3,14 +3,16 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@SuppressWarnings("WeakerAccess")
 public class Academic implements Parcelable {
-    private int id;
-    private String name;
-    private String email;
-    private String phone;
-    private String bio;
-    private String image;
-    private int section;
+
+    public int id;
+    public String name;
+    public String email;
+    public String phone;
+    public String bio;
+    public String image;
+    public int section;
 
     public int getId() {
         return id;
