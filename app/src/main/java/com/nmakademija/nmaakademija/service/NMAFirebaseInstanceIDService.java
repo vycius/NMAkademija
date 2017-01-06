@@ -19,7 +19,5 @@ public class NMAFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
-
-        // TODO send token to API
     }
 }
