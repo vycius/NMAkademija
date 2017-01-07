@@ -4,8 +4,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
+import com.nmakademija.nmaakademija.App;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.utils.AppEvent;
+import com.squareup.leakcanary.RefWatcher;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -44,5 +46,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
             appEvent.trackNotificationsEnabled(enabled);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

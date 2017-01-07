@@ -3,7 +3,6 @@ package com.nmakademija.nmaakademija.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,7 @@ import java.util.List;
 
 import static com.nmakademija.nmaakademija.R.id.supervisor;
 
-public class AcademicsFragment extends Fragment implements
+public class AcademicsFragment extends BaseSceeenFragment implements
         AcademicsAdapter.OnAcademicSelectedListener,
         SpinnerListener.SectionSelectedListener,
         AcademicsLoadedListener, SectionsLoadedListener {
