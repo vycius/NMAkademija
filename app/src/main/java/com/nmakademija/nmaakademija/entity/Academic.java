@@ -2,9 +2,10 @@ package com.nmakademija.nmaakademija.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 @SuppressWarnings("WeakerAccess")
-public class Academic implements Parcelable {
+public class Academic implements Parcelable, Comparable<Academic> {
 
     public int id;
     public String name;
@@ -82,4 +83,9 @@ public class Academic implements Parcelable {
             return new Academic[size];
         }
     };
+
+    @Override
+    public int compareTo(@NonNull Academic academic) {
+        return getName().compareToIgnoreCase(academic.getName());
+    }
 }

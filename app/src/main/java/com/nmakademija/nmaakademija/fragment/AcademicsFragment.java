@@ -132,11 +132,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     }
 
     private void loadUsers(@Nullable Integer sectionId) {
-        if (sectionId == null) {
-            FirebaseRealtimeApi.getAllAcademics(this);
-        } else {
-            FirebaseRealtimeApi.getSectionAcademics(this, sectionId);
-        }
+        FirebaseRealtimeApi.getAcademics(this, sectionId);
     }
 
     @Override
@@ -169,8 +165,10 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     public void onAcademicsLoaded(ArrayList<Academic> academics) {
         if (isAdded()) {
             AcademicsAdapter academicsAdapter = new AcademicsAdapter(academics, this);
+            academicsAdapter.setHasStableIds(true);
 
             usersRecyclerView.setAdapter(academicsAdapter);
+            usersRecyclerView.setHasFixedSize(true);
 
             hideLoading();
         }

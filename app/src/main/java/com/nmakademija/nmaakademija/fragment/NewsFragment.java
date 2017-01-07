@@ -64,7 +64,9 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         if (isAdded()) {
             articlesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
             articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            articlesRecyclerView.setAdapter(new ArticlesAdapter(articles));
+            ArticlesAdapter adapter = new ArticlesAdapter(articles);
+            adapter.setHasStableIds(true);
+            articlesRecyclerView.setAdapter(adapter);
             articlesRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(
                     getContext(), articlesRecyclerView, new ClickListener() {
                 @Override
