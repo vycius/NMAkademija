@@ -1,6 +1,7 @@
 package com.nmakademija.nmaakademija.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,19 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         final Article article = articlesList.get(position);
         holder.title.setText(article.getTitle());
         holder.description.setText(article.getDescription());
-        Glide.with(holder.itemView.getContext()).load(article.getTitleImage()).into(holder.image);
+        if (!TextUtils.isEmpty(article.getTitleImage())) {
+            Glide.with(holder.itemView.getContext()).load(article.getTitleImage()).into(holder.image);
+        }
     }
 
     @Override
     public int getItemCount() {
         return articlesList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return articlesList.get(position).getId();
     }
 
     public Article getArticle(int position) {

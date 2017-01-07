@@ -1,6 +1,8 @@
 package com.nmakademija.nmaakademija.api;
 
 
+import android.support.annotation.Nullable;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,155 +27,106 @@ import java.util.Collections;
 public class FirebaseRealtimeApi {
 
 
-    public static void getAllAcademics(AcademicsLoadedListener listener) {
-        final WeakReference<AcademicsLoadedListener> loadedListener =
-                new WeakReference<>(listener);
-
+    public static void getAcademics(AcademicsLoadedListener listener, @Nullable final Integer sectionId) {
         FirebaseDatabase.getInstance().getReference("academics")
                 .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<Academic>(Academic.class) {
+                        new ApiReferenceListener<Academic, AcademicsLoadedListener>(Academic.class,
+                                new WeakReference<>(listener)) {
 
                             @Override
-                            public void onLoaded(ArrayList<Academic> academics) {
-                                AcademicsLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    apiLoadedListener.onAcademicsLoaded(academics);
-                                }
+                            public void onFailed(AcademicsLoadedListener listener, Exception ex) {
+                                listener.onAcademicsLoadingFailed(ex);
                             }
 
                             @Override
-                            public void onFailed(Exception ex) {
-                                AcademicsLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    apiLoadedListener.onAcademicsLoadingFailed(ex);
-                                }
+                            public void onLoaded(ArrayList<Academic> academics, AcademicsLoadedListener listener) {
+                                listener.onAcademicsLoaded(academics);
                             }
 
+                            @Override
+                            public boolean where(Academic academic) {
+                                return sectionId == null || sectionId.equals(academic.getSection());
+                            }
+
+                            @Override
+                            public ArrayList<Academic> order(ArrayList<Academic> academics) {
+                                Collections.sort(academics);
+                                return academics;
+                            }
                         });
     }
 
-    public static void getSectionAcademics(AcademicsLoadedListener listener, final int sectionId) {
-        final WeakReference<AcademicsLoadedListener> loadedListener =
-                new WeakReference<>(listener);
-
-        getAllAcademics(new AcademicsLoadedListener() {
-            @Override
-            public void onAcademicsLoaded(ArrayList<Academic> academics) {
-                AcademicsLoadedListener apiLoadedListener = loadedListener.get();
-
-                if (apiLoadedListener != null) {
-                    ArrayList<Academic> filteredAcademics = new ArrayList<>();
-
-                    for (Academic academic : academics) {
-                        if (academic.getSection() == sectionId) {
-                            filteredAcademics.add(academic);
-                        }
-                    }
-
-                    apiLoadedListener.onAcademicsLoaded(filteredAcademics);
-                }
-            }
-
-            @Override
-            public void onAcademicsLoadingFailed(Exception exception) {
-                AcademicsLoadedListener apiLoadedListener = loadedListener.get();
-                if (apiLoadedListener != null) {
-                    apiLoadedListener.onAcademicsLoadingFailed(exception);
-                }
-            }
-        });
-    }
-
     public static void getSections(SectionsLoadedListener listener) {
-        final WeakReference<SectionsLoadedListener> loadedListener =
-                new WeakReference<>(listener);
-
         FirebaseDatabase.getInstance().getReference("sections")
                 .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<Section>(Section.class) {
+                        new ApiReferenceListener<Section, SectionsLoadedListener>(Section.class,
+                                new WeakReference<>(listener)) {
 
                             @Override
-                            public void onLoaded(ArrayList<Section> sections) {
-                                SectionsLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    apiLoadedListener.onSectionsLoaded(sections);
-                                }
+                            public void onFailed(SectionsLoadedListener listener, Exception ex) {
+                                listener.onSectionsLoadingFailed(ex);
+
                             }
 
                             @Override
-                            public void onFailed(Exception ex) {
-                                SectionsLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    apiLoadedListener.onSectionsLoadingFailed(ex);
-                                }
+                            public void onLoaded(ArrayList<Section> sections, SectionsLoadedListener listener) {
+                                listener.onSectionsLoaded(sections);
                             }
-
                         });
     }
 
     public static void getSchedules(SchedulesLoadedListener listener, final int sectionId) {
-        final WeakReference<SchedulesLoadedListener> loadedListener =
-                new WeakReference<>(listener);
-
         FirebaseDatabase.getInstance().getReference("schedules")
                 .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<ScheduleEvent>(ScheduleEvent.class) {
-
+                        new ApiReferenceListener<ScheduleEvent, SchedulesLoadedListener>(
+                                ScheduleEvent.class, new WeakReference<>(listener)) {
                             @Override
-                            public void onLoaded(ArrayList<ScheduleEvent> scheduleEvents) {
-                                SchedulesLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    ArrayList<ScheduleEvent> filteredSchedules = new ArrayList<>();
-
-                                    for (ScheduleEvent scheduleEvent : scheduleEvents) {
-                                        if (scheduleEvent.getSectionId() == -1 ||
-                                                scheduleEvent.getSectionId() == sectionId) {
-                                            filteredSchedules.add(scheduleEvent);
-                                        }
-                                    }
-                                    Collections.sort(filteredSchedules, new ScheduleEventComparator());
-
-                                    apiLoadedListener.onSchedulesLoaded(filteredSchedules);
-                                }
+                            public void onFailed(SchedulesLoadedListener listener, Exception ex) {
+                                listener.onSchedulesLoadingFailed(ex);
                             }
 
                             @Override
-                            public void onFailed(Exception ex) {
-                                SchedulesLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    apiLoadedListener.onSchedulesLoadingFailed(ex);
-                                }
+                            public void onLoaded(ArrayList<ScheduleEvent> scheduleEvents,
+                                                 SchedulesLoadedListener listener) {
+                                listener.onSchedulesLoaded(scheduleEvents);
                             }
 
+                            @Override
+                            public boolean where(ScheduleEvent scheduleEvent) {
+                                return scheduleEvent.getSectionId() == -1 ||
+                                        scheduleEvent.getSectionId() == sectionId;
+                            }
+
+                            @Override
+                            public ArrayList<ScheduleEvent> order(ArrayList<ScheduleEvent> scheduleEvents) {
+                                Collections.sort(scheduleEvents, new ScheduleEventComparator());
+
+                                return scheduleEvents;
+                            }
                         });
     }
 
     public static void getArticles(ArticlesLoadedListener listener) {
-        final WeakReference<ArticlesLoadedListener> loadedListener =
-                new WeakReference<>(listener);
-
         FirebaseDatabase.getInstance().getReference("articles")
                 .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<Article>(Article.class) {
+                        new ApiReferenceListener<Article, ArticlesLoadedListener>(Article.class,
+                                new WeakReference<>(listener)) {
 
                             @Override
-                            public void onLoaded(ArrayList<Article> articles) {
-                                ArticlesLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    Collections.sort(articles);
-
-                                    apiLoadedListener.onArticlesLoaded(articles);
-                                }
+                            public void onFailed(ArticlesLoadedListener listener, Exception ex) {
+                                listener.onArticlesLoadingFailed(ex);
                             }
 
                             @Override
-                            public void onFailed(Exception ex) {
-                                ArticlesLoadedListener apiLoadedListener = loadedListener.get();
-                                if (apiLoadedListener != null) {
-                                    apiLoadedListener.onArticlesLoadingFailed(ex);
-                                }
+                            public void onLoaded(ArrayList<Article> articles, ArticlesLoadedListener listener) {
+                                listener.onArticlesLoaded(articles);
                             }
 
+                            @Override
+                            public ArrayList<Article> order(ArrayList<Article> articles) {
+                                Collections.sort(articles);
+                                return articles;
+                            }
                         });
     }
 

@@ -38,6 +38,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         return events.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return events.get(position).getId();
+    }
+
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
         private TextView startTime, endTime, name, author;
 

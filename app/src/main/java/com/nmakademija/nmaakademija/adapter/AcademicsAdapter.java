@@ -50,6 +50,10 @@ public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.User
         return academics.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return academics.get(position).getId();
+    }
 
     public interface OnAcademicSelectedListener {
         void onAcademicSelected(Academic academic);
