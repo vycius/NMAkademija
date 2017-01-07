@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.FacebookSdk;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Logger;
 import com.squareup.leakcanary.LeakCanary;
@@ -28,6 +29,7 @@ public class App extends Application {
         refWatcher = LeakCanary.install(this);
 
         setFirebaseOptions();
+        initFacebookSdk();
     }
 
     public void setFirebaseOptions() {
@@ -35,5 +37,9 @@ public class App extends Application {
 
         firebaseDatabase.setPersistenceEnabled(true);
         firebaseDatabase.setLogLevel(BuildConfig.DEBUG ? Logger.Level.INFO : Logger.Level.NONE);
+    }
+
+    public void initFacebookSdk() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 }
