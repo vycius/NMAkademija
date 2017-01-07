@@ -44,6 +44,7 @@ ext {
 
 repositories {
     maven {url "https://clojars.org/repo/"}
+    maven { url 'https://maven.fabric.io/public' }
     mavenCentral()
 }
 
@@ -61,11 +62,18 @@ dependencies {
     compile "com.android.support:preference-v14:$supportVersion"
     compile "com.android.support:support-annotations:$supportVersion"
 
+    // The following libraries are needed to prevent incompatibilities with the facebook
+    // library when updating com.android.support libraries:
+    compile "com.android.support:customtabs:$supportVersion"
+    compile "com.android.support:cardview-v7:$supportVersion"
+
     testCompile 'junit:junit:4.12'
 
     compile "com.google.firebase:firebase-auth:$firebaseVersion"
     compile "com.google.android.gms:play-services-auth:$firebaseVersion"
     compile 'com.facebook.android:facebook-android-sdk:4.18.0'
+
+    compile 'com.firebaseui:firebase-ui-auth:1.0.1'
 
     compile "com.google.firebase:firebase-core:$firebaseVersion"
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"

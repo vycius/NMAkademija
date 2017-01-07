@@ -3,40 +3,36 @@ package com.nmakademija.nmaakademija;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.AuthUI.IdpConfig;
+import com.firebase.ui.auth.IdpResponse;
+import com.firebase.ui.auth.provider.FacebookProvider;
+import com.firebase.ui.auth.provider.GoogleProvider;
+import com.firebase.ui.auth.provider.IdpProvider;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
-public class StartActivity extends BaseActivity {
-    GoogleSignInOptions gso;
-    GoogleApiClient mGoogleApiClient;
-    CallbackManager mCallbackManager;
+public class StartActivity extends BaseActivity implements IdpProvider.IdpCallback, View.OnClickListener {
+
+    private FirebaseAuth firebaseAuth;
+
+    private GoogleProvider googleProvider;
+    private FacebookProvider facebookProvider;
 
     private TextView errorTV;
-
-    private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,105 +42,41 @@ public class StartActivity extends BaseActivity {
 
         AppEvent.getInstance(this).setNotificationEnabledUserProperty(notificationsEnabled);
 
-        setContentView(R.layout.activity_start);
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() != null) {
+            startNextActivity();
+        }
 
-        errorTV = (TextView) findViewById(R.id.error);
+        setContentView(R.layout.activity_start);
 
         AppEvent.getInstance(this).trackCurrentScreen(this, "open_sign_in");
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+        errorTV = (TextView) findViewById(R.id.error);
+        findViewById(R.id.google_sign_in_button).setOnClickListener(this);
+        findViewById(R.id.facebook_login_button).setOnClickListener(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        findViewById(R.id.google_sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInWithGoogle();
-            }
-        });
-
-        mCallbackManager = CallbackManager.Factory.create();
-        final LoginButton loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                if (!loginResult.getAccessToken().isExpired())
-                    signIn(FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken()));
-            }
-
-            @Override
-            public void onCancel() {
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-            }
-        });
-        findViewById(R.id.anonymous_login).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startNextActivity();
-            }
-        });
+        initProviders();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                signIn(GoogleAuthProvider.getCredential(result.getSignInAccount().getIdToken(), null));
-            }
-        } else {
-            mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        }
+    private void initProviders() {
+        googleProvider = new GoogleProvider(this,
+                new IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
+        googleProvider.setAuthenticationCallback(this);
+
+        facebookProvider = new FacebookProvider(this,
+                new IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
+        facebookProvider.setAuthenticationCallback(this);
     }
+
 
     private void signInWithGoogle() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        logOut();
+        googleProvider.startLogin(this);
     }
 
-    protected void signIn(AuthCredential credential) {
-        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (!task.isSuccessful()) {
-                    if (task.getException() != null) {
-                        String errorText;
-                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                            errorText = getString(R.string.error_user_collision);
-                        } else {
-                            errorText = task.getException().toString();
-                        }
-                        errorTV.setText(errorText);
-                        errorTV.setVisibility(View.VISIBLE);
-                    }
-                    LoginManager.getInstance().logOut();
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onUserChange(@Nullable FirebaseUser user) {
-        super.onUserChange(user);
-        if (user != null) {
-            startNextActivity();
-        }
+    private void signInWithFacebook() {
+        logOut();
+        facebookProvider.startLogin(this);
     }
 
     private void startNextActivity() {
@@ -159,4 +91,70 @@ public class StartActivity extends BaseActivity {
         finish();
     }
 
+    @Override
+    public void onSuccess(IdpResponse idpResponse) {
+        AuthCredential authCredential;
+
+        switch (idpResponse.getProviderType()) {
+            case GoogleAuthProvider.PROVIDER_ID:
+                authCredential = GoogleProvider.createAuthCredential(idpResponse);
+                break;
+            case FacebookAuthProvider.PROVIDER_ID:
+                authCredential = FacebookProvider.createAuthCredential(idpResponse);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unsupoorted auth provider has been called");
+        }
+
+        firebaseAuth.signInWithCredential(authCredential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                startNextActivity();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                FirebaseCrash.report(e);
+
+                String errorText;
+                if (e instanceof FirebaseAuthUserCollisionException) {
+                    errorText = getString(R.string.error_user_collision);
+                } else {
+                    errorText = e.getLocalizedMessage();
+                }
+
+                errorTV.setText(errorText);
+                errorTV.setVisibility(View.VISIBLE);
+                logOut();
+            }
+        });
+    }
+
+    @Override
+    public void onFailure(Bundle extra) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.google_sign_in_button:
+                signInWithGoogle();
+                break;
+            case R.id.facebook_login_button:
+                signInWithFacebook();
+                break;
+        }
+    }
+
+    private void logOut() {
+        LoginManager.getInstance().logOut();
+        firebaseAuth.signOut();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        facebookProvider.onActivityResult(requestCode, resultCode, data);
+        googleProvider.onActivityResult(requestCode, resultCode, data);
+    }
 }
