@@ -2,7 +2,6 @@ package com.nmakademija.nmaakademija.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ScheduleFragment extends Fragment implements SchedulesLoadedListener {
+public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoadedListener {
 
     private View loadingView;
     private RecyclerView scheduleRecyclerView;
