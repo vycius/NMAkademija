@@ -3,7 +3,6 @@ package com.nmakademija.nmaakademija.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ import java.util.List;
 
 import static com.nmakademija.nmaakademija.R.id.supervisor;
 
-public class AcademicsFragment extends Fragment implements
+public class AcademicsFragment extends BaseSceeenFragment implements
         AcademicsAdapter.OnAcademicSelectedListener,
         SpinnerListener.SectionSelectedListener,
         AcademicsLoadedListener, SectionsLoadedListener {
@@ -133,11 +132,7 @@ public class AcademicsFragment extends Fragment implements
     }
 
     private void loadUsers(@Nullable Integer sectionId) {
-        if (sectionId == null) {
-            FirebaseRealtimeApi.getAllAcademics(this);
-        } else {
-            FirebaseRealtimeApi.getSectionAcademics(this, sectionId);
-        }
+        FirebaseRealtimeApi.getAcademics(this, sectionId);
     }
 
     @Override
@@ -170,8 +165,10 @@ public class AcademicsFragment extends Fragment implements
     public void onAcademicsLoaded(ArrayList<Academic> academics) {
         if (isAdded()) {
             AcademicsAdapter academicsAdapter = new AcademicsAdapter(academics, this);
+            academicsAdapter.setHasStableIds(true);
 
             usersRecyclerView.setAdapter(academicsAdapter);
+            usersRecyclerView.setHasFixedSize(true);
 
             hideLoading();
         }

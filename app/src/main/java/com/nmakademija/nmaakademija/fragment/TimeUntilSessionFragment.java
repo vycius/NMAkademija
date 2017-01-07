@@ -3,7 +3,6 @@ package com.nmakademija.nmaakademija.fragment;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.Date;
 
-public class TimeUntilSessionFragment extends Fragment implements TimeUntilSessionLoadingListener {
+public class TimeUntilSessionFragment extends BaseSceeenFragment implements TimeUntilSessionLoadingListener {
 
     private CountDownTimer countDownTimer;
     private TextView timeUntilSessionTextTV;
@@ -66,8 +65,7 @@ public class TimeUntilSessionFragment extends Fragment implements TimeUntilSessi
 
     @Override
     public void onPause() {
-        if (countDownTimer != null)
-            countDownTimer.cancel();
+        stopTimer();
 
         super.onPause();
     }
@@ -96,6 +94,8 @@ public class TimeUntilSessionFragment extends Fragment implements TimeUntilSessi
                 timeUntilSessionTimeTV.setText(R.string.session_ended);
                 return;
             }
+            stopTimer();
+
             countDownTimer = new CountDownTimer(
                     until - now, 1000) {
                 public void onTick(long millisUntilFinished) {
@@ -109,6 +109,12 @@ public class TimeUntilSessionFragment extends Fragment implements TimeUntilSessi
             };
             updateTime(until - now);
             countDownTimer.start();
+        }
+    }
+
+    private void stopTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
         }
     }
 

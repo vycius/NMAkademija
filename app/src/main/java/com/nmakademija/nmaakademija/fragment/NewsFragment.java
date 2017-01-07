@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.ArrayList;
 
-public class NewsFragment extends Fragment implements ArticlesLoadedListener {
+public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedListener {
 
     public static NewsFragment getInstance() {
         return new NewsFragment();
@@ -65,7 +64,9 @@ public class NewsFragment extends Fragment implements ArticlesLoadedListener {
         if (isAdded()) {
             articlesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
             articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            articlesRecyclerView.setAdapter(new ArticlesAdapter(articles));
+            ArticlesAdapter adapter = new ArticlesAdapter(articles);
+            adapter.setHasStableIds(true);
+            articlesRecyclerView.setAdapter(adapter);
             articlesRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(
                     getContext(), articlesRecyclerView, new ClickListener() {
                 @Override

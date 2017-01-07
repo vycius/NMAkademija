@@ -3,7 +3,6 @@ package com.nmakademija.nmaakademija.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 import java.util.ArrayList;
 
-public class OnboardingFragment extends Fragment implements SectionsLoadedListener {
+public class OnboardingFragment extends BaseSceeenFragment implements SectionsLoadedListener {
 
     private boolean isFirstTime;
     private AppEvent appEvent;
