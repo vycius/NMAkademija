@@ -65,8 +65,7 @@ public class TimeUntilSessionFragment extends BaseSceeenFragment implements Time
 
     @Override
     public void onPause() {
-        if (countDownTimer != null)
-            countDownTimer.cancel();
+        stopTimer();
 
         super.onPause();
     }
@@ -95,6 +94,8 @@ public class TimeUntilSessionFragment extends BaseSceeenFragment implements Time
                 timeUntilSessionTimeTV.setText(R.string.session_ended);
                 return;
             }
+            stopTimer();
+
             countDownTimer = new CountDownTimer(
                     until - now, 1000) {
                 public void onTick(long millisUntilFinished) {
@@ -108,6 +109,12 @@ public class TimeUntilSessionFragment extends BaseSceeenFragment implements Time
             };
             updateTime(until - now);
             countDownTimer.start();
+        }
+    }
+
+    private void stopTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
         }
     }
 
