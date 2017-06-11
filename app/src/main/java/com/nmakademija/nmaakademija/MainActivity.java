@@ -31,7 +31,11 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings_button, menu);
-        getMenuInflater().inflate(R.menu.logout_button, menu);
+        if (mAuth.getCurrentUser().isAnonymous()) {
+            getMenuInflater().inflate(R.menu.login_button, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.logout_button, menu);
+        }
         return true;
     }
 
@@ -43,18 +47,17 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.logout) {
-            openLogin();
+        } else if (id == R.id.logout || id == R.id.login) {
+            openLogin(id == R.id.login);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void openLogin() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user.isAnonymous())
-            user.delete();
+    public void openLogin(boolean delete) {
+        if (delete)
+            mAuth.getCurrentUser().delete();
         mAuth.signOut();
         LoginManager.getInstance().logOut();
         startActivity(new Intent(this, StartActivity.class));
