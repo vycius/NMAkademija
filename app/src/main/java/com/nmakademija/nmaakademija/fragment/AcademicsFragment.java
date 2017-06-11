@@ -12,8 +12,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nmakademija.nmaakademija.BaseActivity;
+import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.ProfileActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.StartActivity;
@@ -85,12 +87,6 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         loginButton = (Button) view.findViewById(R.id.go_to_login);
 
         return view;
-    }
-
-    private void openLogin() {
-        ((BaseActivity) getActivity()).mAuth.signOut();
-        startActivity(new Intent(getContext(), StartActivity.class));
-        getActivity().finish();
     }
 
     @Override
@@ -224,7 +220,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openLogin();
+                ((MainActivity) getActivity()).openLogin();
             }
         });
     }

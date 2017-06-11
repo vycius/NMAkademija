@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseUser;
 import com.nmakademija.nmaakademija.adapter.BottomNavigationFragmentPagerAdapter;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -30,11 +31,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings_button, menu);
-        if (mAuth.getCurrentUser() == null) {
-            getMenuInflater().inflate(R.menu.login_button, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.logout_button, menu);
-        }
+        getMenuInflater().inflate(R.menu.logout_button, menu);
         return true;
     }
 
@@ -47,11 +44,6 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
             startActivity(intent);
             return true;
         } else if (id == R.id.logout) {
-            mAuth.signOut();
-            LoginManager.getInstance().logOut();
-            openLogin();
-            return true;
-        } else if (id == R.id.login) {
             openLogin();
             return true;
         }
@@ -60,7 +52,11 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     }
 
     public void openLogin() {
-
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user.isAnonymous())
+            user.delete();
+        mAuth.signOut();
+        LoginManager.getInstance().logOut();
         startActivity(new Intent(this, StartActivity.class));
         finish();
     }
