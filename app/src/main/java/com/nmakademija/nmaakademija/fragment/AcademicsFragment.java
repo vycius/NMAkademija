@@ -220,7 +220,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).openLogin();
+                ((MainActivity) getActivity()).openLogin(true);
             }
         });
     }
