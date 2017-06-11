@@ -7,6 +7,15 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <ImageView
+        android:src="@drawable/logotipas_nma_full"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"/>
+
     <android.support.v4.widget.ContentLoadingProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
