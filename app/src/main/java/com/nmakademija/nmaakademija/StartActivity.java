@@ -95,7 +95,7 @@ public class StartActivity extends BaseActivity {
         findViewById(R.id.anonymous_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startNextActivity();
+                signInAnonymously();
             }
         });
     }
@@ -116,6 +116,19 @@ public class StartActivity extends BaseActivity {
     private void signInWithGoogle() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signInAnonymously() {
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            errorTV.setText(task.getException().toString());
+                            errorTV.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
     }
 
     protected void signIn(AuthCredential credential) {

@@ -88,6 +88,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     }
 
     private void openLogin() {
+        ((BaseActivity) getActivity()).mAuth.signOut();
         startActivity(new Intent(getContext(), StartActivity.class));
         getActivity().finish();
     }
@@ -98,7 +99,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
         FirebaseUser user = ((BaseActivity) getActivity()).mAuth.getCurrentUser();
 
-        if (user == null) {
+        if (user == null || user.isAnonymous()) {
             showNeedLogin();
         } else {
             appEvent = AppEvent.getInstance(getContext());
