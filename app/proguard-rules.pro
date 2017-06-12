@@ -16,10 +16,13 @@
 #   public *;
 #}
 
--dontwarn icepick.**
--keep class icepick.** { *; }
--keep class **$$Icepick { *; }
--keepclasseswithmembernames class * {
-    @icepick.* <fields>;
+# Disable obfuscation
+-dontobfuscate
+-optimizations !code/allocation/variable
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
 }
--keepnames class * { @icepick.State *;}
