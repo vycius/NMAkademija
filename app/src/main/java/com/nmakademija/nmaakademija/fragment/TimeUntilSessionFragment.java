@@ -92,6 +92,7 @@ public class TimeUntilSessionFragment extends BaseSceeenFragment implements Time
             final long now = new Date().getTime();
             if (until < now) {
                 timeUntilSessionTimeTV.setText(R.string.session_ended);
+                timeUntilSessionTextTV.setVisibility(View.GONE);
                 return;
             }
             stopTimer();

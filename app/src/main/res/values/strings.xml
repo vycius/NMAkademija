@@ -38,4 +38,12 @@
     <string name="phone">phone</string>
     <string name="session_ended">Sesija baigėsi :)</string>
     <string name="loading">Kraunama</string>
+    <string name="facebook_app_id">1814977905435170</string>
+    <string name="login_message">Prisijunkite naudodami tą elektroninį paštą, kurį nurodėte registruodamiesi:</string>
+    <string name="logout">Atsijungti</string>
+    <string name="error_user_collision">Šis elektroninis paštas susietas su kita paskyra.</string>
+    <string name="continue_anonymously">Tęsti neprisijungus</string>
+    <string name="academics_need_login">Kad peržiūrėtumėte akademikus, turite prisijungti.</string>
+    <string name="login">Prisijungti</string>
+    <string name="fb_login_protocol_scheme">fb1814977905435170</string>
 </resources>

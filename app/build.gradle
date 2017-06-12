@@ -45,6 +45,7 @@ ext {
 
 repositories {
     maven {url "https://clojars.org/repo/"}
+    mavenCentral()
 }
 
 dependencies {
@@ -62,6 +63,10 @@ dependencies {
     compile "com.android.support:support-annotations:$supportVersion"
 
     testCompile 'junit:junit:4.12'
+
+    compile "com.google.firebase:firebase-auth:$firebaseVersion"
+    compile "com.google.android.gms:play-services-auth:$firebaseVersion"
+    compile 'com.facebook.android:facebook-android-sdk:4.18.0'
 
     compile "com.google.firebase:firebase-core:$firebaseVersion"
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"

@@ -8,11 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.nmakademija.nmaakademija.BaseActivity;
+import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.ProfileActivity;
 import com.nmakademija.nmaakademija.R;
+import com.nmakademija.nmaakademija.StartActivity;
 import com.nmakademija.nmaakademija.adapter.AcademicsAdapter;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
@@ -37,9 +43,11 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
     private View contentView;
     private View loadingView;
+    private View needLoginView;
     private RecyclerView usersRecyclerView;
     private Spinner sectionsSpinner;
     private TextView supervisorView;
+    private Button loginButton;
 
     private AppEvent appEvent;
 
@@ -75,6 +83,8 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         supervisorView = (TextView) view.findViewById(supervisor);
         contentView = view.findViewById(R.id.content);
         loadingView = view.findViewById(R.id.loading_view);
+        needLoginView = view.findViewById(R.id.need_login_view);
+        loginButton = (Button) view.findViewById(R.id.go_to_login);
 
         return view;
     }
@@ -83,10 +93,16 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        appEvent = AppEvent.getInstance(getContext());
-        appEvent.trackCurrentScreen(getActivity(), "open_users_list");
+        FirebaseUser user = ((BaseActivity) getActivity()).mAuth.getCurrentUser();
 
-        loadSections();
+        if (user == null || user.isAnonymous()) {
+            showNeedLogin();
+        } else {
+            appEvent = AppEvent.getInstance(getContext());
+            appEvent.trackCurrentScreen(getActivity(), "open_users_list");
+
+            loadSections();
+        }
     }
 
     private void loadSections() {
@@ -195,7 +211,18 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
+    }
 
+    public void showNeedLogin() {
+        loadingView.setVisibility(View.GONE);
+        contentView.setVisibility(View.GONE);
+        needLoginView.setVisibility(View.VISIBLE);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).openLogin(true);
+            }
+        });
     }
 
     public void hideLoading() {
