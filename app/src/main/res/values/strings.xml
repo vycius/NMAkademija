@@ -1,14 +1,9 @@
 <resources>
     <string name="app_name">NMA Sesija</string>
-    <string name="akademikai">Akademikai</string>
-    <string name="vadoviukai">Vadoviukai</string>
-    <string name="destytojai">Dėstytojai</string>
-    <string name="mano_profilis">Mano profilis</string>
     <string name="name_hint">Vardas Pavardė</string>
     <string name="email_hint">El. paštas</string>
     <string name="phone_hint">Telefono numeris</string>
     <string name="bio_hint">Apie mane</string>
-    <string name="save">Išsaugoti</string>
     <string name="timer_date_format">%1$d d %2$02d:%3$02d:%4$02d</string>
     <string name="timer_session_end">Iki sesijos pabaigos liko:</string>
     <string name="timer_session_start">Iki sesijos pradžios liko:</string>
@@ -17,7 +12,6 @@
     <string name="academics">Dalyviai</string>
     <string name="timer">Laikrodukas</string>
     <string name="schedule">Programa</string>
-    <string name="session_end">Sesijos pabaiga</string>
     <string name="before_supervisor_name">"Vadoviukas: %1$s"</string>
     <string name="all_academics">Visi akademikai</string>
     <string name="article_foto">Straipsnio nuotrauka</string>
@@ -26,18 +20,12 @@
     <string name="get_notifications">Gauti transliacijas</string>
     <string name="get_notifications_summary">Gauti visiems transliuojamus pranešimus</string>
     <string name="notifications">Pranešimai</string>
-    <string name="debug">Debug</string>
     <string name="section">Sekcija</string>
     <string name="choose_section">Pasirinkite savo sekciją</string>
     <string name="section_key">choose_section</string>
     <string name="get_notifications_key">get_notifications</string>
     <string name="retry">Dar kart</string>
-    <string name="email_copied">E-mail\'as nukopijuotas</string>
-    <string name="phone_copied">Telefono nr. nukopijuotas</string>
-    <string name="email">email</string>
-    <string name="phone">phone</string>
     <string name="session_ended">Sesija baigėsi :)</string>
-    <string name="loading">Kraunama</string>
     <string name="facebook_app_id">1814977905435170</string>
     <string name="login_message">Prisijunkite naudodami tą elektroninį paštą, kurį nurodėte registruodamiesi:</string>
     <string name="logout">Atsijungti</string>
