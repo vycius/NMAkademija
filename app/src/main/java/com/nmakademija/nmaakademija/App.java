@@ -3,7 +3,6 @@ package com.nmakademija.nmaakademija;
 import android.app.Application;
 import android.content.Context;
 
-import com.facebook.FacebookSdk;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -28,15 +27,10 @@ public class App extends Application {
         refWatcher = LeakCanary.install(this);
 
         setFirebaseOptions();
-        initFacebookSdk();
     }
 
     public void setFirebaseOptions() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.setPersistenceEnabled(true);
-    }
-
-    public void initFacebookSdk() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 }
