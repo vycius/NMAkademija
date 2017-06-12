@@ -12,8 +12,7 @@
         android:text="@string/login_message"
         android:textSize="17sp"
         android:layout_margin="10dp"
-        android:gravity="center"
-        android:id="@+id/textView" />
+        android:gravity="center" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -5,22 +5,18 @@
     app:bbn_badgeColor="#FFFF0000"
     app:bbn_rippleColor="#33ffffff">
     <item
-        android:id="@+id/bbn_item1"
         android:color="@color/bottomNavigationNewsTab"
         android:icon="@drawable/ic_news"
         android:title="@string/news" />
     <item
-        android:id="@+id/bbn_item2"
         android:color="@color/bottomNavigationUsersTab"
         android:icon="@drawable/ic_users"
         android:title="@string/academics" />
     <item
-        android:id="@+id/bbn_item3"
         android:color="@color/bottomNavigationTimerTab"
         android:icon="@drawable/ic_timer_sand"
         android:title="@string/timer" />
     <item
-        android:id="@+id/action4"
         android:color="@color/bottomNavigationScheduleTab"
         android:icon="@drawable/ic_schedule"
         android:title="@string/schedule" />
