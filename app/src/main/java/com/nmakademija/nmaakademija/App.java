@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.facebook.FacebookSdk;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -34,9 +33,7 @@ public class App extends Application {
 
     public void setFirebaseOptions() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-
         firebaseDatabase.setPersistenceEnabled(true);
-        firebaseDatabase.setLogLevel(BuildConfig.DEBUG ? Logger.Level.INFO : Logger.Level.NONE);
     }
 
     public void initFacebookSdk() {
