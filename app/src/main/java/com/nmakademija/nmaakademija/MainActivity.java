@@ -14,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.facebook.login.LoginManager;
-import com.google.firebase.auth.FirebaseUser;
 import com.nmakademija.nmaakademija.adapter.BottomNavigationFragmentPagerAdapter;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -142,6 +141,12 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(colorResource);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        viewPager.clearOnPageChangeListeners();
+        super.onDestroy();
     }
 
     @Override
