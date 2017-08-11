@@ -91,7 +91,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     public void onArticlesLoadingFailed(Exception exception) {
         if (isAdded()) {
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

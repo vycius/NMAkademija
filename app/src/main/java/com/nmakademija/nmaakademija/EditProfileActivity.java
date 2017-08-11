@@ -24,7 +24,6 @@ import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.utils.AppEvent;
-import com.nmakademija.nmaakademija.utils.Error;
 
 public class EditProfileActivity extends BaseActivity implements AcademicLoadedListener {
 
@@ -114,15 +113,19 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
     }
 
     private void onLoadFailed() {
-        Error.loadProfile(findViewById(R.id.content));
+        View view = findViewById(R.id.content);
+        Snackbar.make(view, R.string.profile_request_failed, Snackbar.LENGTH_INDEFINITE).show();
     }
 
     private void onSaveFailed() {
-        Error.saveData(findViewById(R.id.content), new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveUser();
-            }
-        });
+        View view = findViewById(R.id.content);
+        Snackbar.make(view, R.string.save_request_failed, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view1) {
+                        saveUser();
+                    }
+                })
+                .show();
     }
 }
