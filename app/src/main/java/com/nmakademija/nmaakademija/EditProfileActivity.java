@@ -10,10 +10,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +33,25 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
     private TextInputEditText emailView;
     private TextInputEditText bioView;
     private TextInputEditText roomView;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.save) {
+            saveUser();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,13 +73,6 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
 
         String academicEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         FirebaseRealtimeApi.getAcademicByEmail(this, academicEmail);
-        Button saveButton = (Button) findViewById(R.id.save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveUser();
-            }
-        });
     }
 
 

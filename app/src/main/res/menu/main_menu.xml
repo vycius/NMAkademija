@@ -10,7 +10,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/account"
-        android:icon="@drawable/ic_account"
+        android:icon="@drawable/ic_account_edit"
         android:orderInCategory="0"
         android:title="@string/account"
         app:showAsAction="always" />
