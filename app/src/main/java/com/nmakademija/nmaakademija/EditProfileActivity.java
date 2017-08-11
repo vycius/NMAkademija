@@ -20,18 +20,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
-import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.Error;
 
-import java.util.ArrayList;
-
-public class EditProfileActivity extends BaseActivity implements AcademicsLoadedListener {
+public class EditProfileActivity extends BaseActivity implements AcademicLoadedListener {
 
     private Academic academic;
-    private String academicEmail;
     private EditText phoneView;
     private EditText emailView;
     private EditText bioView;
@@ -55,7 +52,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicsLoaded
             window.setStatusBarColor(color);
         }
 
-        academicEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String academicEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         FirebaseRealtimeApi.getAcademicByEmail(this, academicEmail);
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -68,30 +65,25 @@ public class EditProfileActivity extends BaseActivity implements AcademicsLoaded
 
 
     @Override
-    public void onAcademicsLoaded(ArrayList<Academic> academics) {
-        if (academics.size() != 1) {
-            onLoadFailed();
-        } else {
-            academic = academics.get(0);
+    public void onAcademicLoaded(Academic loadedAcademic) {
+        academic = loadedAcademic;
+        ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
+        Glide.with(this).load(academic.getImage()).error(R.drawable.profile).into(imageView);
 
-            ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
-            Glide.with(this).load(academic.getImage()).error(R.drawable.profile).into(imageView);
+        TextView nameView = (TextView) findViewById(R.id.name_edit);
+        nameView.setText(academic.getName());
 
-            TextView nameView = (TextView) findViewById(R.id.name_edit);
-            nameView.setText(academic.getName());
+        emailView = (EditText) findViewById(R.id.email_edit);
+        emailView.setText(academic.getPublicEmail());
 
-            emailView = (EditText) findViewById(R.id.email_edit);
-            emailView.setText(academic.getPublicEmail());
+        phoneView = (EditText) findViewById(R.id.phone_edit);
+        phoneView.setText(academic.getPhone());
 
-            phoneView = (EditText) findViewById(R.id.phone_edit);
-            phoneView.setText(academic.getPhone());
+        bioView = (EditText) findViewById(R.id.bio_edit);
+        bioView.setText(academic.getBio());
 
-            bioView = (EditText) findViewById(R.id.bio_edit);
-            bioView.setText(academic.getBio());
-
-            roomView = (EditText) findViewById(R.id.room_edit);
-            roomView.setText(academic.getRoom());
-        }
+        roomView = (EditText) findViewById(R.id.room_edit);
+        roomView.setText(academic.getRoom());
     }
 
     public void saveUser() {
@@ -117,7 +109,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicsLoaded
     }
 
     @Override
-    public void onAcademicsLoadingFailed(Exception exception) {
+    public void onAcademicLoadingFailed(Exception exception) {
         onLoadFailed();
     }
 

@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
@@ -30,20 +31,24 @@ import java.util.Collections;
 public class FirebaseRealtimeApi {
 
 
-    public static void getAcademicByEmail(AcademicsLoadedListener listener, final String email) {
+    public static void getAcademicByEmail(AcademicLoadedListener listener, final String email) {
         FirebaseDatabase.getInstance().getReference("academics").orderByChild("email").equalTo(email)
                 .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<Academic, AcademicsLoadedListener>(Academic.class,
+                        new ApiReferenceListener<Academic, AcademicLoadedListener>(Academic.class,
                                 new WeakReference<>(listener)) {
 
                             @Override
-                            public void onFailed(AcademicsLoadedListener listener, Exception ex) {
-                                listener.onAcademicsLoadingFailed(ex);
+                            public void onFailed(AcademicLoadedListener listener, Exception ex) {
+                                listener.onAcademicLoadingFailed(ex);
                             }
 
                             @Override
-                            public void onLoaded(ArrayList<Academic> academics, AcademicsLoadedListener listener) {
-                                listener.onAcademicsLoaded(academics);
+                            public void onLoaded(ArrayList<Academic> academics, AcademicLoadedListener listener) {
+                                if (academics.size() != 1) {
+                                    listener.onAcademicLoadingFailed(new Exception("Email isn't unique!!!"));
+                                } else {
+                                    listener.onAcademicLoaded(academics.get(0));
+                                }
                             }
                         });
     }
