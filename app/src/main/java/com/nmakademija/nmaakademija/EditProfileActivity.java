@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -12,10 +13,12 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.utils.AppEvent;
@@ -23,6 +26,11 @@ import com.nmakademija.nmaakademija.utils.AppEvent;
 import java.util.ArrayList;
 
 public class EditProfileActivity extends BaseActivity implements AcademicsLoadedListener {
+
+    private Academic academic;
+    private String academicEmail;
+   private EditText phoneView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,15 +50,18 @@ public class EditProfileActivity extends BaseActivity implements AcademicsLoaded
             window.setStatusBarColor(color);
         }
 
-        FirebaseRealtimeApi.getAcademicByEmail(this, FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        academicEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseRealtimeApi.getAcademicByEmail(this, academicEmail);
     }
 
+
+    // No. This should return exaclty one academic instead of array
     @Override
     public void onAcademicsLoaded(ArrayList<Academic> academics) {
         if (academics.size() != 1) {
             onLoadingFailed();
         } else {
-            Academic academic = academics.get(0);
+            academic = academics.get(0);
 
             ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
             Glide.with(this).load(academic.getImage()).error(R.drawable.profile).into(imageView);
@@ -61,7 +72,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicsLoaded
             EditText emailView = (EditText) findViewById(R.id.email_edit);
             emailView.setText(academic.getPublicEmail());
 
-            EditText phoneView = (EditText) findViewById(R.id.phone_edit);
+            phoneView = (EditText) findViewById(R.id.phone_edit);
             phoneView.setText(academic.getPhone());
 
             EditText bioView = (EditText) findViewById(R.id.bio_edit);
@@ -72,8 +83,23 @@ public class EditProfileActivity extends BaseActivity implements AcademicsLoaded
         }
     }
 
+    // Do not set listener via XML.
+    // Yup it's missing user
     public void saveUser(View view) {
-        //save user
+        academic.setPhone(phoneView.getText().toString());
+
+        FirebaseRealtimeApi.updateAcademic(academic, new AcademicUpdatedListener() {
+            @Override
+            public void onAcademicUpdated(@NonNull Academic academic) {
+                Toast.makeText(EditProfileActivity.this, "Yup it works", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAcademicUpdateFailed(Exception exception) {
+                Toast.makeText(EditProfileActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override

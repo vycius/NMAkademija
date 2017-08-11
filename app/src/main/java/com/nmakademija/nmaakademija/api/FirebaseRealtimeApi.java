@@ -1,12 +1,15 @@
 package com.nmakademija.nmaakademija.api;
 
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
 import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
@@ -146,6 +149,23 @@ public class FirebaseRealtimeApi {
                                 return articles;
                             }
                         });
+    }
+
+    public static void updateAcademic(@NonNull final Academic academic, @NonNull final AcademicUpdatedListener listener) {
+        FirebaseDatabase.getInstance()
+                .getReference("academics")
+                .child(String.valueOf(academic.getId()))
+                .setValue(academic, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if (databaseError == null) {
+                            listener.onAcademicUpdated(academic);
+                        } else {
+                            listener.onAcademicUpdateFailed(databaseError.toException());
+
+                        }
+                    }
+                });
     }
 
     public static void getTimeUntillSession(TimeUntilSessionLoadingListener listener) {
