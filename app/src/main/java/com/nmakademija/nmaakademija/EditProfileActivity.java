@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,10 +29,10 @@ import com.nmakademija.nmaakademija.utils.Error;
 public class EditProfileActivity extends BaseActivity implements AcademicLoadedListener {
 
     private Academic academic;
-    private EditText phoneView;
-    private EditText emailView;
-    private EditText bioView;
-    private EditText roomView;
+    private TextInputEditText phoneView;
+    private TextInputEditText emailView;
+    private TextInputEditText bioView;
+    private TextInputEditText roomView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,16 +73,16 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
         TextView nameView = (TextView) findViewById(R.id.name_edit);
         nameView.setText(academic.getName());
 
-        emailView = (EditText) findViewById(R.id.email_edit);
+        emailView = (TextInputEditText) findViewById(R.id.email_edit);
         emailView.setText(academic.getPublicEmail());
 
-        phoneView = (EditText) findViewById(R.id.phone_edit);
+        phoneView = (TextInputEditText) findViewById(R.id.phone_edit);
         phoneView.setText(academic.getPhone());
 
-        bioView = (EditText) findViewById(R.id.bio_edit);
+        bioView = (TextInputEditText) findViewById(R.id.bio_edit);
         bioView.setText(academic.getBio());
 
-        roomView = (EditText) findViewById(R.id.room_edit);
+        roomView = (TextInputEditText) findViewById(R.id.room_edit);
         roomView.setText(academic.getRoom());
     }
 
