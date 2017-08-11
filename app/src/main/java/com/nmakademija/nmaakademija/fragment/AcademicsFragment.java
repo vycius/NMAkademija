@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -26,7 +27,6 @@ import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.listener.SpinnerListener;
 import com.nmakademija.nmaakademija.utils.AppEvent;
-import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,12 +175,15 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     public void onLoadingFailed() {
         hideLoading();
 
-        Error.getData(getView(), new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadSections();
-            }
-        });
+        //noinspection ConstantConditions
+        Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        loadSections();
+                    }
+                })
+                .show();
     }
 
     @Override

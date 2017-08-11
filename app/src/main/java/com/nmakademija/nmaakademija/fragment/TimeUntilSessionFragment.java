@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija.fragment;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
 import com.nmakademija.nmaakademija.api.listener.TimeUntilSessionLoadingListener;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
 import com.nmakademija.nmaakademija.utils.AppEvent;
-import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.Date;
 
@@ -122,12 +122,15 @@ public class TimeUntilSessionFragment extends BaseSceeenFragment implements Time
     @Override
     public void onTimeUntilSessionLoadingFailed(Exception exception) {
         if (isAdded()) {
-            Error.getData(getView(), new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    loadTimeUntilSession();
-                }
-            });
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        loadTimeUntilSession();
+                    }
+                })
+                    .show();
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +22,6 @@ import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
 import com.nmakademija.nmaakademija.utils.AppEvent;
-import com.nmakademija.nmaakademija.utils.Error;
 
 import java.util.ArrayList;
 
@@ -90,12 +90,15 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     @Override
     public void onArticlesLoadingFailed(Exception exception) {
         if (isAdded()) {
-            Error.getData(getView(), new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    loadArticles();
-                }
-            });
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            loadArticles();
+                        }
+                    })
+                    .show();
 
         }
     }
