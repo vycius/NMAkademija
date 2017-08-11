@@ -42,11 +42,6 @@ public class FirebaseRealtimeApi {
                             public void onLoaded(ArrayList<Academic> academics, AcademicsLoadedListener listener) {
                                 listener.onAcademicsLoaded(academics);
                             }
-
-                            @Override
-                            public boolean where(Academic academic) {
-                                return true;
-                            }
                         });
     }
 
