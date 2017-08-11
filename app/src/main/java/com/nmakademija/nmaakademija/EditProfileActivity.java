@@ -1,6 +1,5 @@
 package com.nmakademija.nmaakademija;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -107,10 +106,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
         FirebaseRealtimeApi.updateAcademic(academic, new AcademicUpdatedListener() {
             @Override
             public void onAcademicUpdated(@NonNull Academic academic) {
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.content), R.string.saved, Snackbar.LENGTH_SHORT);
-                TextView tv = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snackbar.show();
+                Snackbar.make(findViewById(R.id.content), R.string.saved, Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
