@@ -48,7 +48,7 @@ android {
 }
 
 ext {
-    firebaseVersion = '11.0.0'
+    firebaseVersion = '11.0.2'
     supportVersion = '25.4.0'
     leakCanaryVersion = '1.5.1'
 }
