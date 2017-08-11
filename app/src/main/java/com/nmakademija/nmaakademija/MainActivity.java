@@ -29,15 +29,14 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings_button, menu);
         if (mAuth.getCurrentUser().isAnonymous()) {
-            getMenuInflater().inflate(R.menu.login_button, menu);
+            getMenuInflater().inflate(R.menu.anonymous_main_menu, menu);
         } else {
-            getMenuInflater().inflate(R.menu.account_button, menu);
-            getMenuInflater().inflate(R.menu.logout_button, menu);
+            getMenuInflater().inflate(R.menu.main_menu, menu);
         }
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
