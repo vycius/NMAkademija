@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
         if (mAuth.getCurrentUser().isAnonymous()) {
             getMenuInflater().inflate(R.menu.login_button, menu);
         } else {
+            getMenuInflater().inflate(R.menu.account_button, menu);
             getMenuInflater().inflate(R.menu.logout_button, menu);
         }
         return true;
@@ -46,6 +47,10 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.account) {
+            Intent intent = new Intent(this, EditProfileActivity.class);
+            startActivity(intent);
+            return true;
         } else if (id == R.id.logout || id == R.id.login) {
             openLogin(id == R.id.login);
             return true;
@@ -55,7 +60,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     }
 
     public void openLogin(boolean delete) {
-        if (delete)
+        if (delete && mAuth.getCurrentUser() != null)
             mAuth.getCurrentUser().delete();
         mAuth.signOut();
         LoginManager.getInstance().logOut();

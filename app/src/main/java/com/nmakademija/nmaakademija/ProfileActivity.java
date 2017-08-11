@@ -46,12 +46,15 @@ public class ProfileActivity extends BaseActivity {
         nameView.setText(academic.getName());
 
         TextView emailView = (TextView) findViewById(R.id.email_edit);
-        emailView.setText(academic.getEmail());
+        emailView.setText(academic.getPublicEmail());
 
         TextView phoneView = (TextView) findViewById(R.id.phone_edit);
         phoneView.setText(academic.getPhone());
 
         TextView bioView = (TextView) findViewById(R.id.bio_edit);
         bioView.setText(academic.getBio());
+
+        TextView roomView = (TextView) findViewById(R.id.room_edit);
+        roomView.setText(academic.getRoom());
     }
 }

@@ -27,6 +27,29 @@ import java.util.Collections;
 public class FirebaseRealtimeApi {
 
 
+    public static void getAcademicByEmail(AcademicsLoadedListener listener, final String email) {
+        FirebaseDatabase.getInstance().getReference("academics").orderByChild("email").equalTo(email)
+                .addListenerForSingleValueEvent(
+                        new ApiReferenceListener<Academic, AcademicsLoadedListener>(Academic.class,
+                                new WeakReference<>(listener)) {
+
+                            @Override
+                            public void onFailed(AcademicsLoadedListener listener, Exception ex) {
+                                listener.onAcademicsLoadingFailed(ex);
+                            }
+
+                            @Override
+                            public void onLoaded(ArrayList<Academic> academics, AcademicsLoadedListener listener) {
+                                listener.onAcademicsLoaded(academics);
+                            }
+
+                            @Override
+                            public boolean where(Academic academic) {
+                                return true;
+                            }
+                        });
+    }
+
     public static void getAcademics(AcademicsLoadedListener listener, @Nullable final Integer sectionId) {
         FirebaseDatabase.getInstance().getReference("academics")
                 .addListenerForSingleValueEvent(

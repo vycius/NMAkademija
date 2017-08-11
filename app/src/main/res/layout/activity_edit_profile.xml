@@ -5,51 +5,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="10dp">
-        
-        <ImageView android:id="@+id/profile_pic_view"
+
+        <ImageView
+            android:id="@+id/profile_pic_view"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/profile_picture"
             tools:src="@drawable/leon" />
-        
-        <TextView android:id="@+id/name_edit"
+
+        <TextView
+            android:id="@+id/name_edit"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
             android:hint="@string/name_hint"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </LinearLayout>
 
-    <TextView android:id="@+id/phone_edit"
+    <EditText
+        android:id="@+id/phone_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:autoLink="phone"
         android:hint="@string/phone_hint"
-        android:textColorLink="@android:color/holo_green_dark"
+        android:textColor="@android:color/holo_green_dark"
         android:textSize="18sp"
-        tools:text="+37012345678"/>
+        tools:text="+37012345678" />
 
-    <TextView android:id="@+id/email_edit"
+    <EditText
+        android:id="@+id/email_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:autoLink="email"
         android:hint="@string/email_hint"
-        android:textColorLink="@android:color/holo_green_dark"
+        android:textColor="@android:color/holo_green_dark"
         android:textSize="18sp"
-        tools:text="email@mail.com"/>
+        tools:text="email@mail.com" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -61,7 +61,7 @@
             android:text="@string/room"
             android:textSize="19sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/room_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,11 +71,22 @@
 
     </LinearLayout>
 
-    <TextView android:id="@+id/bio_edit"
+    <EditText
+        android:id="@+id/bio_edit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/bio_hint"
-        android:textSize="18sp" />
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:textSize="18sp"
+        tools:text="TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/save"
+        android:onClick="saveUser" />
 </LinearLayout>
