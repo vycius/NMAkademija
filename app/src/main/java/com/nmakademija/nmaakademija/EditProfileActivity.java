@@ -1,6 +1,5 @@
 package com.nmakademija.nmaakademija;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.utils.AppEvent;
-import com.nmakademija.nmaakademija.utils.Error;
 
 public class EditProfileActivity extends BaseActivity implements AcademicLoadedListener {
 
@@ -95,10 +93,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
         FirebaseRealtimeApi.updateAcademic(academic, new AcademicUpdatedListener() {
             @Override
             public void onAcademicUpdated(@NonNull Academic academic) {
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.content), R.string.saved, Snackbar.LENGTH_SHORT);
-                TextView tv = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                snackbar.show();
+                Snackbar.make(findViewById(R.id.content), R.string.saved, Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
@@ -114,15 +109,19 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
     }
 
     private void onLoadFailed() {
-        Error.loadProfile(findViewById(R.id.content));
+        View view = findViewById(R.id.content);
+        Snackbar.make(view, R.string.profile_request_failed, Snackbar.LENGTH_INDEFINITE).show();
     }
 
     private void onSaveFailed() {
-        Error.saveData(findViewById(R.id.content), new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveUser();
-            }
-        });
+        View view = findViewById(R.id.content);
+        Snackbar.make(view, R.string.save_request_failed, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view1) {
+                        saveUser();
+                    }
+                })
+                .show();
     }
 }
