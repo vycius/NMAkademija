@@ -7,7 +7,8 @@
     <string name="timer_date_format">%1$d d %2$02d:%3$02d:%4$02d</string>
     <string name="timer_session_end">Iki sesijos pabaigos liko:</string>
     <string name="timer_session_start">Iki sesijos pradžios liko:</string>
-    <string name="request_failed">Nepavyko gauti duomenų</string>
+    <string name="get_request_failed">Nepavyko gauti duomenų</string>
+    <string name="save_request_failed">Nepavyko išsaugoti duomenų</string>
     <string name="news">Naujienos</string>
     <string name="academics">Dalyviai</string>
     <string name="timer">Laikrodukas</string>
@@ -37,4 +38,6 @@
     <string name="room">Kambarys:</string>
     <string name="account">Profilis</string>
     <string name="save">Išsaugoti</string>
+    <string name="profile_request_failed">Jūs nesate akademikas!</string>
+    <string name="saved">Išsaugota</string>
 </resources>
