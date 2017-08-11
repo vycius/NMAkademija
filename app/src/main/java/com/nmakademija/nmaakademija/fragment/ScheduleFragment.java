@@ -2,6 +2,7 @@ package com.nmakademija.nmaakademija.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.AppEvent;
-import com.nmakademija.nmaakademija.utils.Error;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 import java.text.SimpleDateFormat;
@@ -115,12 +115,15 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
         if (isAdded()) {
             hideLoading();
 
-            Error.getData(getView(), new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    loadScheduleEvents();
-                }
-            });
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            loadScheduleEvents();
+                        }
+                    })
+                    .show();
         }
 
     }
