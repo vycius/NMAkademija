@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nmakademija.nmaakademija.BaseActivity;
 import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.ProfileActivity;
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.StartActivity;
 import com.nmakademija.nmaakademija.adapter.AcademicsAdapter;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
@@ -147,14 +146,16 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         sectionSelectedPosition = position;
 
         if (section == null) {
-            supervisorView.setVisibility(View.GONE);
-
             loadUsers(null);
+        } else {
+            loadUsers(section.getId());
+        }
+
+        if (section == null || TextUtils.isEmpty(section.supervisor)) {
+            supervisorView.setVisibility(View.GONE);
         } else {
             supervisorView.setVisibility(View.VISIBLE);
             supervisorView.setText(getString(R.string.before_supervisor_name, section.getSupervisor()));
-
-            loadUsers(section.getId());
         }
     }
 
