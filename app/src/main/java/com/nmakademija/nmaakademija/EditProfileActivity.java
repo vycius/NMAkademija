@@ -111,30 +111,22 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
 
             @Override
             public void onAcademicUpdateFailed(Exception exception) {
-                onSaveFailed();
+                View view = findViewById(R.id.content);
+                Snackbar.make(view, R.string.save_request_failed, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.retry, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view1) {
+                                saveUser();
+                            }
+                        })
+                        .show();
             }
         });
     }
 
     @Override
     public void onAcademicLoadingFailed(Exception exception) {
-        onLoadFailed();
-    }
-
-    private void onLoadFailed() {
         View view = findViewById(R.id.content);
         Snackbar.make(view, R.string.profile_request_failed, Snackbar.LENGTH_INDEFINITE).show();
-    }
-
-    private void onSaveFailed() {
-        View view = findViewById(R.id.content);
-        Snackbar.make(view, R.string.save_request_failed, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view1) {
-                        saveUser();
-                    }
-                })
-                .show();
     }
 }
