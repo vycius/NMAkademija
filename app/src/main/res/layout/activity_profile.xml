@@ -23,10 +23,9 @@
 
         <TextView
             android:id="@+id/name_edit"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/unit4"
-            android:layout_weight="1"
             android:hint="@string/name_hint"
             android:textSize="@dimen/text20" />
     </LinearLayout>
@@ -35,12 +34,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/unit1">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="@dimen/unit1"
             android:text="@string/room"
             android:textSize="@dimen/text18" />
 
@@ -76,8 +76,7 @@
     <TextView
         android:id="@+id/bio_edit"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:gravity="top"
         android:hint="@string/bio_hint"
         android:textSize="@dimen/text18" />
