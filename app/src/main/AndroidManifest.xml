@@ -57,7 +57,7 @@
         <activity
             android:name=".EditProfileActivity"
             android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

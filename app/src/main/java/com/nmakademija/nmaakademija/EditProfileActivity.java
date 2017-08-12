@@ -45,6 +45,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
         int id = item.getItemId();
 
         if (id == R.id.save) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
             saveUser();
             return true;
         }
@@ -56,6 +57,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        //findViewById(R.id.loading_view).setVisibility(View.VISIBLE);
 
         AppEvent.getInstance(this).trackCurrentScreen(this, "open_edit_profile");
 
@@ -77,6 +79,8 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
 
     @Override
     public void onAcademicLoaded(Academic loadedAcademic) {
+        HideLoading();
+
         academic = loadedAcademic;
         ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
         Glide.with(this).load(academic.getImage()).error(R.drawable.profile).into(imageView);
@@ -126,7 +130,13 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
 
     @Override
     public void onAcademicLoadingFailed(Exception exception) {
+        HideLoading();
         View view = findViewById(R.id.content);
         Snackbar.make(view, R.string.profile_request_failed, Snackbar.LENGTH_INDEFINITE).show();
+    }
+
+    private void HideLoading() {
+        findViewById(R.id.loading_view).setVisibility(View.GONE);
+        findViewById(R.id.content).setVisibility(View.VISIBLE);
     }
 }
