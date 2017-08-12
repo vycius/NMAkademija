@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.adapter.DividerItemDecoration;
 import com.nmakademija.nmaakademija.adapter.SectionsAdapter;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
