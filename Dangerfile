@@ -20,5 +20,4 @@ android_lint.lint(inline_mode: true)
 findbugs.gradle_module = "app"
 findbugs.gradle_task = "app:findbugs"
 findbugs.report_file = "app/build/reports/findbugs/findbugs.xml"
-findbugs.send_inline_comment
-findbugs.report
+findbugs.report(inline_mode: true)
