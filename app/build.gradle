@@ -4,6 +4,7 @@ plugins {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'findbugs'
 
 def getVersionName = { ->
     def stdout = new ByteArrayOutputStream()
@@ -44,6 +45,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions {
+        xmlReport true
     }
 }
 
@@ -103,6 +107,28 @@ dependencyUpdates.resolutionStrategy = {
             }
         }
     }
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "max"
+    excludeFilter = new File("${project.rootDir}/app/findbugs_filter.xml")
+    classes = files("build/intermediates/classes/")
+    classes += files("${project.rootDir}/app/build/intermediates/classes/")
+    source 'src/main'
+    source "${project.rootDir}/app/src/main"
+    include '**/*.java'
+    reports {
+        xml {
+            enabled = true
+            withMessages = true
+        }
+        html {
+            enabled = false
+        }
+
+    }
+    classpath = files()
 }
 
 apply plugin: 'com.google.gms.google-services'
