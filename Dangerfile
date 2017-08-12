@@ -14,3 +14,10 @@ fail("fit left in tests") if `grep -r fit specs/ `.length > 1
 
 # Android lint
 android_lint.lint(inline_mode: true)
+
+# Findbugs
+findbugs.gradle_module = "app"
+findbugs.gradle_task = "app:findbugs"
+findbugs.report_file = "app/build/reports/findbugs/findbugs.xml"
+findbugs.send_inline_comment
+findbugs.report
