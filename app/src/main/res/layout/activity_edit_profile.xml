@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/unit4">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingBottom="10dp">
+            android:layout_marginBottom="@dimen/unit2">
 
             <ImageView
                 android:id="@+id/profile_pic_view"
@@ -27,12 +27,11 @@
 
             <TextView
                 android:id="@+id/name_edit"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_weight="1"
                 android:hint="@string/name_hint"
-                android:textSize="20sp" />
+                android:textSize="@dimen/text20" />
         </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -44,9 +43,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/room"
-                android:textColorLink="@android:color/holo_green_dark"
-                android:textSize="18sp"
-                tools:text="123" />
+                android:textSize="@dimen/text18"
+                tools:text="123"
+                android:lines="1"
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -59,9 +59,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/phone_hint"
                 android:inputType="phone"
-                android:textColor="@android:color/holo_green_dark"
-                android:textSize="18sp"
-                tools:text="+37012345678" />
+                android:textSize="@dimen/text18"
+                tools:text="+37012345678"
+                android:lines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -74,9 +74,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email_hint"
                 android:inputType="textEmailAddress"
-                android:textColor="@android:color/holo_green_dark"
-                android:textSize="18sp"
-                tools:text="email@mail.com" />
+                android:textSize="@dimen/text18"
+                tools:text="email@mail.com"
+                android:lines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -87,13 +87,12 @@
                 android:id="@+id/bio_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="top"
                 android:hint="@string/bio_hint"
                 android:inputType="textMultiLine"
                 android:minLines="3"
                 android:scrollbars="vertical"
-                android:textSize="18sp"
+                android:textSize="@dimen/text18"
                 tools:text="TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
