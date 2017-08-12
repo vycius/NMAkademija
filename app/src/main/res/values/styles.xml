@@ -8,6 +8,11 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="ThemeSpinner">
         <!-- Color when pressed -->
         <item name="colorAccent">#ffa000</item>
