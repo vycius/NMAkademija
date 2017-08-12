@@ -5,6 +5,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -36,7 +37,8 @@
         </activity>
         <activity
             android:name=".OnboardingActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.nmakademija.nmaakademija.OnboardingActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -67,13 +69,17 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <service android:name=".service.NMAFirebaseInstanceIDService">
+        <service
+            android:name=".service.NMAFirebaseInstanceIDService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".service.NMAFirebaseMessagingService">
+        <service
+            android:name=".service.NMAFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

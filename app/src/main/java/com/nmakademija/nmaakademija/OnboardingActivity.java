@@ -10,12 +10,8 @@ public class OnboardingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_onboarding);
-
-        getSupportActionBar().hide();
-
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_frame, new OnboardingFragment())
+                .replace(android.R.id.content, new OnboardingFragment())
                 .commit();
     }
 }

@@ -7,13 +7,14 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="horizontal"
-    android:padding="4dp">
+    android:padding="@dimen/unit1">
 
     <ImageView
         android:id="@+id/user_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/unit12"
+        android:layout_height="@dimen/unit12"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@null"
         android:src="@drawable/profile"
         tools:src="@mipmap/ic_launcher" />
 
@@ -22,11 +23,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="@dimen/unit1"
+        android:layout_marginStart="@dimen/unit1"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:textColor="@color/blackText"
-        android:textSize="18sp"
+        android:textSize="@dimen/text18"
         tools:text="Leonas Narkevičius" />
 
 </LinearLayout>
