@@ -29,8 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:padding="3dp"
-            android:textSize="18sp"
+            android:padding="@dimen/unit1"
+            android:textSize="@dimen/text18"
             tools:text="Vadoviukas: Pėčka" />
 
         <android.support.v7.widget.RecyclerView
@@ -42,27 +42,27 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/need_login_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:gravity="center"
         android:orientation="vertical"
-        android:id="@+id/need_login_view">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/unit3"
+            android:gravity="center"
             android:text="@string/academics_need_login"
-            android:textSize="18sp"
-            android:layout_margin="10dp"
-            android:gravity="center" />
+            android:textSize="@dimen/text18" />
 
         <Button
             android:id="@+id/go_to_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:padding="10dp" />
+            android:padding="@dimen/unit3"
+            android:text="@string/login" />
     </LinearLayout>
 
 </FrameLayout>
