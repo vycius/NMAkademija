@@ -122,7 +122,8 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
         sectionsSpinner.setAdapter(spinnerArrayAdapter);
         sectionsSpinner.setOnItemSelectedListener(new SpinnerListener(this, sections));
-        if (sectionSelectedPosition < sections.size()) {
+
+        if (sectionSelectedPosition < sectionNames.size()) {
             sectionsSpinner.setSelection(sectionSelectedPosition);
         }
     }
@@ -197,10 +198,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     public void onSectionsLoaded(ArrayList<Section> sections) {
         if (isAdded()) {
             setSectionsAdapter(sections);
-
-            Integer sectionId = getSectionId(sections, sectionSelectedPosition);
-
-            loadUsers(sectionId);
+            loadUsers(null);
         }
     }
 
@@ -232,14 +230,5 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
-    }
-
-    @Nullable
-    public static Integer getSectionId(List<Section> sections, int sectionIndex) {
-        if (sectionIndex == 0 || sectionIndex > sections.size()) {
-            return null;
-        }
-
-        return sections.get(sectionIndex).getId();
     }
 }
