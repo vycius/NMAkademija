@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="@dimen/unit2">
 
         <ImageView
             android:id="@+id/profile_pic_view"
@@ -25,10 +26,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/unit4"
-            android:layout_marginStart="@dimen/unit4"
             android:layout_weight="1"
             android:hint="@string/name_hint"
-            android:textSize="20sp" />
+            android:textSize="@dimen/text20" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,14 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
             android:text="@string/room"
-            android:textSize="19sp" />
+            android:textSize="@dimen/text18" />
 
         <TextView
             android:id="@+id/room_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorLink="@android:color/holo_green_dark"
-            android:textSize="19sp"
+            android:textSize="@dimen/text18"
             tools:text="123" />
 
     </LinearLayout>
@@ -61,8 +60,7 @@
         android:layout_marginBottom="@dimen/unit1"
         android:autoLink="phone"
         android:hint="@string/phone_hint"
-        android:textColorLink="@android:color/holo_green_dark"
-        android:textSize="18sp"
+        android:textSize="@dimen/text18"
         tools:text="+37012345678" />
 
     <TextView
@@ -82,5 +80,5 @@
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/bio_hint"
-        android:textSize="@dimen/text16" />
+        android:textSize="@dimen/text18" />
 </LinearLayout>
