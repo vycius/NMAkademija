@@ -68,13 +68,17 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <service android:name=".service.NMAFirebaseInstanceIDService">
+        <service
+            android:name=".service.NMAFirebaseInstanceIDService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".service.NMAFirebaseMessagingService">
+        <service
+            android:name=".service.NMAFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
