@@ -57,7 +57,6 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        //findViewById(R.id.loading_view).setVisibility(View.VISIBLE);
 
         AppEvent.getInstance(this).trackCurrentScreen(this, "open_edit_profile");
 

@@ -44,7 +44,9 @@ public class FirebaseRealtimeApi {
 
                             @Override
                             public void onLoaded(ArrayList<Academic> academics, AcademicLoadedListener listener) {
-                                if (academics.size() != 1) {
+                                if (academics.size() == 0) {
+                                    listener.onAcademicLoadingFailed(new Exception("User doesn't exist"));
+                                } else if (academics.size() > 1) {
                                     listener.onAcademicLoadingFailed(new Exception("Email isn't unique!!!"));
                                 } else {
                                     listener.onAcademicLoaded(academics.get(0));
