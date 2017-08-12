@@ -3,4 +3,7 @@
     <issue id="UnusedResources">
         <ignore regexp="google_crash_reporting_api_key|project_id" />
     </issue>
+
+    <issue id="UseCompoundDrawables" severity="ignore" />
+
 </lint>
