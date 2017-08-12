@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/unit2">
 
         <TextView
             android:id="@+id/schedule_start_time"
@@ -35,16 +35,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingBottom="4dp"
-        android:paddingRight="4dp"
-        android:paddingTop="4dp">
+        android:padding="@dimen/unit1">
 
         <TextView
             android:id="@+id/schedule_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blackText"
-            android:textSize="20sp"
+            android:textSize="@dimen/text20"
             tools:text="Hello World!" />
 
         <TextView
