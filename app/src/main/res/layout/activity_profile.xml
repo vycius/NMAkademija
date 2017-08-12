@@ -54,5 +54,5 @@
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/bio_hint"
-        android:textSize="16sp"/>
+        android:textSize="@dimen/text16"/>
 </LinearLayout>

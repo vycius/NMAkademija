@@ -14,6 +14,7 @@
         android:layout_width="@dimen/unit12"
         android:layout_height="@dimen/unit12"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@null"
         android:src="@drawable/profile"
         tools:src="@mipmap/ic_launcher" />
 
