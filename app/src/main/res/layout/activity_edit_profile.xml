@@ -29,7 +29,7 @@
                 android:id="@+id/name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="@dimen/unit4"
                 android:hint="@string/name_hint"
                 android:textSize="@dimen/text20" />
         </LinearLayout>
