@@ -19,8 +19,7 @@
             style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:theme="@style/ThemeSpinner" />
+            android:spinnerMode="dropdown" />
 
         <TextView
             android:id="@+id/supervisor"
