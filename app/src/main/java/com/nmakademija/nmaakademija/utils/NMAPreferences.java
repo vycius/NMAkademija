@@ -12,7 +12,7 @@ public class NMAPreferences {
     }
 
     public static boolean isFirstTime(Context context) {
-        return getSection(context) == 0;
+        return getSection(context) < 0;
     }
 
     public static int getSection(Context context) {
@@ -24,6 +24,27 @@ public class NMAPreferences {
         getDefault(context)
                 .edit()
                 .putInt(context.getString(R.string.section_key), section)
+                .apply();
+    }
+
+    public static boolean getIsAcademic(Context context) {
+        return getDefault(context)
+                .getBoolean(context.getString(R.string.is_academic_key), false);
+    }
+
+    public static boolean isSetIsAcademic(Context context) {
+        return getDefault(context)
+                .contains(context.getString(R.string.is_academic_key));
+    }
+
+    public static void clear(Context context) {
+        getDefault(context).edit().clear().apply();
+    }
+
+    public static void setIsAcademic(Context context, boolean isAcademic) {
+        getDefault(context)
+                .edit()
+                .putBoolean(context.getString(R.string.is_academic_key), isAcademic)
                 .apply();
     }
 

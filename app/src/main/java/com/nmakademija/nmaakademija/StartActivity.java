@@ -26,10 +26,13 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
+import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
-public class StartActivity extends BaseActivity {
+public class StartActivity extends BaseActivity implements AcademicLoadedListener {
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
     CallbackManager mCallbackManager;
@@ -136,12 +139,13 @@ public class StartActivity extends BaseActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
-                    if (task.getException() != null) {
+                    Exception exception = task.getException();
+                    if (exception != null) {
                         String errorText;
-                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        if (exception instanceof FirebaseAuthUserCollisionException) {
                             errorText = getString(R.string.error_user_collision);
                         } else {
-                            errorText = task.getException().toString();
+                            errorText = exception.toString();
                         }
                         errorTV.setText(errorText);
                         errorTV.setVisibility(View.VISIBLE);
@@ -156,13 +160,22 @@ public class StartActivity extends BaseActivity {
     protected void onUserChange(@Nullable FirebaseUser user) {
         super.onUserChange(user);
         if (user != null) {
-            startNextActivity();
+            if (!NMAPreferences.isSetIsAcademic(this)) {
+                if (user.isAnonymous()) {
+                    NMAPreferences.setIsAcademic(this, false);
+                    startNextActivity();
+                } else {
+                    FirebaseRealtimeApi.getAcademicByEmail(this, user.getEmail());
+                }
+            } else {
+                startNextActivity();
+            }
         }
     }
 
     private void startNextActivity() {
         Intent intent;
-        if (NMAPreferences.getSection(this) < 0) {
+        if (NMAPreferences.isFirstTime(this)) {
             intent = new Intent(this, OnboardingActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
@@ -172,4 +185,16 @@ public class StartActivity extends BaseActivity {
         finish();
     }
 
+    @Override
+    public void onAcademicLoaded(Academic academic) {
+        NMAPreferences.setIsAcademic(this, true);
+        NMAPreferences.setSection(this, academic.getSection());
+        startNextActivity();
+    }
+
+    @Override
+    public void onAcademicLoadingFailed(Exception exception) {
+        NMAPreferences.setIsAcademic(this, false);
+        startNextActivity();
+    }
 }

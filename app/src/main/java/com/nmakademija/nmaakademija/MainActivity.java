@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseUser;
 import com.nmakademija.nmaakademija.adapter.BottomNavigationFragmentPagerAdapter;
+import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
@@ -34,11 +35,18 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
         return true;
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem account = menu.findItem(R.id.account);
+        if (account != null && !NMAPreferences.getIsAcademic(this)) {
+            account.setVisible(false);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
         switch (item.getItemId()) {
             case R.id.account:
                 Intent intent = new Intent(this, EditProfileActivity.class);
@@ -46,16 +54,19 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
                 return true;
             case R.id.logout:
             case R.id.login:
-                openLogin(id == R.id.login);
+                openLogin();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void openLogin(boolean delete) {
-        if (delete && mAuth.getCurrentUser() != null)
-            mAuth.getCurrentUser().delete();
+    public void openLogin() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null && user.isAnonymous()) {
+            user.delete();
+        }
+        NMAPreferences.clear(this);
         mAuth.signOut();
         LoginManager.getInstance().logOut();
         startActivity(new Intent(this, StartActivity.class));

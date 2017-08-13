@@ -40,4 +40,5 @@
     <string name="save">Išsaugoti</string>
     <string name="profile_request_failed">Jūs nesate akademikas!</string>
     <string name="saved">Išsaugota</string>
+    <string name="is_academic_key">is_academic</string>
 </resources>
