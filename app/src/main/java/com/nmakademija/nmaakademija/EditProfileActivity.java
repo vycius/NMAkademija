@@ -78,7 +78,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
 
     @Override
     public void onAcademicLoaded(Academic loadedAcademic) {
-        HideLoading();
+        hideLoading();
 
         academic = loadedAcademic;
         ImageView imageView = (ImageView) findViewById(R.id.profile_pic_view);
@@ -129,12 +129,12 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
 
     @Override
     public void onAcademicLoadingFailed(Exception exception) {
-        HideLoading();
+        hideLoading();
         View view = findViewById(R.id.content);
         Snackbar.make(view, R.string.profile_request_failed, Snackbar.LENGTH_INDEFINITE).show();
     }
 
-    private void HideLoading() {
+    private void hideLoading() {
         findViewById(R.id.loading_view).setVisibility(View.GONE);
         findViewById(R.id.content).setVisibility(View.VISIBLE);
     }
