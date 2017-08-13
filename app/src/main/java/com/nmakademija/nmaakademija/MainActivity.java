@@ -39,17 +39,15 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.account) {
-            Intent intent = new Intent(this, EditProfileActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.logout || id == R.id.login) {
-            openLogin(id == R.id.login);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.account:
+                Intent intent = new Intent(this, EditProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.logout:
+            case R.id.login:
+                openLogin(id == R.id.login);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -116,13 +114,16 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
                 subtitle = R.string.news;
                 break;
             case 1:
-                subtitle = R.string.academics;
+                subtitle = R.string.schedule;
                 break;
             case 2:
-                subtitle = R.string.timer;
+                subtitle = R.string.academics;
                 break;
             case 3:
-                subtitle = R.string.schedule;
+                subtitle = R.string.timer;
+                break;
+            case 4:
+                subtitle = R.string.settings;
                 break;
             default:
                 throw new IllegalArgumentException("Tab with index " + position + " does not exists");

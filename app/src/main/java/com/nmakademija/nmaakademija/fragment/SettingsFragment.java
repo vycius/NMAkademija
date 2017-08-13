@@ -13,6 +13,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     private AppEvent appEvent;
 
+    public static SettingsFragment getInstance() {
+        return new SettingsFragment();
+    }
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
