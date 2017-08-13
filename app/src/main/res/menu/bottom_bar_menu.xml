@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/black"
-    app:bbn_badgeColor="#FFFF0000"
-    app:bbn_rippleColor="#33ffffff">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:color="@color/bottomNavigationNewsTab"
         android:icon="@drawable/ic_news"
         android:title="@string/news" />
     <item
-        android:color="@color/bottomNavigationUsersTab"
+        android:icon="@drawable/ic_schedule"
+        android:title="@string/schedule" />
+    <item
         android:icon="@drawable/ic_users"
         android:title="@string/academics" />
     <item
-        android:color="@color/bottomNavigationTimerTab"
         android:icon="@drawable/ic_timer_sand"
         android:title="@string/timer" />
+
     <item
-        android:color="@color/bottomNavigationScheduleTab"
-        android:icon="@drawable/ic_schedule"
-        android:title="@string/schedule" />
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
 </menu>

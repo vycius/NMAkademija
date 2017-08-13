@@ -1,17 +1,12 @@
 package com.nmakademija.nmaakademija;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +26,8 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (mAuth.getCurrentUser().isAnonymous()) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null && currentUser.isAnonymous()) {
             getMenuInflater().inflate(R.menu.anonymous_main_menu, menu);
         } else {
             getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -51,19 +47,15 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.account) {
-            Intent intent = new Intent(this, EditProfileActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.logout || id == R.id.login) {
-            openLogin();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.account:
+                Intent intent = new Intent(this, EditProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.logout:
+            case R.id.login:
+                openLogin();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -126,38 +118,30 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     void setCurrentFragmentProperties(int position) {
         selectedIndex = position;
 
-        int color, subtitle;
+        int subtitle;
 
         switch (position) {
             case 0:
-                color = R.color.bottomNavigationNewsTab;
                 subtitle = R.string.news;
                 break;
             case 1:
-                color = R.color.bottomNavigationUsersTab;
-                subtitle = R.string.academics;
+                subtitle = R.string.schedule;
                 break;
             case 2:
-                color = R.color.bottomNavigationTimerTab;
-                subtitle = R.string.timer;
+                subtitle = R.string.academics;
                 break;
             case 3:
-                color = R.color.bottomNavigationScheduleTab;
-                subtitle = R.string.schedule;
+                subtitle = R.string.timer;
+                break;
+            case 4:
+                subtitle = R.string.settings;
                 break;
             default:
                 throw new IllegalArgumentException("Tab with index " + position + " does not exists");
         }
-        int colorResource = ContextCompat.getColor(this, color);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(colorResource));
-        bar.setSubtitle(getResources().getString(subtitle));
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(colorResource);
+        if (bar != null) {
+            bar.setSubtitle(getResources().getString(subtitle));
         }
     }
 
