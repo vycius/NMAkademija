@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     void setCurrentFragmentProperties(int position) {
         selectedIndex = position;
 
-        int color, subtitle;
+        int subtitle;
 
         switch (position) {
             case 0:
