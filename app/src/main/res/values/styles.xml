@@ -13,11 +13,4 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="ThemeSpinner">
-        <!-- Color when pressed -->
-        <item name="colorAccent">#ffa000</item>
-        <!-- Default color for the dropdown arrow and line -->
-        <item name="colorControlNormal">@android:color/holo_green_dark</item>
-    </style>
 </resources>
