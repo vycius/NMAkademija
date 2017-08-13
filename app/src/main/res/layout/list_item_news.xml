@@ -20,9 +20,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/blackText"
-            android:textSize="@dimen/text20"
-            android:textStyle="bold"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             tools:text="NMA sesija" />
 
         <TextView
@@ -31,6 +29,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             tools:text="Vyksta NMA vasaros sesija Nidoje" />
 
     </LinearLayout>
@@ -39,7 +38,7 @@
         android:id="@+id/news_image"
         android:layout_width="@dimen/unit18"
         android:layout_height="@dimen/unit18"
-        android:contentDescription="@null"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@null"
         tools:src="@mipmap/ic_launcher" />
 </LinearLayout>
