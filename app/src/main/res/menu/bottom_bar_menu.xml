@@ -4,14 +4,15 @@
         android:icon="@drawable/ic_news"
         android:title="@string/news" />
     <item
+        android:icon="@drawable/ic_schedule"
+        android:title="@string/schedule" />
+    <item
         android:icon="@drawable/ic_users"
         android:title="@string/academics" />
     <item
         android:icon="@drawable/ic_timer_sand"
         android:title="@string/timer" />
-    <item
-        android:icon="@drawable/ic_schedule"
-        android:title="@string/schedule" />
+
     <item
         android:icon="@drawable/ic_settings"
         android:title="@string/settings" />

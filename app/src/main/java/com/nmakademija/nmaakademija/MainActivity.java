@@ -114,13 +114,13 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
                 subtitle = R.string.news;
                 break;
             case 1:
-                subtitle = R.string.academics;
+                subtitle = R.string.schedule;
                 break;
             case 2:
-                subtitle = R.string.timer;
+                subtitle = R.string.academics;
                 break;
             case 3:
-                subtitle = R.string.schedule;
+                subtitle = R.string.timer;
                 break;
             case 4:
                 subtitle = R.string.settings;
