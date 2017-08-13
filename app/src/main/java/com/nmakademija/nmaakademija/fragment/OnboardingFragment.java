@@ -111,7 +111,7 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         if (isAdded()) {
             hideLoading();
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

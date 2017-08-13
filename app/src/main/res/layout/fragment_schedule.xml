@@ -8,7 +8,6 @@
         android:id="@+id/schedule_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/whiteBackground"
         android:overScrollMode="never"
         android:scrollbars="vertical"
         android:visibility="gone"

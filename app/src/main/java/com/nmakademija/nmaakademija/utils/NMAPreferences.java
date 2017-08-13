@@ -17,7 +17,7 @@ public class NMAPreferences {
 
     public static int getSection(Context context) {
         return getDefault(context)
-                .getInt(context.getString(R.string.section_key), 0);
+                .getInt(context.getString(R.string.section_key), -1);
     }
 
     public static void setSection(Context context, int section) {

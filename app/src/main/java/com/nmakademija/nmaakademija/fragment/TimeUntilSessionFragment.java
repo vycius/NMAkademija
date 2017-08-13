@@ -123,13 +123,13 @@ public class TimeUntilSessionFragment extends BaseSceeenFragment implements Time
     public void onTimeUntilSessionLoadingFailed(Exception exception) {
         if (isAdded()) {
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.request_failed, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        loadTimeUntilSession();
-                    }
-                })
+                        @Override
+                        public void onClick(View view) {
+                            loadTimeUntilSession();
+                        }
+                    })
                     .show();
         }
     }

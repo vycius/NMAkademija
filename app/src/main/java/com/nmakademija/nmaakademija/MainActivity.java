@@ -29,14 +29,14 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings_button, menu);
         if (mAuth.getCurrentUser().isAnonymous()) {
-            getMenuInflater().inflate(R.menu.login_button, menu);
+            getMenuInflater().inflate(R.menu.anonymous_main_menu, menu);
         } else {
-            getMenuInflater().inflate(R.menu.logout_button, menu);
+            getMenuInflater().inflate(R.menu.main_menu, menu);
         }
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -44,6 +44,10 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
         if (id == R.id.settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.account) {
+            Intent intent = new Intent(this, EditProfileActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.logout || id == R.id.login) {
@@ -55,7 +59,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     }
 
     public void openLogin(boolean delete) {
-        if (delete)
+        if (delete && mAuth.getCurrentUser() != null)
             mAuth.getCurrentUser().delete();
         mAuth.signOut();
         LoginManager.getInstance().logOut();

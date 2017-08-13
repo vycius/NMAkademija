@@ -162,7 +162,7 @@ public class StartActivity extends BaseActivity {
 
     private void startNextActivity() {
         Intent intent;
-        if (NMAPreferences.getSection(this) == 0) {
+        if (NMAPreferences.getSection(this) < 0) {
             intent = new Intent(this, OnboardingActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
