@@ -7,6 +7,7 @@
     <dimen name="unit12">48dp</dimen>
     <dimen name="unit18">72dp</dimen>
 
+    <dimen name="text16">16sp</dimen>
     <dimen name="text18">18sp</dimen>
     <dimen name="text20">20sp</dimen>
     <dimen name="text32">32sp</dimen>

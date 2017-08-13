@@ -24,8 +24,6 @@ public class ArticleActivity extends BaseActivity {
         TextView tv = (TextView) findViewById(R.id.new_html_view);
         //noinspection deprecation
         tv.setText(Html.fromHtml(article.getContent()));
-        ((TextView) findViewById(R.id.new_description)).setText(
-                article.getDescription());
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
