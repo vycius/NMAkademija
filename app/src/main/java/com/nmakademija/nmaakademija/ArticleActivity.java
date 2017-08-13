@@ -12,6 +12,7 @@ import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.utils.AppEvent;
 
 public class ArticleActivity extends BaseActivity {
+
     public static final String EXTRA_ARTICLE = "com.nmakademija.nmaakademija.article";
 
     @Override
@@ -19,17 +20,18 @@ public class ArticleActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
         Article article = getIntent().getParcelableExtra(EXTRA_ARTICLE);
+
         TextView tv = (TextView) findViewById(R.id.new_html_view);
+        //noinspection deprecation
         tv.setText(Html.fromHtml(article.getContent()));
-        ((TextView) findViewById(R.id.new_description)).setText(
-                article.getDescription());
-        ((TextView) findViewById(R.id.new_title)).setText(
-                article.getTitle());
+
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setSubtitle(R.string.news);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(article.getTitle());
+        }
+
         Glide.with(this).load(article.getTitleImage()).into((ImageView) findViewById(R.id.new_image));
         AppEvent.getInstance(this).trackCurrentScreen(this, "open_article");
-
     }
 }

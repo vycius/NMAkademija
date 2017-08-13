@@ -19,25 +19,11 @@
             tools:src="@drawable/leon" />
 
         <TextView
-            android:id="@+id/new_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/blackText"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:text="NMA sesija" />
-
-        <TextView
-            android:id="@+id/new_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Vyksta NMA vasaros sesija Nidoje" />
-
-        <TextView
             android:id="@+id/new_html_view"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text16"
             tools:text="Kažkas su html tagais." />
 
     </LinearLayout>
