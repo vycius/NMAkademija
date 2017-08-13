@@ -12,4 +12,7 @@
     <item
         android:icon="@drawable/ic_schedule"
         android:title="@string/schedule" />
+    <item
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
 </menu>
