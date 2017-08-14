@@ -10,6 +10,4 @@
     <dimen name="text16">16sp</dimen>
     <dimen name="text18">18sp</dimen>
     <dimen name="text20">20sp</dimen>
-    <dimen name="text32">32sp</dimen>
-    <dimen name="text48">48sp</dimen>
 </resources>
