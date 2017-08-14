@@ -22,11 +22,11 @@ import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.entity.TimeUntilSession;
-import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class FirebaseRealtimeApi {
 
@@ -127,7 +127,12 @@ public class FirebaseRealtimeApi {
 
                             @Override
                             public ArrayList<ScheduleEvent> order(ArrayList<ScheduleEvent> scheduleEvents) {
-                                Collections.sort(scheduleEvents, new ScheduleEventComparator());
+                                Collections.sort(scheduleEvents, new Comparator<ScheduleEvent>() {
+                                    @Override
+                                    public int compare(ScheduleEvent e1, ScheduleEvent e2) {
+                                        return e1.getStartDate().compareTo(e2.getStartDate());
+                                    }
+                                });
 
                                 return scheduleEvents;
                             }
