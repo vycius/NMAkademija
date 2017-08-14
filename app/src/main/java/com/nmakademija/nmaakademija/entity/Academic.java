@@ -25,10 +25,6 @@ public class Academic implements Parcelable, Comparable<Academic> {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getPublicEmail() {
         return publicEmail;
     }
@@ -51,10 +47,6 @@ public class Academic implements Parcelable, Comparable<Academic> {
 
     public String getRoom() {
         return room;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setPublicEmail(String publicEmail) {
