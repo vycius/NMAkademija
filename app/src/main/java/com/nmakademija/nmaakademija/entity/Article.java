@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 @SuppressWarnings("WeakerAccess")
 public class Article implements Parcelable, Comparable<Article> {
@@ -21,15 +22,21 @@ public class Article implements Parcelable, Comparable<Article> {
         return title;
     }
 
-    public String getDescription() {
+    public
+    @Nullable
+    String getDescription() {
         return description;
     }
 
-    public String getTitleImage() {
+    public
+    @Nullable
+    String getTitleImage() {
         return titleImage;
     }
 
-    public String getContent() {
+    public
+    @Nullable
+    String getContent() {
         return content;
     }
 

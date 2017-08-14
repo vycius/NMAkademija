@@ -11,4 +11,5 @@ public interface ArticlesLoadedListener {
 
     void onArticlesLoadingFailed(Exception exception);
 
+    void onArticlesUpdated(ArrayList<Article> articles);
 }

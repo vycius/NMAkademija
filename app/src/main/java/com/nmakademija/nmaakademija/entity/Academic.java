@@ -3,6 +3,7 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 @SuppressWarnings("WeakerAccess")
 public class Academic implements Parcelable, Comparable<Academic> {
@@ -29,19 +30,27 @@ public class Academic implements Parcelable, Comparable<Academic> {
         return email;
     }
 
-    public String getPublicEmail() {
+    public
+    @Nullable
+    String getPublicEmail() {
         return publicEmail;
     }
 
-    public String getPhone() {
+    public
+    @Nullable
+    String getPhone() {
         return phone;
     }
 
-    public String getImage() {
+    public
+    @Nullable
+    String getImage() {
         return image;
     }
 
-    public String getBio() {
+    public
+    @Nullable
+    String getBio() {
         return bio;
     }
 
@@ -49,7 +58,9 @@ public class Academic implements Parcelable, Comparable<Academic> {
         return section;
     }
 
-    public String getRoom() {
+    public
+    @Nullable
+    String getRoom() {
         return room;
     }
 

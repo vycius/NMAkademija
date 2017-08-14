@@ -13,6 +13,7 @@ import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
+import com.nmakademija.nmaakademija.api.listener.ApiReferenceListenerSingleEvent;
 import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
@@ -34,7 +35,7 @@ public class FirebaseRealtimeApi {
     public static void getAcademicByEmail(AcademicLoadedListener listener, final String email) {
         FirebaseDatabase.getInstance().getReference("academics").orderByChild("email").equalTo(email)
                 .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<Academic, AcademicLoadedListener>(Academic.class,
+                        new ApiReferenceListenerSingleEvent<Academic, AcademicLoadedListener>(Academic.class,
                                 new WeakReference<>(listener)) {
 
                             @Override
@@ -55,28 +56,28 @@ public class FirebaseRealtimeApi {
                         });
     }
 
-    public static void getAcademics(AcademicsLoadedListener listener, @Nullable final Integer sectionId) {
+    public static void getAcademics(final AcademicsLoadedListener listener, @Nullable final Integer sectionId) {
         FirebaseDatabase.getInstance().getReference("academics")
-                .addListenerForSingleValueEvent(
+                .addValueEventListener(
                         new ApiReferenceListener<Academic, AcademicsLoadedListener>(Academic.class,
                                 new WeakReference<>(listener)) {
 
-                            @Override
                             public void onFailed(AcademicsLoadedListener listener, Exception ex) {
                                 listener.onAcademicsLoadingFailed(ex);
                             }
 
-                            @Override
                             public void onLoaded(ArrayList<Academic> academics, AcademicsLoadedListener listener) {
                                 listener.onAcademicsLoaded(academics);
                             }
 
-                            @Override
+                            public void onUpdated(ArrayList<Academic> academics, AcademicsLoadedListener listener) {
+                                listener.onAcademicsUpdated(academics);
+                            }
+
                             public boolean where(Academic academic) {
                                 return sectionId == null || sectionId.equals(academic.getSection());
                             }
 
-                            @Override
                             public ArrayList<Academic> order(ArrayList<Academic> academics) {
                                 Collections.sort(academics);
                                 return academics;
@@ -86,8 +87,8 @@ public class FirebaseRealtimeApi {
 
     public static void getSections(SectionsLoadedListener listener) {
         FirebaseDatabase.getInstance().getReference("sections")
-                .addListenerForSingleValueEvent(
-                        new ApiReferenceListener<Section, SectionsLoadedListener>(Section.class,
+                .addValueEventListener(
+                        new ApiReferenceListenerSingleEvent<Section, SectionsLoadedListener>(Section.class,
                                 new WeakReference<>(listener)) {
 
                             @Override
@@ -105,7 +106,7 @@ public class FirebaseRealtimeApi {
 
     public static void getSchedules(SchedulesLoadedListener listener, final int sectionId) {
         FirebaseDatabase.getInstance().getReference("schedules")
-                .addListenerForSingleValueEvent(
+                .addValueEventListener(
                         new ApiReferenceListener<ScheduleEvent, SchedulesLoadedListener>(
                                 ScheduleEvent.class, new WeakReference<>(listener)) {
                             @Override
@@ -117,6 +118,11 @@ public class FirebaseRealtimeApi {
                             public void onLoaded(ArrayList<ScheduleEvent> scheduleEvents,
                                                  SchedulesLoadedListener listener) {
                                 listener.onSchedulesLoaded(scheduleEvents);
+                            }
+
+                            @Override
+                            public void onUpdated(ArrayList<ScheduleEvent> scheduleEvents, SchedulesLoadedListener listener) {
+                                listener.onSchedulesUpdated(scheduleEvents);
                             }
 
                             @Override
@@ -136,7 +142,7 @@ public class FirebaseRealtimeApi {
 
     public static void getArticles(ArticlesLoadedListener listener) {
         FirebaseDatabase.getInstance().getReference("articles")
-                .addListenerForSingleValueEvent(
+                .addValueEventListener(
                         new ApiReferenceListener<Article, ArticlesLoadedListener>(Article.class,
                                 new WeakReference<>(listener)) {
 
@@ -148,6 +154,11 @@ public class FirebaseRealtimeApi {
                             @Override
                             public void onLoaded(ArrayList<Article> articles, ArticlesLoadedListener listener) {
                                 listener.onArticlesLoaded(articles);
+                            }
+
+                            @Override
+                            public void onUpdated(ArrayList<Article> articles, ArticlesLoadedListener listener) {
+                                listener.onArticlesUpdated(articles);
                             }
 
                             @Override

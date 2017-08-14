@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.UserViewHolder> {
 
-    private List<Academic> academics;
+    public List<Academic> academics;
     private OnAcademicSelectedListener onAcademicSelectedListener;
 
     public AcademicsAdapter(List<Academic> academics, OnAcademicSelectedListener onAcademicSelectedListener) {
@@ -34,13 +34,13 @@ public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.User
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
-        final Academic academic = academics.get(position);
-        holder.bindData(academic);
+        final Integer pos = position;
+        holder.bindData(academics.get(pos));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onAcademicSelectedListener.onAcademicSelected(academic);
+                onAcademicSelectedListener.onAcademicSelected(academics.get(pos));
             }
         });
     }
