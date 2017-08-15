@@ -32,5 +32,6 @@ public class App extends Application {
     public void setFirebaseOptions() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.setPersistenceEnabled(true);
+        firebaseDatabase.getReference().keepSynced(true);
     }
 }
