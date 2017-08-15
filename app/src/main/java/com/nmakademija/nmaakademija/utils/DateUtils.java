@@ -17,21 +17,20 @@ public class DateUtils {
     private static final ThreadLocal<SimpleDateFormat> TIME_FORMAT = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat(TIME_FORMAT_PATTERN, Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(TIME_FORMAT_PATTERN, Locale.US);
+            dateFormat.setTimeZone(TimeZone.getDefault());
+            return dateFormat;
         }
     };
 
     private static final ThreadLocal<SimpleDateFormat> DATE_FORMAT = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat(DATE_FORMAT_PATTERN_TZ, Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN_TZ, Locale.US);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return dateFormat;
         }
     };
-
-    static {
-        DATE_FORMAT.get().setTimeZone(TimeZone.getTimeZone("UTC"));
-        TIME_FORMAT.get().setTimeZone(TimeZone.getDefault());
-    }
 
     @Nullable
     public static Date parseTZDate(String pattern) {
@@ -51,6 +50,5 @@ public class DateUtils {
 
         return TIME_FORMAT.get().format(date);
     }
-
 
 }
