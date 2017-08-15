@@ -1,5 +1,7 @@
 package com.nmakademija.nmaakademija.service;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -15,10 +17,29 @@ import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
-public class
-NMAFirebaseMessagingService extends FirebaseMessagingService {
+public class NMAFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMsgService";
+    public static final String channelId = "main_notification_channel";
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            NotificationChannel notificationChannel =
+                    new NotificationChannel(
+                            channelId,
+                            getString(R.string.notifications),
+                            NotificationManager.IMPORTANCE_DEFAULT);
+
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+    }
 
     /**
      * Called when message is received.
@@ -54,17 +75,20 @@ NMAFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(messageTitle)
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, notificationBuilder.build());
+        Notification notification =
+                new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(messageTitle)
+                        .setContentText(messageBody)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent)
+                        .build();
+
+        notificationManager.notify(0, notification);
     }
 }
