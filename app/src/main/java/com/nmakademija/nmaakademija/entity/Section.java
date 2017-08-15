@@ -3,11 +3,11 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-@SuppressWarnings("WeakerAccess")
 public class Section implements Parcelable {
-    public int id;
-    public String name;
-    public String supervisor;
+
+    private int id;
+    private String name;
+    private String supervisor;
 
     public String getSupervisor() {
         return supervisor;
@@ -19,6 +19,9 @@ public class Section implements Parcelable {
 
     public int getId() {
         return id;
+    }
+
+    public Section() {
     }
 
     @Override
@@ -33,16 +36,13 @@ public class Section implements Parcelable {
         dest.writeString(this.supervisor);
     }
 
-    public Section() {
-    }
-
     protected Section(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
         this.supervisor = in.readString();
     }
 
-    public static final Parcelable.Creator<Section> CREATOR = new Parcelable.Creator<Section>() {
+    public static final Creator<Section> CREATOR = new Creator<Section>() {
         @Override
         public Section createFromParcel(Parcel source) {
             return new Section(source);

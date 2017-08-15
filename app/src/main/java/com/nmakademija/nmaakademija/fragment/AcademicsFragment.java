@@ -152,7 +152,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
             loadUsers(section.getId());
         }
 
-        if (section == null || TextUtils.isEmpty(section.supervisor)) {
+        if (section == null || TextUtils.isEmpty(section.getSupervisor())) {
             supervisorView.setVisibility(View.GONE);
         } else {
             supervisorView.setVisibility(View.VISIBLE);

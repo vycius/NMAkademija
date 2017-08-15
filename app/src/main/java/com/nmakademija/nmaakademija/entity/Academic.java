@@ -4,18 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-@SuppressWarnings("WeakerAccess")
 public class Academic implements Parcelable, Comparable<Academic> {
 
-    public int id;
-    public String name;
-    public String email;
-    public String publicEmail;
-    public String phone;
-    public String bio;
-    public String image;
-    public String room;
-    public int section;
+    private int id;
+    private String name;
+    private String email;
+    private String publicEmail;
+    private String phone;
+    private String bio;
+    private String image;
+    private String room;
+    private int section;
 
     public int getId() {
         return id;
@@ -27,6 +26,10 @@ public class Academic implements Parcelable, Comparable<Academic> {
 
     public String getPublicEmail() {
         return publicEmail;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getPhone() {
@@ -69,6 +72,16 @@ public class Academic implements Parcelable, Comparable<Academic> {
         this.room = room;
     }
 
+
+    public Academic() {
+    }
+
+    @Override
+    public int compareTo(@NonNull Academic academic) {
+        return getName().compareToIgnoreCase(academic.getName());
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -85,9 +98,6 @@ public class Academic implements Parcelable, Comparable<Academic> {
         dest.writeString(this.image);
         dest.writeString(this.room);
         dest.writeInt(this.section);
-    }
-
-    public Academic() {
     }
 
     protected Academic(Parcel in) {
@@ -113,9 +123,4 @@ public class Academic implements Parcelable, Comparable<Academic> {
             return new Academic[size];
         }
     };
-
-    @Override
-    public int compareTo(@NonNull Academic academic) {
-        return getName().compareToIgnoreCase(academic.getName());
-    }
 }
