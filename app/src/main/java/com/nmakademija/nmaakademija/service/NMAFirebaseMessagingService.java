@@ -20,7 +20,7 @@ import com.nmakademija.nmaakademija.utils.NMAPreferences;
 public class NMAFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMsgService";
-    public static final String channelId = "main_notification_channel";
+    public static final String CHANNEL_ID = "main_notification_channel";
 
 
     @Override
@@ -33,7 +33,7 @@ public class NMAFirebaseMessagingService extends FirebaseMessagingService {
 
             NotificationChannel notificationChannel =
                     new NotificationChannel(
-                            channelId,
+                            CHANNEL_ID,
                             getString(R.string.notifications),
                             NotificationManager.IMPORTANCE_DEFAULT);
 
@@ -80,7 +80,7 @@ public class NMAFirebaseMessagingService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification =
-                new NotificationCompat.Builder(this, channelId)
+                new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(messageTitle)
                         .setContentText(messageBody)
