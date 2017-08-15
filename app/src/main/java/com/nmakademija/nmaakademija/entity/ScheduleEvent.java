@@ -35,8 +35,12 @@ public class ScheduleEvent implements Parcelable {
         return lecturer;
     }
 
-    public Date getDate() {
+    public Date getStartDate() {
         return DateUtils.parseTZDate(startTime);
+    }
+
+    public Date getEndDate() {
+        return DateUtils.parseTZDate(endTime);
     }
 
     public int getSectionId() {

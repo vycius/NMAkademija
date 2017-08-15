@@ -9,7 +9,6 @@ import com.nmakademija.nmaakademija.fragment.AcademicsFragment;
 import com.nmakademija.nmaakademija.fragment.NewsFragment;
 import com.nmakademija.nmaakademija.fragment.ScheduleFragment;
 import com.nmakademija.nmaakademija.fragment.SettingsFragment;
-import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
 
 public class BottomNavigationFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -27,8 +26,6 @@ public class BottomNavigationFragmentPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return AcademicsFragment.getInstance();
             case 3:
-                return TimeUntilSessionFragment.getInstance();
-            case 4:
                 return SettingsFragment.getInstance();
         }
 
@@ -38,6 +35,6 @@ public class BottomNavigationFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 }

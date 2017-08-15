@@ -13,8 +13,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.R;
-import com.nmakademija.nmaakademija.fragment.TimeUntilSessionFragment;
 import com.nmakademija.nmaakademija.utils.NMAPreferences;
 
 public class NMAFirebaseMessagingService extends FirebaseMessagingService {
@@ -69,8 +69,7 @@ public class NMAFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String messageTitle, String messageBody) {
-        Intent intent = new Intent(this, TimeUntilSessionFragment.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
