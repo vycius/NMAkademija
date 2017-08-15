@@ -14,21 +14,28 @@ public class DateUtils {
     private static final String DATE_FORMAT_PATTERN_TZ = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     private static final String TIME_FORMAT_PATTERN = "HH:mm";
 
-    private static final SimpleDateFormat TIME_FORMAT =
-            new SimpleDateFormat(TIME_FORMAT_PATTERN, Locale.US);
+    private static final ThreadLocal<SimpleDateFormat> TIME_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(TIME_FORMAT_PATTERN, Locale.US);
+            dateFormat.setTimeZone(TimeZone.getDefault());
+            return dateFormat;
+        }
+    };
 
-    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_PATTERN_TZ,
-            Locale.US);
-
-    static {
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-        TIME_FORMAT.setTimeZone(TimeZone.getDefault());
-    }
+    private static final ThreadLocal<SimpleDateFormat> DATE_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN_TZ, Locale.US);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return dateFormat;
+        }
+    };
 
     @Nullable
     public static Date parseTZDate(String pattern) {
         try {
-            return DATE_FORMAT.parse(pattern);
+            return DATE_FORMAT.get().parse(pattern);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -41,8 +48,7 @@ public class DateUtils {
             return null;
         }
 
-        return TIME_FORMAT.format(date);
+        return TIME_FORMAT.get().format(date);
     }
-
 
 }
