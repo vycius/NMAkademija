@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
     private Context context;
-    private List<ScheduleEvent> events;
+    public List<ScheduleEvent> events;
 
     public ScheduleAdapter(Context context, List<ScheduleEvent> events) {
         this.events = events;

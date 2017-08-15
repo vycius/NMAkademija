@@ -22,8 +22,10 @@ import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.listener.ClickListener;
 import com.nmakademija.nmaakademija.listener.RecyclerTouchListener;
 import com.nmakademija.nmaakademija.utils.AppEvent;
+import com.nmakademija.nmaakademija.utils.CompareStrings;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedListener {
 
@@ -33,6 +35,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     private AppEvent appEvent;
     private RecyclerView articlesRecyclerView;
+    ArticlesAdapter adapter;
 
 
     @Nullable
@@ -64,7 +67,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         if (isAdded()) {
             articlesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
             articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            ArticlesAdapter adapter = new ArticlesAdapter(articles);
+            adapter = new ArticlesAdapter(articles);
             adapter.setHasStableIds(true);
             articlesRecyclerView.setAdapter(adapter);
             articlesRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(
@@ -101,5 +104,43 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
                     .show();
 
         }
+    }
+
+    @Override
+    public void onArticlesUpdated(ArrayList<Article> articles) {
+        List<Article> oldAcademics = adapter.articlesList;
+        if (oldAcademics.size() == articles.size()) {
+            for (int i = 0; i < articles.size(); i++) {
+                if (!oldAcademics.get(i).getTitle().equals(articles.get(i).getTitle()) ||
+                        !CompareStrings.equal(oldAcademics.get(i).getDescription(), articles.get(i).getDescription())) {
+                    newArticle(articles);
+                    return;
+                }
+            }
+            adapter.articlesList = articles;
+        } else {
+            newArticle(articles);
+        }
+    }
+
+    private void newArticle(final ArrayList<Article> articles) {
+        if (isVisible()) {
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), "Naujiena", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Rodyti", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            updateAdapter(articles);
+                        }
+                    })
+                    .show();
+        } else {
+            updateAdapter(articles);
+        }
+    }
+
+    private void updateAdapter(ArrayList<Article> articles) {
+        adapter.articlesList = articles;
+        adapter.notifyDataSetChanged();
     }
 }

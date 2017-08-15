@@ -27,6 +27,7 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
 
     private View loadingView;
     private RecyclerView scheduleRecyclerView;
+    ScheduleAdapter adapter;
 
     private int sectionId;
 
@@ -69,7 +70,7 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
     public void onSchedulesLoaded(ArrayList<ScheduleEvent> sectionEvents) {
         if (isAdded()) {
 
-            ScheduleAdapter adapter = new ScheduleAdapter(getContext(), sectionEvents);
+            adapter = new ScheduleAdapter(getContext(), sectionEvents);
             adapter.setHasStableIds(true);
             scheduleRecyclerView.setAdapter(adapter);
 
@@ -126,6 +127,28 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
                     .show();
         }
 
+    }
+
+    @Override
+    public void onSchedulesUpdated(final ArrayList<ScheduleEvent> scheduleEvents) {
+        if (isVisible()) {
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), "Programa pasikeitė", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Rodyti", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            updateAdapter(scheduleEvents);
+                        }
+                    })
+                    .show();
+        } else {
+            updateAdapter(scheduleEvents);
+        }
+    }
+
+    private void updateAdapter(ArrayList<ScheduleEvent> scheduleEvents) {
+        adapter.events = scheduleEvents;
+        adapter.notifyDataSetChanged();
     }
 
     public void showLoading() {

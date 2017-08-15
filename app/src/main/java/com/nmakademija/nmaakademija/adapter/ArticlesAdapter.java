@@ -15,7 +15,7 @@ import com.nmakademija.nmaakademija.entity.Article;
 import java.util.List;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder> {
-    private List<Article> articlesList;
+    public List<Article> articlesList;
 
     public ArticlesAdapter(List<Article> articlesList) {
         this.articlesList = articlesList;

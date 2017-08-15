@@ -8,6 +8,8 @@ public interface AcademicsLoadedListener {
 
     void onAcademicsLoaded(ArrayList<Academic> academics);
 
+    void onAcademicsUpdated(ArrayList<Academic> academics);
+
     void onAcademicsLoadingFailed(Exception exception);
 
 }

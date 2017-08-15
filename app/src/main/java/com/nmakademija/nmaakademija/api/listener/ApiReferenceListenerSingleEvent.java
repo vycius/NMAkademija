@@ -13,13 +13,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public abstract class ApiReferenceListener<T, L> implements ValueEventListener {
+public abstract class ApiReferenceListenerSingleEvent<T, L> implements ValueEventListener {
 
     private final Class<T> clz;
     private final WeakReference<L> listenerWeakReference;
-    private boolean firstTime = true;
 
-    protected ApiReferenceListener(Class<T> clz, WeakReference<L> listenerWeakReference) {
+    protected ApiReferenceListenerSingleEvent(Class<T> clz, WeakReference<L> listenerWeakReference) {
         this.listenerWeakReference = listenerWeakReference;
         this.clz = clz;
     }
@@ -47,12 +46,7 @@ public abstract class ApiReferenceListener<T, L> implements ValueEventListener {
                             L listener = listenerWeakReference.get();
 
                             if (listener != null) {
-                                if (firstTime) {
-                                    onLoaded(orderedItems, listener);
-                                    firstTime = false;
-                                } else {
-                                    onUpdated(orderedItems, listener);
-                                }
+                                onLoaded(orderedItems, listener);
                             }
                         }
                     });
@@ -89,7 +83,5 @@ public abstract class ApiReferenceListener<T, L> implements ValueEventListener {
     public abstract void onFailed(L listener, Exception ex);
 
     public abstract void onLoaded(ArrayList<T> items, L listener);
-
-    public abstract void onUpdated(ArrayList<T> items, L listener);
 
 }

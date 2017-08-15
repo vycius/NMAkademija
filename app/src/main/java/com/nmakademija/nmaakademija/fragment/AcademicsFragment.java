@@ -52,6 +52,8 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
     private int sectionSelectedPosition = 0;
 
+    AcademicsAdapter academicsAdapter;
+
     public static AcademicsFragment getInstance() {
         return new AcademicsFragment();
     }
@@ -163,14 +165,50 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     @Override
     public void onAcademicsLoaded(ArrayList<Academic> academics) {
         if (isAdded()) {
-            AcademicsAdapter academicsAdapter = new AcademicsAdapter(academics, this);
+            academicsAdapter = new AcademicsAdapter(academics, this);
             academicsAdapter.setHasStableIds(true);
 
             usersRecyclerView.setAdapter(academicsAdapter);
-            usersRecyclerView.setHasFixedSize(true);
 
             hideLoading();
         }
+    }
+
+    @Override
+    public void onAcademicsUpdated(final ArrayList<Academic> academics) {
+        List<Academic> oldAcademics = academicsAdapter.academics;
+        if (oldAcademics.size() == academics.size()) {
+            for (int i = 0; i < academics.size(); i++) {
+                if (!oldAcademics.get(i).getName().equals(academics.get(i).getName())) {
+                    newAcademic(academics);
+                    return;
+                }
+            }
+            academicsAdapter.academics = academics;
+        } else {
+            newAcademic(academics);
+        }
+    }
+
+    private void newAcademic(final ArrayList<Academic> academics) {
+        if (isVisible()) {
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), "Naujas akademikas", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Atnaujinti", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            updateAdapter(academics);
+                        }
+                    })
+                    .show();
+        } else {
+            updateAdapter(academics);
+        }
+    }
+
+    private void updateAdapter(ArrayList<Academic> academics) {
+        academicsAdapter.academics = academics;
+        academicsAdapter.notifyDataSetChanged();
     }
 
     public void onLoadingFailed() {
@@ -208,7 +246,6 @@ public class AcademicsFragment extends BaseSceeenFragment implements
             onLoadingFailed();
         }
     }
-
 
     public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);

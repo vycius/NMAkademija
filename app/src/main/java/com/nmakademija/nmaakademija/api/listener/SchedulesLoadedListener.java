@@ -11,4 +11,5 @@ public interface SchedulesLoadedListener {
 
     void onSchedulesLoadingFailed(Exception exception);
 
+    void onSchedulesUpdated(ArrayList<ScheduleEvent> scheduleEvents);
 }

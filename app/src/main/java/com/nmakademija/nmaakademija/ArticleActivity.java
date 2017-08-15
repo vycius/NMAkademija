@@ -21,9 +21,11 @@ public class ArticleActivity extends BaseActivity {
         setContentView(R.layout.activity_article);
         Article article = getIntent().getParcelableExtra(EXTRA_ARTICLE);
 
-        TextView tv = (TextView) findViewById(R.id.new_html_view);
-        //noinspection deprecation
-        tv.setText(Html.fromHtml(article.getContent()));
+        if (article.getContent() != null) {
+            TextView tv = (TextView) findViewById(R.id.new_html_view);
+            //noinspection deprecation
+            tv.setText(Html.fromHtml(article.getContent()));
+        }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
