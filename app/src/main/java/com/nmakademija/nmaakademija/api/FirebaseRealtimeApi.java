@@ -117,8 +117,8 @@ public class FirebaseRealtimeApi {
 
                             @Override
                             public boolean where(ScheduleEvent scheduleEvent) {
-                                return scheduleEvent.getSectionId() == -1 ||
-                                        scheduleEvent.getSectionId() == sectionId;
+                                return scheduleEvent.getSection() == -1 ||
+                                        scheduleEvent.getSection() == sectionId;
                             }
 
                             @Override

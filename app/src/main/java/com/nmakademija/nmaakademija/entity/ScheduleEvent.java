@@ -7,16 +7,14 @@ import com.nmakademija.nmaakademija.utils.DateUtils;
 
 import java.util.Date;
 
-@SuppressWarnings("WeakerAccess")
 public class ScheduleEvent implements Parcelable {
 
-    public String startTime;
-    public String endTime;
-    public String name;
-    public String lecturer;
-    public int section;
-    public int id;
-
+    private String startTime;
+    private String endTime;
+    private String name;
+    private String lecturer;
+    private int section;
+    private int id;
 
     //region Getters
     public String getStartTime() {
@@ -31,7 +29,7 @@ public class ScheduleEvent implements Parcelable {
         return name;
     }
 
-    public String getLecturerName() {
+    public String getLecturer() {
         return lecturer;
     }
 
@@ -43,10 +41,9 @@ public class ScheduleEvent implements Parcelable {
         return DateUtils.parseTZDate(endTime);
     }
 
-    public int getSectionId() {
+    public int getSection() {
         return section;
     }
-
     public int getId() {
         return id;
     }

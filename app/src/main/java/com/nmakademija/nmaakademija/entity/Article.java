@@ -4,14 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-@SuppressWarnings("WeakerAccess")
 public class Article implements Parcelable, Comparable<Article> {
 
-    public int id;
-    public String title;
-    public String description;
-    public String content;
-    public String titleImage;
+    private int id;
+    private String title;
+    private String description;
+    private String content;
+    private String titleImage;
 
     public int getId() {
         return id;
@@ -33,6 +32,14 @@ public class Article implements Parcelable, Comparable<Article> {
         return content;
     }
 
+    public Article() {
+    }
+
+    @Override
+    public int compareTo(@NonNull Article article) {
+        return Integer.valueOf(article.getId()).compareTo(getId());
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -45,9 +52,6 @@ public class Article implements Parcelable, Comparable<Article> {
         dest.writeString(this.description);
         dest.writeString(this.content);
         dest.writeString(this.titleImage);
-    }
-
-    public Article() {
     }
 
     protected Article(Parcel in) {
@@ -69,10 +73,4 @@ public class Article implements Parcelable, Comparable<Article> {
             return new Article[size];
         }
     };
-
-    @Override
-    public int compareTo(@NonNull Article article) {
-        return Integer.valueOf(article.getId()).compareTo(getId());
-    }
-
 }

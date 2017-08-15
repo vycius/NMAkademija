@@ -57,7 +57,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         void bindData(ScheduleEvent scheduleEvent) {
             startTime.setText(scheduleEvent.getStartTime());
             endTime.setText(scheduleEvent.getEndTime());
-            author.setText(scheduleEvent.getLecturerName());
+            author.setText(scheduleEvent.getLecturer());
             name.setText(scheduleEvent.getName());
         }
     }
