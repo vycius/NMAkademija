@@ -4,11 +4,9 @@ package com.nmakademija.nmaakademija.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
@@ -16,17 +14,15 @@ import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
 import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
-import com.nmakademija.nmaakademija.api.listener.TimeUntilSessionLoadingListener;
 import com.nmakademija.nmaakademija.entity.Academic;
 import com.nmakademija.nmaakademija.entity.Article;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.entity.Section;
-import com.nmakademija.nmaakademija.entity.TimeUntilSession;
-import com.nmakademija.nmaakademija.utils.ScheduleEventComparator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class FirebaseRealtimeApi {
 
@@ -127,7 +123,12 @@ public class FirebaseRealtimeApi {
 
                             @Override
                             public ArrayList<ScheduleEvent> order(ArrayList<ScheduleEvent> scheduleEvents) {
-                                Collections.sort(scheduleEvents, new ScheduleEventComparator());
+                                Collections.sort(scheduleEvents, new Comparator<ScheduleEvent>() {
+                                    @Override
+                                    public int compare(ScheduleEvent e1, ScheduleEvent e2) {
+                                        return e1.getStartDate().compareTo(e2.getStartDate());
+                                    }
+                                });
 
                                 return scheduleEvents;
                             }
@@ -170,34 +171,6 @@ public class FirebaseRealtimeApi {
                         } else {
                             listener.onAcademicUpdateFailed(databaseError.toException());
 
-                        }
-                    }
-                });
-    }
-
-    public static void getTimeUntillSession(TimeUntilSessionLoadingListener listener) {
-        final WeakReference<TimeUntilSessionLoadingListener> loadedListener =
-                new WeakReference<>(listener);
-
-        FirebaseDatabase.getInstance().getReference("tts")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        TimeUntilSession untilSession = dataSnapshot.getValue(TimeUntilSession.class);
-
-                        TimeUntilSessionLoadingListener apiLoadedListener = loadedListener.get();
-                        if (apiLoadedListener != null) {
-
-                            apiLoadedListener.onTimeUntilSessionLoaded(untilSession);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        TimeUntilSessionLoadingListener apiLoadedListener = loadedListener.get();
-                        if (apiLoadedListener != null) {
-                            apiLoadedListener.onTimeUntilSessionLoadingFailed(
-                                    databaseError.toException());
                         }
                     }
                 });

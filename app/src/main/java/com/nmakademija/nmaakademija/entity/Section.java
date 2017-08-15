@@ -6,7 +6,8 @@ import android.os.Parcelable;
 @SuppressWarnings("WeakerAccess")
 public class Section implements Parcelable {
     public int id;
-    public String name, supervisor, image;
+    public String name;
+    public String supervisor;
 
     public String getSupervisor() {
         return supervisor;
@@ -20,10 +21,6 @@ public class Section implements Parcelable {
         return id;
     }
 
-    public String getImage() {
-        return image;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -34,7 +31,6 @@ public class Section implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeString(this.supervisor);
-        dest.writeString(this.image);
     }
 
     public Section() {
@@ -44,7 +40,6 @@ public class Section implements Parcelable {
         this.id = in.readInt();
         this.name = in.readString();
         this.supervisor = in.readString();
-        this.image = in.readString();
     }
 
     public static final Parcelable.Creator<Section> CREATOR = new Parcelable.Creator<Section>() {

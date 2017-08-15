@@ -82,7 +82,7 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
             Date now = new Date();
 
             for (int i = 0; i < sectionEvents.size(); i++) {
-                Date date = sectionEvents.get(i).getDate();
+                Date date = sectionEvents.get(i).getStartDate();
                 String dateString = dateFormat.format(date);
 
                 if (!lastScheduleDay.equals(dateString)) {
