@@ -1,5 +1,6 @@
 package com.nmakademija.nmaakademija;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -28,11 +29,17 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         if (mAuth == null)
             mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         if (mAuthListener == null)
             mAuthListener = new FirebaseAuth.AuthStateListener() {
                 @Override
