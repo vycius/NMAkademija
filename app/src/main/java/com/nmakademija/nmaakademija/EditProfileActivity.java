@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.controllers.AcademicByEmailController;
 import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
@@ -27,6 +28,7 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
     private TextInputEditText emailView;
     private TextInputEditText bioView;
     private TextInputEditText roomView;
+    private AcademicByEmailController academicController;
 
 
     @Override
@@ -56,9 +58,22 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
         AppEvent.getInstance(this).trackCurrentScreen(this, "open_edit_profile");
 
         String academicEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        FirebaseRealtimeApi.getAcademicByEmail(this, academicEmail);
+        academicController = new AcademicByEmailController(this, academicEmail);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        academicController.attach();
+    }
+
+    @Override
+    public void onStop() {
+        academicController.remove();
+
+        super.onStop();
+    }
 
     @Override
     public void onAcademicLoaded(Academic loadedAcademic) {

@@ -17,6 +17,7 @@ public abstract class ApiReferenceListener<T, L> implements ValueEventListener {
 
     private final Class<T> clz;
     private final WeakReference<L> listenerWeakReference;
+    private boolean firstTime = true;
 
     protected ApiReferenceListener(Class<T> clz, WeakReference<L> listenerWeakReference) {
         this.listenerWeakReference = listenerWeakReference;
@@ -46,7 +47,12 @@ public abstract class ApiReferenceListener<T, L> implements ValueEventListener {
                             L listener = listenerWeakReference.get();
 
                             if (listener != null) {
-                                onLoaded(orderedItems, listener);
+                                if (firstTime) {
+                                    onLoaded(orderedItems, listener);
+                                    firstTime = false;
+                                } else {
+                                    onUpdated(orderedItems, listener);
+                                }
                             }
                         }
                     });
@@ -83,5 +89,7 @@ public abstract class ApiReferenceListener<T, L> implements ValueEventListener {
     public abstract void onFailed(L listener, Exception ex);
 
     public abstract void onLoaded(ArrayList<T> items, L listener);
+
+    public abstract void onUpdated(ArrayList<T> items, L listener);
 
 }

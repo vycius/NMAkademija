@@ -10,4 +10,6 @@ public interface AcademicsLoadedListener {
 
     void onAcademicsLoadingFailed(Exception exception);
 
+    void onAcademicsUpdated(ArrayList<Academic> academics);
+
 }

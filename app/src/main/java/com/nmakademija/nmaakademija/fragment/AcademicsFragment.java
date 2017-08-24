@@ -20,7 +20,8 @@ import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.ProfileActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.AcademicsAdapter;
-import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.controllers.AcademicsController;
+import com.nmakademija.nmaakademija.api.controllers.SectionsController;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
@@ -47,6 +48,10 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     private Spinner sectionsSpinner;
     private TextView supervisorView;
     private Button loginButton;
+    SectionsController sectionsController;
+    AcademicsController academicsController;
+    AcademicsAdapter academicsAdapter;
+    ArrayList<Academic> academics;
 
     private AppEvent appEvent;
 
@@ -63,6 +68,9 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         if (savedInstanceState != null) {
             sectionSelectedPosition = savedInstanceState.getInt(EXTRA_LAST_FILTER);
         }
+
+        sectionsController = new SectionsController(this);
+        academicsController = new AcademicsController(this);
     }
 
     @Override
@@ -99,14 +107,15 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         } else {
             appEvent = AppEvent.getInstance(getContext());
             appEvent.trackCurrentScreen(getActivity(), "open_users_list");
-
-            loadSections();
         }
     }
 
-    private void loadSections() {
+    @Override
+    public void onStart() {
+        super.onStart();
+
         showLoading();
-        FirebaseRealtimeApi.getSections(this);
+        sectionsController.attach();
     }
 
     private void setSectionsAdapter(ArrayList<Section> sections) {
@@ -128,10 +137,6 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         }
     }
 
-    private void loadUsers(@Nullable Integer sectionId) {
-        FirebaseRealtimeApi.getAcademics(this, sectionId);
-    }
-
     @Override
     public void onAcademicSelected(Academic academic) {
         appEvent.trackUserClicked(academic.getName());
@@ -147,9 +152,9 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         sectionSelectedPosition = position;
 
         if (section == null) {
-            loadUsers(null);
+            academicsAdapter.getFilter().filter("-1");
         } else {
-            loadUsers(section.getId());
+            academicsAdapter.getFilter().filter(Integer.toString(section.getId()));
         }
 
         if (section == null || TextUtils.isEmpty(section.getSupervisor())) {
@@ -163,7 +168,8 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     @Override
     public void onAcademicsLoaded(ArrayList<Academic> academics) {
         if (isAdded()) {
-            AcademicsAdapter academicsAdapter = new AcademicsAdapter(academics, this);
+            this.academics = academics;
+            academicsAdapter = new AcademicsAdapter(academics, this);
             academicsAdapter.setHasStableIds(true);
 
             usersRecyclerView.setAdapter(academicsAdapter);
@@ -177,14 +183,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         hideLoading();
 
         //noinspection ConstantConditions
-        Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        loadSections();
-                    }
-                })
-                .show();
+        Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
     }
 
     @Override
@@ -195,10 +194,18 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     }
 
     @Override
+    public void onAcademicsUpdated(ArrayList<Academic> academics) {
+        this.academics = academics;
+        academicsAdapter.allAcademics = academics;
+        academicsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onSectionsLoaded(ArrayList<Section> sections) {
         if (isAdded()) {
             setSectionsAdapter(sections);
-            loadUsers(null);
+            academicsController.remove();
+            academicsController.attach();
         }
     }
 
@@ -207,6 +214,19 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         if (isAdded()) {
             onLoadingFailed();
         }
+    }
+
+    @Override
+    public void onStop() {
+        sectionsController.remove();
+        academicsController.remove();
+
+        super.onStop();
+    }
+
+    @Override
+    public void onSectionsUpdated(ArrayList<Section> sections) {
+        onSectionsLoaded(sections);
     }
 
 

@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,16 +13,19 @@ import com.bumptech.glide.Glide;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.Academic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.UserViewHolder> {
+public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.UserViewHolder> implements Filterable {
 
     private List<Academic> academics;
+    public List<Academic> allAcademics;
     private OnAcademicSelectedListener onAcademicSelectedListener;
 
     public AcademicsAdapter(List<Academic> academics, OnAcademicSelectedListener onAcademicSelectedListener) {
         this.academics = academics;
+        this.allAcademics = academics;
         this.onAcademicSelectedListener = onAcademicSelectedListener;
     }
 
@@ -54,6 +59,38 @@ public class AcademicsAdapter extends RecyclerView.Adapter<AcademicsAdapter.User
     public long getItemId(int position) {
         return academics.get(position).getId();
     }
+
+    @Override
+    public Filter getFilter() {
+        return academicsFilter;
+    }
+
+    private Filter academicsFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<Academic> filtered = new ArrayList<>();
+
+            int sectionId = Integer.parseInt(charSequence.toString());
+
+            for (Academic a : allAcademics) {
+                if (sectionId < 0 || a.getSection() == sectionId) {
+                    filtered.add(a);
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filtered;
+            results.count = filtered.size();
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            academics = (List<Academic>) filterResults.values;
+            notifyDataSetChanged();
+        }
+    };
 
     public interface OnAcademicSelectedListener {
         void onAcademicSelected(Academic academic);
