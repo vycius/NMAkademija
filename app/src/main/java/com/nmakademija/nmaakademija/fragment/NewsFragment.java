@@ -63,7 +63,6 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         loadingView = view.findViewById(R.id.loading_view);
         content = view.findViewById(R.id.content);
         createNewButton = view.findViewById(R.id.article_create_button);
-
         return view;
     }
 
@@ -74,15 +73,13 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         appEvent = AppEvent.getInstance(getContext());
         appEvent.trackCurrentScreen(getActivity(), "open_news");
 
-        loadArticles();
-
         createNewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                @Override
+                public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ArticleCreateActivity.class);
                 startActivity(intent);
             }
-        });
+            });
 
         articlesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -95,6 +92,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
                 }
             }
         });
+        loadArticles();
     }
 
     private void loadArticles() {
@@ -107,8 +105,10 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     private void hideLoading() {
         loadingView.setVisibility(View.GONE);
+        if(NMAPreferences.getIsAcademic(getContext())) {
+            createNewButton.setVisibility(View.VISIBLE);
+        }
         content.setVisibility(View.VISIBLE);
-        createNewButton.setVisibility(View.VISIBLE);
     }
 
     @Override

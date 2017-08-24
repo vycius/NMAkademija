@@ -43,4 +43,5 @@
     <string name="article_title">Straipsnio pavadinimas</string>
     <string name="acticle_content">Straipsnio turinys</string>
     <string name="publish_button_text">Paskelbti</string>
+    <string name="unable_to_post_article">Nepavyko paskelbti įrašo</string>
 </resources>

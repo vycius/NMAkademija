@@ -51,4 +51,8 @@ public class DateUtils {
         return TIME_FORMAT.get().format(date);
     }
 
+    public static long getUnixTime() {
+        return System.currentTimeMillis();
+    }
+
 }
