@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ScheduleAdapter;
 import com.nmakademija.nmaakademija.adapter.ScheduleSectionsAdapter;
-import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.controllers.SchedulesController;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 import com.nmakademija.nmaakademija.utils.AppEvent;
@@ -27,9 +27,9 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
 
     private View loadingView;
     private RecyclerView scheduleRecyclerView;
+    private ScheduleAdapter adapter;
 
-    private int sectionId;
-
+    private SchedulesController schedulesController;
 
     public static ScheduleFragment getInstance() {
         return new ScheduleFragment();
@@ -54,22 +54,22 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
 
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
 
-        sectionId = NMAPreferences.getSection(getContext());
-
-        loadScheduleEvents();
+        int sectionId = NMAPreferences.getSection(getContext());
+        schedulesController = new SchedulesController(this, sectionId);
     }
 
-    private void loadScheduleEvents() {
+    @Override
+    public void onStart() {
+        super.onStart();
         showLoading();
 
-        FirebaseRealtimeApi.getSchedules(this, sectionId);
+        schedulesController.attach();
     }
 
     @Override
     public void onSchedulesLoaded(ArrayList<ScheduleEvent> sectionEvents) {
         if (isAdded()) {
-
-            ScheduleAdapter adapter = new ScheduleAdapter(getContext(), sectionEvents);
+            adapter = new ScheduleAdapter(getContext(), sectionEvents);
             adapter.setHasStableIds(true);
             scheduleRecyclerView.setAdapter(adapter);
 
@@ -116,16 +116,15 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
             hideLoading();
 
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            loadScheduleEvents();
-                        }
-                    })
-                    .show();
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
         }
 
+    }
+
+    @Override
+    public void onSchedulesUpdated(ArrayList<ScheduleEvent> scheduleEvents) {
+        adapter.events = scheduleEvents;
+        adapter.notifyDataSetChanged();
     }
 
     public void showLoading() {
@@ -136,5 +135,12 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
         scheduleRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onStop() {
+        schedulesController.remove();
+
+        super.onStop();
     }
 }

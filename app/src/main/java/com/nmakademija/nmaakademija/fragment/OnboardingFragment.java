@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.SectionsAdapter;
-import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.controllers.SectionsController;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.listener.ClickListener;
@@ -34,6 +34,7 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
     private View loadingView;
     private RecyclerView sectionRecyclerView;
 
+    private SectionsController sectionsController;
 
     @Nullable
     @Override
@@ -50,6 +51,13 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        sectionsController = new SectionsController(this);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -62,13 +70,14 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         } else {
             appEvent.trackCurrentScreen(getActivity(), "open_change_section");
         }
-
-        loadSections();
     }
 
-    public void loadSections() {
+    @Override
+    public void onStart() {
+        super.onStart();
+
         showLoading();
-        FirebaseRealtimeApi.getSections(this);
+        sectionsController.attach();
     }
 
     @Override
@@ -111,15 +120,13 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         if (isAdded()) {
             hideLoading();
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            loadSections();
-                        }
-                    })
-                    .show();
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
         }
+    }
+
+    @Override
+    public void onSectionsUpdated(ArrayList<Section> sections) {
+        onSectionsLoaded(sections);
     }
 
     public void showLoading() {
@@ -131,5 +138,12 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onStop() {
+        sectionsController.remove();
+
+        super.onStop();
     }
 }
