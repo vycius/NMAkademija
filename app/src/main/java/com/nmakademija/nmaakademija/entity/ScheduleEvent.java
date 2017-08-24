@@ -48,8 +48,23 @@ public class ScheduleEvent implements Parcelable {
     public int getSection() {
         return section;
     }
+
     public int getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public float getRating() {
+        int count = 0, sum = 0;
+        for (int i = 0; i < ratings.size(); i++) {
+            int x = ratings.get(i);
+            count += x;
+            sum += (i + 1) * x;
+        }
+        return (float) sum / count;
     }
     //endregion
 
