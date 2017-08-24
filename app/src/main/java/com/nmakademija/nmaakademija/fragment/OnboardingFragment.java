@@ -70,11 +70,12 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         } else {
             appEvent.trackCurrentScreen(getActivity(), "open_change_section");
         }
-
-        loadSections();
     }
 
-    public void loadSections() {
+    @Override
+    public void onStart() {
+        super.onStart();
+
         showLoading();
         sectionsController.onCreate();
     }
@@ -119,14 +120,7 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         if (isAdded()) {
             hideLoading();
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            loadSections();
-                        }
-                    })
-                    .show();
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
         }
     }
 
@@ -147,9 +141,9 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         sectionsController.onDestroy();
 
-        super.onDestroy();
+        super.onStop();
     }
 }

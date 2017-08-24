@@ -110,23 +110,11 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         }
     }
 
-    private void removeListeners() {
-        if (sectionsController != null)
-            sectionsController.onDestroy();
-
-        if (academicsController != null)
-            academicsController.onDestroy();
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        loadData();
-    }
 
-    private void loadData() {
         showLoading();
-        removeListeners();
         sectionsController.onCreate();
     }
 
@@ -195,14 +183,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         hideLoading();
 
         //noinspection ConstantConditions
-        Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        loadData();
-                    }
-                })
-                .show();
+        Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
     }
 
     @Override
@@ -237,7 +218,9 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
     @Override
     public void onStop() {
-        removeListeners();
+        sectionsController.onDestroy();
+        academicsController.onDestroy();
+
         super.onStop();
     }
 

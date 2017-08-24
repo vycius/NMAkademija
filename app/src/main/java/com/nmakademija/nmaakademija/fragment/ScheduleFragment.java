@@ -56,10 +56,11 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
 
         int sectionId = NMAPreferences.getSection(getContext());
         schedulesController = new SchedulesController(this, sectionId);
-        loadScheduleEvents();
     }
 
-    private void loadScheduleEvents() {
+    @Override
+    public void onStart() {
+        super.onStart();
         showLoading();
 
         schedulesController.onCreate();
@@ -115,14 +116,7 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
             hideLoading();
 
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            loadScheduleEvents();
-                        }
-                    })
-                    .show();
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
         }
 
     }
@@ -141,5 +135,12 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
         scheduleRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onStop() {
+        schedulesController.onDestroy();
+
+        super.onStop();
     }
 }

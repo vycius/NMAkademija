@@ -36,7 +36,7 @@ public class SchedulesController extends FirebaseController {
 
                     @Override
                     public boolean where(ScheduleEvent item) {
-                        return sectionId < 0 || sectionId == item.getSection();
+                        return item.getSection() < 0 || sectionId == item.getSection();
                     }
 
                     @Override

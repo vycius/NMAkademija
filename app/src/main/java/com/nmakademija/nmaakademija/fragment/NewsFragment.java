@@ -82,6 +82,11 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
         appEvent = AppEvent.getInstance(getContext());
         appEvent.trackCurrentScreen(getActivity(), "open_news");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         articlesController.onCreate();
         schedulesController.onCreate();
@@ -104,20 +109,16 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         }
     }
 
-    @Override
-    public void onArticlesLoadingFailed(Exception exception) {
+    private void loadingFailed() {
         if (isAdded()) {
             //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //loadArticles();
-                        }
-                    })
-                    .show();
-
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
         }
+    }
+
+    @Override
+    public void onArticlesLoadingFailed(Exception exception) {
+        loadingFailed();
     }
 
     @Override
@@ -249,18 +250,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     @Override
     public void onSchedulesLoadingFailed(Exception exception) {
-        if (isAdded()) {
-            //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //loadSchedule();
-                        }
-                    })
-                    .show();
-
-        }
+        loadingFailed();
     }
 
     @Override
