@@ -10,4 +10,6 @@ public interface SectionsLoadedListener {
 
     void onSectionsLoadingFailed(Exception exception);
 
+    void onSectionsUpdated(ArrayList<Section> sections);
+
 }

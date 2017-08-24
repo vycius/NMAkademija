@@ -20,7 +20,8 @@ import com.nmakademija.nmaakademija.ArticleActivity;
 import com.nmakademija.nmaakademija.ArticleCreateActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ArticlesAdapter;
-import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.controllers.ArticlesController;
+import com.nmakademija.nmaakademija.api.controllers.SchedulesController;
 import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.entity.Article;
@@ -37,6 +38,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     private CountDownTimer countDownTimer;
     private ArrayList<ScheduleEvent> scheduleEvents;
+    public ArticlesAdapter articlesAdapter;
 
     public static NewsFragment getInstance() {
         return new NewsFragment();
@@ -52,18 +54,29 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     private int schedulePosition = 0;
     private FloatingActionButton createNewButton;
 
+    private ArticlesController articlesController;
+    private SchedulesController schedulesController;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        articlesRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        nowHappens = (TextView) view.findViewById(R.id.now_happens);
-        nextActivity = (TextView) view.findViewById(R.id.next_activity);
+        articlesRecyclerView = view.findViewById(R.id.recyclerView);
+        nowHappens = view.findViewById(R.id.now_happens);
+        nextActivity = view.findViewById(R.id.next_activity);
         loadingView = view.findViewById(R.id.loading_view);
         content = view.findViewById(R.id.content);
         createNewButton = view.findViewById(R.id.article_create_button);
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        articlesController = new ArticlesController(this);
+        schedulesController = new SchedulesController(this, NMAPreferences.getSection(getContext()));
     }
 
     @Override
@@ -95,12 +108,12 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         loadArticles();
     }
 
-    private void loadArticles() {
-        FirebaseRealtimeApi.getArticles(this);
-    }
+    @Override
+    public void onStart() {
+        super.onStart();
 
-    private void loadSchedule() {
-        FirebaseRealtimeApi.getSchedules(this, NMAPreferences.getSection(getContext()));
+        articlesController.attach();
+        schedulesController.attach();
     }
 
     private void hideLoading() {
@@ -115,24 +128,30 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     public void onArticlesLoaded(ArrayList<Article> articles) {
         if (isAdded()) {
             this.articles = articles;
-            loadSchedule();
+            updateArticlesView();
+
+            if (scheduleEvents != null) {
+                hideLoading();
+            }
+        }
+    }
+
+    private void loadingFailed() {
+        if (isAdded()) {
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
         }
     }
 
     @Override
     public void onArticlesLoadingFailed(Exception exception) {
-        if (isAdded()) {
-            //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            loadArticles();
-                        }
-                    })
-                    .show();
+        loadingFailed();
+    }
 
-        }
+    @Override
+    public void onArticlesUpdatedLoaded(ArrayList<Article> articles) {
+        articlesAdapter.articlesList = articles;
+        articlesAdapter.notifyDataSetChanged();
     }
 
     private void updateTime(long timeLeft) {
@@ -156,6 +175,13 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        updateScheduleView();
+    }
+
+    @Override
     public void onPause() {
         stopTimer();
 
@@ -165,7 +191,11 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     private void updateScheduleView() {
         stopTimer();
 
+        if (scheduleEvents == null)
+            return;
+
         Date now = new Date();
+
         schedulePosition = Math.max(schedulePosition, 0);
         while (schedulePosition < scheduleEvents.size() &&
                 scheduleEvents.get(schedulePosition).getEndDate().before(now)) {
@@ -208,14 +238,18 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         } else {
             nextActivity.setVisibility(View.GONE);
         }
+
+        if (articles != null) {
+            hideLoading();
+        }
     }
 
     private void updateArticlesView() {
         articlesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
         articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        ArticlesAdapter adapter = new ArticlesAdapter(articles);
-        adapter.setHasStableIds(true);
-        articlesRecyclerView.setAdapter(adapter);
+        articlesAdapter = new ArticlesAdapter(articles);
+        articlesAdapter.setHasStableIds(true);
+        articlesRecyclerView.setAdapter(articlesAdapter);
         articlesRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(
                 getContext(), articlesRecyclerView, new ClickListener() {
             @Override
@@ -241,10 +275,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
             this.scheduleEvents = scheduleEvents;
             schedulePosition = 0;
 
-            updateArticlesView();
             updateScheduleView();
-
-            hideLoading();
         }
 
     }
@@ -257,17 +288,11 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     @Override
     public void onSchedulesLoadingFailed(Exception exception) {
-        if (isAdded()) {
-            //noinspection ConstantConditions
-            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            loadSchedule();
-                        }
-                    })
-                    .show();
+        loadingFailed();
+    }
 
-        }
+    @Override
+    public void onSchedulesUpdated(ArrayList<ScheduleEvent> scheduleEvents) {
+        onSchedulesLoaded(scheduleEvents);
     }
 }
