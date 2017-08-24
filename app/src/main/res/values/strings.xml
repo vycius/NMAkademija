@@ -40,4 +40,7 @@
     <string name="profile_request_failed">Jūs nesate akademikas!</string>
     <string name="saved">Išsaugota</string>
     <string name="is_academic_key">is_academic</string>
+    <string name="article_title">Straipsnio pavadinimas</string>
+    <string name="acticle_content">Straipsnio turinys</string>
+    <string name="publish_button_text">Paskelbti</string>
 </resources>
