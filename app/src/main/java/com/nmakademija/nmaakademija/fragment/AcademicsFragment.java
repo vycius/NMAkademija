@@ -68,9 +68,6 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         if (savedInstanceState != null) {
             sectionSelectedPosition = savedInstanceState.getInt(EXTRA_LAST_FILTER);
         }
-
-        sectionsController = new SectionsController(this);
-        academicsController = new AcademicsController(this);
     }
 
     @Override
@@ -108,6 +105,9 @@ public class AcademicsFragment extends BaseSceeenFragment implements
             appEvent = AppEvent.getInstance(getContext());
             appEvent.trackCurrentScreen(getActivity(), "open_users_list");
         }
+
+        sectionsController = new SectionsController(this);
+        academicsController = new AcademicsController(this);
     }
 
     @Override
@@ -195,6 +195,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
     @Override
     public void onAcademicsUpdated(ArrayList<Academic> academics) {
+        hideLoading();
         this.academics = academics;
         academicsAdapter.allAcademics = academics;
         academicsAdapter.notifyDataSetChanged();

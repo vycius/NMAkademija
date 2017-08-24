@@ -71,7 +71,6 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
         if (isAdded()) {
             adapter = new ScheduleAdapter(getContext(), sectionEvents);
             adapter.setHasStableIds(true);
-            scheduleRecyclerView.setAdapter(adapter);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
@@ -123,8 +122,12 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
 
     @Override
     public void onSchedulesUpdated(ArrayList<ScheduleEvent> scheduleEvents) {
-        adapter.events = scheduleEvents;
-        adapter.notifyDataSetChanged();
+        if (isAdded()) {
+            adapter.events = scheduleEvents;
+            adapter.notifyDataSetChanged();
+
+            hideLoading();
+        }
     }
 
     public void showLoading() {

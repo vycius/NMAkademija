@@ -7,7 +7,9 @@ public abstract class FirebaseController {
     ValueEventListener eventListener;
     DatabaseReference databaseReference;
 
-    public abstract void attach();
+    public void attach() {
+        eventListener = databaseReference.addValueEventListener(eventListener);
+    }
 
     public void remove() {
         if (eventListener != null) {
