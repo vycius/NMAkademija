@@ -10,16 +10,15 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class AcademicByEmailController extends FirebaseController {
-    private WeakReference<AcademicLoadedListener> listener;
     private String email;
 
     public AcademicByEmailController(AcademicLoadedListener listener, String email) {
-        this.listener = new WeakReference<>(listener);
+        WeakReference<AcademicLoadedListener> weakListener = new WeakReference<>(listener);
         this.email = email;
         databaseReference = FirebaseDatabase.getInstance().getReference("academics");
 
         eventListener = new ApiReferenceListener<Academic, AcademicLoadedListener>(Academic.class,
-                this.listener) {
+                weakListener) {
 
             @Override
             public void onFailed(AcademicLoadedListener listener, Exception ex) {
