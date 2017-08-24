@@ -84,6 +84,17 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
             }
         });
 
+        articlesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && createNewButton.getVisibility() == View.VISIBLE) {
+                    createNewButton.hide();
+                } else if (dy < 0 && createNewButton.getVisibility() != View.VISIBLE) {
+                    createNewButton.show();
+                }
+            }
+        });
     }
 
     private void loadArticles() {
