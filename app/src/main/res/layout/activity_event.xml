@@ -16,11 +16,32 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <RatingBar
-                android:id="@+id/rating"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numStars="5"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/rating_average"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/blackText"
+                    android:text="4.2"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:maxLines="1"/>
+
+                <RatingBar
+                    android:id="@+id/rating"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1.0"/>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/lecturer"
