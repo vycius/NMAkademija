@@ -6,12 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,13 +21,25 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nmakademija.nmaakademija.adapter.FileBrowserAdapter;
 import com.nmakademija.nmaakademija.entity.FileItem;
+import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventActivity extends BaseActivity {
     public static final String EXTRA_EVENT = "event";
+
+    private RatingBar rating;
+    private TextView lecturer;
+    private TextView eventTime;
+    private TextView description;
+    private RecyclerView fileRecycler;
+    private FloatingActionButton attachFAB;
+
+    private ScheduleEvent event;
+
     private List<FileItem> files;
     private RecyclerView recyclerView;
     private FileBrowserAdapter fileBrowserAdapter;
@@ -45,16 +59,26 @@ public class EventActivity extends BaseActivity {
         setContentView(R.layout.activity_event);
 
 
+        event = getIntent().getParcelableExtra(EXTRA_EVENT);
+
+        rating = findViewById(R.id.rating);
+        lecturer = findViewById(R.id.lecturer);
+        eventTime = findViewById(R.id.event_time);
+        description = findViewById(R.id.description);
+        fileRecycler = findViewById(R.id.recycler);
+        attachFAB = findViewById(R.id.attach_fab);
+
+        lecturer.setText(event.getLecturer());
+        eventTime.setText(event.getStartDate().toString());
+        description.setText("fix me");
+
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH);
 
-        imageView = (imageView) findViewById();
-
-        recyclerView = findViewById(R.id.recycler);
+        files = new ArrayList<>();
         fileBrowserAdapter = new FileBrowserAdapter(files);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(fileBrowserAdapter);
+        fileRecycler.setLayoutManager(new LinearLayoutManager(this));
+        fileRecycler.setAdapter(fileBrowserAdapter);
     }
 
         public void btnBrowse_Click(View v){
@@ -67,19 +91,15 @@ public class EventActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null)
             imgURI = data.getData();
 
-            try {
-                Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), imgURI);
-                ImageView.setImageBitmap(bm);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try{
+            Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), imgURI);
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
-
-        public StringDef
 }
