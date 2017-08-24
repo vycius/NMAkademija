@@ -181,17 +181,17 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     }
 
     private void onLoadingFailed() {
-        hideLoading();
+        if (isAdded()) {
+            hideLoading();
 
-        //noinspection ConstantConditions
-        Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
+            //noinspection ConstantConditions
+            Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
+        }
     }
 
     @Override
     public void onAcademicsLoadingFailed(Exception exception) {
-        if (isAdded()) {
-            onLoadingFailed();
-        }
+        onLoadingFailed();
     }
 
     @Override
@@ -218,9 +218,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
     @Override
     public void onSectionsLoadingFailed(Exception exception) {
-        if (isAdded()) {
-            onLoadingFailed();
-        }
+        onLoadingFailed();
     }
 
     @Override
