@@ -1,12 +1,14 @@
 package com.nmakademija.nmaakademija.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.nmakademija.nmaakademija.EventActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.entity.ScheduleEvent;
 
@@ -54,11 +56,20 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             author = (TextView) view.findViewById(R.id.schedule_author);
         }
 
-        void bindData(ScheduleEvent scheduleEvent) {
+        void bindData(final ScheduleEvent scheduleEvent) {
             startTime.setText(scheduleEvent.getStartTime());
             endTime.setText(scheduleEvent.getEndTime());
             author.setText(scheduleEvent.getLecturer());
             name.setText(scheduleEvent.getName());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(view.getContext(), EventActivity.class);
+                    i.putExtra(EventActivity.EXTRA_EVENT, scheduleEvent);
+                    view.getContext().startActivity(i);
+                }
+            });
         }
     }
 }
