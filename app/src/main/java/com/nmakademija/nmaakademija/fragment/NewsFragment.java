@@ -200,7 +200,6 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     }
 
     private void updateArticlesView() {
-        articlesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
         articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
         ArticlesAdapter adapter = new ArticlesAdapter(articles);
         adapter.setHasStableIds(true);

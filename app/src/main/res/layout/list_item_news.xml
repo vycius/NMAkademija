@@ -6,38 +6,65 @@
     android:orientation="horizontal">
 
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        android:layout_margin="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/news_title"
+        card_view:cardCornerRadius="4dp"
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            tools:text="NMA sesija" />
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:background="@color/BEBEBE"
+            >
 
-        <TextView
-            android:id="@+id/news_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-            tools:text="Vyksta NMA vasaros sesija Nidoje" />
+            <ImageView
+                android:id="@+id/news_image"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@null"
+                tools:src="@mipmap/ic_launcher" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_marginLeft="20dp"
+                android:textSize="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                tools:text="NMA sesija" />
 
-    <ImageView
-        android:id="@+id/news_image"
-        android:layout_width="@dimen/unit18"
-        android:layout_height="@dimen/unit18"
-        android:layout_gravity="center_vertical"
-        android:contentDescription="@null"
-        tools:src="@mipmap/ic_launcher" />
+            <TextView
+                android:id="@+id/news_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                tools:text="Vyksta NMA vasaros sesija Nidoje" />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
 </LinearLayout>
