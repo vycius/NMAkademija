@@ -4,7 +4,7 @@ import com.nmakademija.nmaakademija.entity.Academic;
 
 public interface AcademicLoadedListener {
 
-    void onAcademicLoaded(Academic item);
+    void onAcademicLoaded(Academic academic);
 
     void onAcademicLoadingFailed(Exception exception);
 
