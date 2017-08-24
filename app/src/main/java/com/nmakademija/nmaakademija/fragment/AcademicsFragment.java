@@ -48,10 +48,10 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     private Spinner sectionsSpinner;
     private TextView supervisorView;
     private Button loginButton;
-    SectionsController sectionsController;
-    AcademicsController academicsController;
-    AcademicsAdapter academicsAdapter;
-    ArrayList<Academic> academics;
+    private SectionsController sectionsController;
+    private AcademicsController academicsController;
+    private AcademicsAdapter academicsAdapter;
+    private ArrayList<Academic> academics;
 
     private AppEvent appEvent;
 
@@ -180,7 +180,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         }
     }
 
-    public void onLoadingFailed() {
+    private void onLoadingFailed() {
         hideLoading();
 
         //noinspection ConstantConditions
@@ -239,12 +239,12 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     }
 
 
-    public void showLoading() {
+    private void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
     }
 
-    public void showNeedLogin() {
+    private void showNeedLogin() {
         loadingView.setVisibility(View.GONE);
         contentView.setVisibility(View.GONE);
         needLoginView.setVisibility(View.VISIBLE);
@@ -256,7 +256,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         });
     }
 
-    public void hideLoading() {
+    private void hideLoading() {
         loadingView.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
     }
