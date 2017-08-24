@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.ArticleActivity;
+import com.nmakademija.nmaakademija.ArticleCreateActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ArticlesAdapter;
 import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
@@ -48,6 +50,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     private View content;
     private ArrayList<Article> articles;
     private int schedulePosition = 0;
+    private FloatingActionButton createNewButton;
 
 
     @Nullable
@@ -59,6 +62,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         nextActivity = (TextView) view.findViewById(R.id.next_activity);
         loadingView = view.findViewById(R.id.loading_view);
         content = view.findViewById(R.id.content);
+        createNewButton = view.findViewById(R.id.article_create_button);
 
         return view;
     }
@@ -71,6 +75,15 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         appEvent.trackCurrentScreen(getActivity(), "open_news");
 
         loadArticles();
+
+        createNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ArticleCreateActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void loadArticles() {
@@ -84,6 +97,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     private void hideLoading() {
         loadingView.setVisibility(View.GONE);
         content.setVisibility(View.VISIBLE);
+        createNewButton.setVisibility(View.VISIBLE);
     }
 
     @Override
