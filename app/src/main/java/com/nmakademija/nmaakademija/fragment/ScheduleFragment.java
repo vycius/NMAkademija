@@ -29,8 +29,6 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
     private RecyclerView scheduleRecyclerView;
     private ScheduleAdapter adapter;
 
-    private int sectionId;
-
     private SchedulesController schedulesController;
 
     public static ScheduleFragment getInstance() {
@@ -56,8 +54,8 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
 
         AppEvent.getInstance(getContext()).trackCurrentScreen(getActivity(), "open_schedules");
 
-        sectionId = NMAPreferences.getSection(getContext());
-        schedulesController = new SchedulesController(this, NMAPreferences.getSection(getContext()));
+        int sectionId = NMAPreferences.getSection(getContext());
+        schedulesController = new SchedulesController(this, sectionId);
         loadScheduleEvents();
     }
 
