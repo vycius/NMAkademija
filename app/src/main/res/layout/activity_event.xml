@@ -26,11 +26,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/blackText"
-                    android:text="4.2"
-                    android:textSize="30sp"
+                    tools:text="4.2"
+                    android:textSize="32sp"
                     android:gravity="center"
-                    android:padding="10dp"
                     android:maxLines="1"/>
 
                 <RatingBar
