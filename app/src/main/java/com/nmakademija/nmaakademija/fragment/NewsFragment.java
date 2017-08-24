@@ -88,8 +88,8 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     public void onStart() {
         super.onStart();
 
-        articlesController.onCreate();
-        schedulesController.onCreate();
+        articlesController.attach();
+        schedulesController.attach();
     }
 
     private void hideLoading() {

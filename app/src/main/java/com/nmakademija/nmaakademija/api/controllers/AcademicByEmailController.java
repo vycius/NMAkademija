@@ -19,7 +19,7 @@ public class AcademicByEmailController extends FirebaseController {
         databaseReference = FirebaseDatabase.getInstance().getReference("academics");
     }
 
-    public void onCreate() {
+    public void attach() {
         eventListener = databaseReference.orderByChild("email").equalTo(email)
                 .addValueEventListener(
                         new ApiReferenceListener<Academic, AcademicLoadedListener>(Academic.class,

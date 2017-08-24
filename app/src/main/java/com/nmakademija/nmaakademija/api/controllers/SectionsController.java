@@ -17,7 +17,7 @@ public class SectionsController extends FirebaseController {
         databaseReference = FirebaseDatabase.getInstance().getReference("sections");
     }
 
-    public void onCreate() {
+    public void attach() {
         eventListener = databaseReference.addValueEventListener(
                 new ApiReferenceListener<Section, SectionsLoadedListener>(Section.class,
                         listener) {

@@ -19,7 +19,7 @@ public class SchedulesController extends FirebaseController {
         databaseReference = FirebaseDatabase.getInstance().getReference("schedules");
     }
 
-    public void onCreate() {
+    public void attach() {
         eventListener = databaseReference.addValueEventListener(
                 new ApiReferenceListener<ScheduleEvent, SchedulesLoadedListener>(ScheduleEvent.class,
                         listener) {

@@ -18,7 +18,7 @@ public class AcademicsController extends FirebaseController {
         databaseReference = FirebaseDatabase.getInstance().getReference("academics");
     }
 
-    public void onCreate() {
+    public void attach() {
         eventListener = databaseReference.addValueEventListener(
                 new ApiReferenceListener<Academic, AcademicsLoadedListener>(Academic.class,
                         listener) {

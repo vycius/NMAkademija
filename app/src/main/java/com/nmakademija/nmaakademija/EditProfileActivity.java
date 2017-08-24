@@ -65,12 +65,12 @@ public class EditProfileActivity extends BaseActivity implements AcademicLoadedL
     protected void onStart() {
         super.onStart();
 
-        academicController.onCreate();
+        academicController.attach();
     }
 
     @Override
     public void onStop() {
-        academicController.onDestroy();
+        academicController.remove();
 
         super.onStop();
     }

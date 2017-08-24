@@ -17,7 +17,7 @@ public class ArticlesController extends FirebaseController {
         databaseReference = FirebaseDatabase.getInstance().getReference("articles");
     }
 
-    public void onCreate() {
+    public void attach() {
         eventListener = databaseReference.addValueEventListener(
                 new ApiReferenceListener<Article, ArticlesLoadedListener>(Article.class,
                         listener) {

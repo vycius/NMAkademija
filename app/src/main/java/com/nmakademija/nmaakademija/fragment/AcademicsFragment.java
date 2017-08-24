@@ -115,7 +115,7 @@ public class AcademicsFragment extends BaseSceeenFragment implements
         super.onStart();
 
         showLoading();
-        sectionsController.onCreate();
+        sectionsController.attach();
     }
 
     private void setSectionsAdapter(ArrayList<Section> sections) {
@@ -204,8 +204,8 @@ public class AcademicsFragment extends BaseSceeenFragment implements
     public void onSectionsLoaded(ArrayList<Section> sections) {
         if (isAdded()) {
             setSectionsAdapter(sections);
-            academicsController.onDestroy();
-            academicsController.onCreate();
+            academicsController.remove();
+            academicsController.attach();
         }
     }
 
@@ -218,8 +218,8 @@ public class AcademicsFragment extends BaseSceeenFragment implements
 
     @Override
     public void onStop() {
-        sectionsController.onDestroy();
-        academicsController.onDestroy();
+        sectionsController.remove();
+        academicsController.remove();
 
         super.onStop();
     }

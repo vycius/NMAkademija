@@ -63,7 +63,7 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
         super.onStart();
         showLoading();
 
-        schedulesController.onCreate();
+        schedulesController.attach();
     }
 
     @Override
@@ -139,7 +139,7 @@ public class ScheduleFragment extends BaseSceeenFragment implements SchedulesLoa
 
     @Override
     public void onStop() {
-        schedulesController.onDestroy();
+        schedulesController.remove();
 
         super.onStop();
     }

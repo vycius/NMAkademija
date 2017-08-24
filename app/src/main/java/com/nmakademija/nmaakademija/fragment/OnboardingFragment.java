@@ -77,7 +77,7 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         super.onStart();
 
         showLoading();
-        sectionsController.onCreate();
+        sectionsController.attach();
     }
 
     @Override
@@ -142,7 +142,7 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
 
     @Override
     public void onStop() {
-        sectionsController.onDestroy();
+        sectionsController.remove();
 
         super.onStop();
     }
