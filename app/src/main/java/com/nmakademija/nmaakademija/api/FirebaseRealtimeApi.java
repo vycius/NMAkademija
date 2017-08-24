@@ -10,10 +10,8 @@ import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
 import com.nmakademija.nmaakademija.api.listener.ArticleCreatedListener;
-import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
-import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
-import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Academic;
+import com.nmakademija.nmaakademija.entity.Article;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -67,8 +65,7 @@ public class FirebaseRealtimeApi {
 
     public static void addArticle(@NonNull final Article article, @NonNull final ArticleCreatedListener listener) {
         FirebaseDatabase.getInstance()
-                .getReference("articles")
-                .push().setValue(article, new DatabaseReference.CompletionListener() {
+                .getReference("articles").child(String.valueOf(article.getId())).setValue(article, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if(databaseError == null) {

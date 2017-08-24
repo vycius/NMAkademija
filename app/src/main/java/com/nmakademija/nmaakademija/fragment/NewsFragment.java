@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,12 +85,12 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         appEvent.trackCurrentScreen(getActivity(), "open_news");
 
         createNewButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ArticleCreateActivity.class);
                 startActivity(intent);
             }
-            });
+        });
 
         articlesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -105,7 +103,6 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
                 }
             }
         });
-        loadArticles();
     }
 
     @Override
@@ -118,7 +115,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     private void hideLoading() {
         loadingView.setVisibility(View.GONE);
-        if(NMAPreferences.getIsAcademic(getContext())) {
+        if (NMAPreferences.getIsAcademic(getContext())) {
             createNewButton.setVisibility(View.VISIBLE);
         }
         content.setVisibility(View.VISIBLE);
