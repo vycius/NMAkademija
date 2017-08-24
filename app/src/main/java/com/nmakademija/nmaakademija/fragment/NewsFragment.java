@@ -70,19 +70,14 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        articlesController = new ArticlesController(this);
-        schedulesController = new SchedulesController(this, NMAPreferences.getSection(getContext()));
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         appEvent = AppEvent.getInstance(getContext());
         appEvent.trackCurrentScreen(getActivity(), "open_news");
+
+        articlesController = new ArticlesController(this);
+        schedulesController = new SchedulesController(this, NMAPreferences.getSection(getContext()));
 
         createNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +106,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
         articlesController.attach();
         schedulesController.attach();
+        showLoading();
     }
 
     private void hideLoading() {
@@ -121,20 +117,32 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         content.setVisibility(View.VISIBLE);
     }
 
+
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        content.setVisibility(View.GONE);
+    }
+
     @Override
     public void onArticlesLoaded(ArrayList<Article> articles) {
         if (isAdded()) {
             this.articles = articles;
-            updateArticlesView();
+            setArticlesView();
 
-            if (scheduleEvents != null) {
-                hideLoading();
-            }
+            onLoaded();
+        }
+    }
+
+    private void onLoaded() {
+        if (scheduleEvents != null && articles != null) {
+            hideLoading();
         }
     }
 
     private void loadingFailed() {
         if (isAdded()) {
+            hideLoading();
+
             //noinspection ConstantConditions
             Snackbar.make(getView(), R.string.get_request_failed, Snackbar.LENGTH_INDEFINITE).show();
         }
@@ -147,8 +155,12 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     @Override
     public void onArticlesUpdatedLoaded(ArrayList<Article> articles) {
-        articlesAdapter.articlesList = articles;
-        articlesAdapter.notifyDataSetChanged();
+        if (isAdded()) {
+            articlesAdapter.articlesList = articles;
+            articlesAdapter.notifyDataSetChanged();
+
+            onLoaded();
+        }
     }
 
     private void updateTime(long timeLeft) {
@@ -236,12 +248,10 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
             nextActivity.setVisibility(View.GONE);
         }
 
-        if (articles != null) {
-            hideLoading();
-        }
+        onLoaded();
     }
 
-    private void updateArticlesView() {
+    private void setArticlesView() {
         articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
         articlesAdapter = new ArticlesAdapter(articles);
         articlesAdapter.setHasStableIds(true);
@@ -272,8 +282,9 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
             schedulePosition = 0;
 
             updateScheduleView();
-        }
 
+            onLoaded();
+        }
     }
 
     private void stopTimer() {
@@ -289,6 +300,10 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     @Override
     public void onSchedulesUpdated(ArrayList<ScheduleEvent> scheduleEvents) {
-        onSchedulesLoaded(scheduleEvents);
+        if (isAdded()) {
+            onSchedulesLoaded(scheduleEvents);
+
+            onLoaded();
+        }
     }
 }
