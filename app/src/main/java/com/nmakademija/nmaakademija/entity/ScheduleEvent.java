@@ -5,7 +5,9 @@ import android.os.Parcelable;
 
 import com.nmakademija.nmaakademija.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ScheduleEvent implements Parcelable {
 
@@ -15,6 +17,8 @@ public class ScheduleEvent implements Parcelable {
     private String lecturer;
     private int section;
     private int id;
+    private String description;
+    private List<Integer> ratings;
 
     //region Getters
     public String getStartTime() {
@@ -60,24 +64,39 @@ public class ScheduleEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.startTime);
-        dest.writeString(this.endTime);
-        dest.writeString(this.name);
-        dest.writeString(this.lecturer);
-        dest.writeInt(this.section);
-        dest.writeInt(this.id);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
+        dest.writeString(name);
+        dest.writeString(lecturer);
+        dest.writeInt(section);
+        dest.writeInt(id);
+        dest.writeString(description);
+        if (ratings == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(ratings);
+        }
     }
 
     protected ScheduleEvent(Parcel in) {
-        this.startTime = in.readString();
-        this.endTime = in.readString();
-        this.name = in.readString();
-        this.lecturer = in.readString();
-        this.section = in.readInt();
-        this.id = in.readInt();
+        startTime = in.readString();
+        endTime = in.readString();
+        name = in.readString();
+        lecturer = in.readString();
+        section = in.readInt();
+        id = in.readInt();
+        description = in.readString();
+        if (in.readByte() == 0x01) {
+            ratings = new ArrayList<>();
+            in.readList(ratings, Integer.class.getClassLoader());
+        } else {
+            ratings = null;
+        }
     }
 
-    public static final Creator<ScheduleEvent> CREATOR = new Creator<ScheduleEvent>() {
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ScheduleEvent> CREATOR = new Parcelable.Creator<ScheduleEvent>() {
         @Override
         public ScheduleEvent createFromParcel(Parcel source) {
             return new ScheduleEvent(source);
