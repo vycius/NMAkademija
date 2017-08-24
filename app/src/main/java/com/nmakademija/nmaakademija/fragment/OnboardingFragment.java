@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.nmakademija.nmaakademija.MainActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.SectionsAdapter;
-import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.controllers.SectionsController;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
 import com.nmakademija.nmaakademija.entity.Section;
 import com.nmakademija.nmaakademija.listener.ClickListener;
@@ -34,6 +34,7 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
     private View loadingView;
     private RecyclerView sectionRecyclerView;
 
+    private SectionsController sectionsController;
 
     @Nullable
     @Override
@@ -47,6 +48,13 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         loadingView = view.findViewById(R.id.loading_view);
 
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        sectionsController = new SectionsController(this);
     }
 
     @Override
@@ -68,7 +76,7 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
 
     public void loadSections() {
         showLoading();
-        FirebaseRealtimeApi.getSections(this);
+        sectionsController.onCreate();
     }
 
     @Override
@@ -122,6 +130,11 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
         }
     }
 
+    @Override
+    public void onSectionsUpdated(ArrayList<Section> sections) {
+        onSectionsLoaded(sections);
+    }
+
     public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
@@ -131,5 +144,12 @@ public class OnboardingFragment extends BaseSceeenFragment implements SectionsLo
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroy() {
+        sectionsController.onDestroy();
+
+        super.onDestroy();
     }
 }

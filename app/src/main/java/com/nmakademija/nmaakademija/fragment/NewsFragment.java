@@ -18,7 +18,8 @@ import android.widget.TextView;
 import com.nmakademija.nmaakademija.ArticleActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ArticlesAdapter;
-import com.nmakademija.nmaakademija.api.FirebaseRealtimeApi;
+import com.nmakademija.nmaakademija.api.controllers.ArticlesController;
+import com.nmakademija.nmaakademija.api.controllers.SchedulesController;
 import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.entity.Article;
@@ -35,6 +36,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     private CountDownTimer countDownTimer;
     private ArrayList<ScheduleEvent> scheduleEvents;
+    public ArticlesAdapter articlesAdapter;
 
     public static NewsFragment getInstance() {
         return new NewsFragment();
@@ -48,6 +50,9 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     private View content;
     private ArrayList<Article> articles;
     private int schedulePosition = 0;
+
+    private ArticlesController articlesController;
+    private SchedulesController schedulesController;
 
 
     @Nullable
@@ -64,21 +69,22 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        articlesController = new ArticlesController(this);
+        schedulesController = new SchedulesController(this, NMAPreferences.getSection(getContext()));
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         appEvent = AppEvent.getInstance(getContext());
         appEvent.trackCurrentScreen(getActivity(), "open_news");
 
-        loadArticles();
-    }
-
-    private void loadArticles() {
-        FirebaseRealtimeApi.getArticles(this);
-    }
-
-    private void loadSchedule() {
-        FirebaseRealtimeApi.getSchedules(this, NMAPreferences.getSection(getContext()));
+        articlesController.onCreate();
+        schedulesController.onCreate();
     }
 
     private void hideLoading() {
@@ -90,7 +96,11 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     public void onArticlesLoaded(ArrayList<Article> articles) {
         if (isAdded()) {
             this.articles = articles;
-            loadSchedule();
+            updateArticlesView();
+
+            if (scheduleEvents != null) {
+                hideLoading();
+            }
         }
     }
 
@@ -102,12 +112,18 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
                     .setAction(R.string.retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            loadArticles();
+                            //loadArticles();
                         }
                     })
                     .show();
 
         }
+    }
+
+    @Override
+    public void onArticlesUpdatedLoaded(ArrayList<Article> articles) {
+        articlesAdapter.articlesList = articles;
+        articlesAdapter.notifyDataSetChanged();
     }
 
     private void updateTime(long timeLeft) {
@@ -183,14 +199,18 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         } else {
             nextActivity.setVisibility(View.GONE);
         }
+
+        if (articles != null) {
+            hideLoading();
+        }
     }
 
     private void updateArticlesView() {
         articlesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
         articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        ArticlesAdapter adapter = new ArticlesAdapter(articles);
-        adapter.setHasStableIds(true);
-        articlesRecyclerView.setAdapter(adapter);
+        articlesAdapter = new ArticlesAdapter(articles);
+        articlesAdapter.setHasStableIds(true);
+        articlesRecyclerView.setAdapter(articlesAdapter);
         articlesRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(
                 getContext(), articlesRecyclerView, new ClickListener() {
             @Override
@@ -216,10 +236,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
             this.scheduleEvents = scheduleEvents;
             schedulePosition = 0;
 
-            updateArticlesView();
             updateScheduleView();
-
-            hideLoading();
         }
 
     }
@@ -238,11 +255,16 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
                     .setAction(R.string.retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            loadSchedule();
+                            //loadSchedule();
                         }
                     })
                     .show();
 
         }
+    }
+
+    @Override
+    public void onSchedulesUpdated(ArrayList<ScheduleEvent> scheduleEvents) {
+        onSchedulesLoaded(scheduleEvents);
     }
 }
