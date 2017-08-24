@@ -72,5 +72,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="32dp"
+        android:onClick="btnBrowse_Click"
         android:src="@drawable/ic_attach_file_24dp"/>
 </FrameLayout>

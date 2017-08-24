@@ -19,7 +19,7 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.nmakademija.nmaakademija",
-            "certificate_hash": "CC89332F5B8997CB03ED0F7EC8D42B21F8E2402D"
+            "certificate_hash": "cc89332f5b8997cb03ed0f7ec8d42b21f8e2402d"
           }
         },
         {
@@ -63,7 +63,7 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.nmakademija.nmaakademija.dev",
-            "certificate_hash": "8254950CEECCB88CD35B78C9792443C3DCF91420"
+            "certificate_hash": "8254950ceeccb88cd35b78c9792443c3dcf91420"
           }
         },
         {
