@@ -11,6 +11,7 @@ import com.nmakademija.nmaakademija.api.listener.AcademicLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicUpdatedListener;
 import com.nmakademija.nmaakademija.api.listener.AcademicsLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.ApiReferenceListener;
+import com.nmakademija.nmaakademija.api.listener.ArticleCreatedListener;
 import com.nmakademija.nmaakademija.api.listener.ArticlesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SchedulesLoadedListener;
 import com.nmakademija.nmaakademija.api.listener.SectionsLoadedListener;
@@ -171,6 +172,21 @@ public class FirebaseRealtimeApi {
                         } else {
                             listener.onAcademicUpdateFailed(databaseError.toException());
 
+                        }
+                    }
+                });
+    }
+
+    public static void addArticle(@NonNull final Article article, @NonNull final ArticleCreatedListener listener) {
+        FirebaseDatabase.getInstance()
+                .getReference("articles")
+                .push().setValue(article, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if(databaseError == null) {
+                            listener.onArticleCreated(article);
+                        } else {
+                            listener.onArticleCreateFailed(databaseError.toException());
                         }
                     }
                 });
