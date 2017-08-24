@@ -59,9 +59,9 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        articlesRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        nowHappens = (TextView) view.findViewById(R.id.now_happens);
-        nextActivity = (TextView) view.findViewById(R.id.next_activity);
+        articlesRecyclerView = view.findViewById(R.id.recyclerView);
+        nowHappens = view.findViewById(R.id.now_happens);
+        nextActivity = view.findViewById(R.id.next_activity);
         loadingView = view.findViewById(R.id.loading_view);
         content = view.findViewById(R.id.content);
 
@@ -148,6 +148,13 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        updateScheduleView();
+    }
+
+    @Override
     public void onPause() {
         stopTimer();
 
@@ -157,7 +164,11 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     private void updateScheduleView() {
         stopTimer();
 
+        if (scheduleEvents == null)
+            return;
+
         Date now = new Date();
+
         schedulePosition = Math.max(schedulePosition, 0);
         while (schedulePosition < scheduleEvents.size() &&
                 scheduleEvents.get(schedulePosition).getEndDate().before(now)) {
