@@ -19,6 +19,7 @@ public class ScheduleEvent implements Parcelable {
     private int id;
     private String description;
     private List<Integer> ratings;
+    private List<String> fileUrls;
 
     //region Getters
     public String getStartTime() {
@@ -66,6 +67,10 @@ public class ScheduleEvent implements Parcelable {
         }
         return (float) sum / count;
     }
+
+    public List<String> getFileUrls() {
+        return fileUrls;
+    }
     //endregion
 
     public ScheduleEvent() {
@@ -92,6 +97,12 @@ public class ScheduleEvent implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeList(ratings);
         }
+        if (fileUrls == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(fileUrls);
+        }
     }
 
     protected ScheduleEvent(Parcel in) {
@@ -107,6 +118,12 @@ public class ScheduleEvent implements Parcelable {
             in.readList(ratings, Integer.class.getClassLoader());
         } else {
             ratings = null;
+        }
+        if (in.readByte() == 0x01) {
+            fileUrls = new ArrayList<>();
+            in.readList(fileUrls, String.class.getClassLoader());
+        } else {
+            fileUrls = null;
         }
     }
 
