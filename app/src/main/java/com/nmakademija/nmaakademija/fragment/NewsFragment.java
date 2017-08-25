@@ -256,23 +256,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         articlesAdapter = new ArticlesAdapter(articles);
         articlesAdapter.setHasStableIds(true);
         articlesRecyclerView.setAdapter(articlesAdapter);
-        articlesRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(
-                getContext(), articlesRecyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ArticleActivity.class);
-                Article article = ((ArticlesAdapter) articlesRecyclerView.getAdapter()).getArticle(position);
-                appEvent.trackArticleClicked(article.getId());
-                intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
-                context.startActivity(intent);
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-                this.onClick(view, position);
-            }
-        }));
     }
 
     @Override

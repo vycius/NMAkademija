@@ -32,7 +32,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     public void onBindViewHolder(ArticleViewHolder holder, int position) {
         final Article article = articlesList.get(position);
         holder.title.setText(article.getTitle());
-        holder.description.setText(article.getDescription());
+        holder.description.setText(article.getContent());
         if (!TextUtils.isEmpty(article.getTitleImage())) {
             Glide.with(holder.itemView.getContext()).load(article.getTitleImage()).into(holder.image);
         }
@@ -59,7 +59,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         public ArticleViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.news_title);
-            description = (TextView) view.findViewById(R.id.news_description);
+            description = (TextView) view.findViewById(R.id.news_content);
             image = (ImageView) view.findViewById(R.id.news_image);
         }
     }
