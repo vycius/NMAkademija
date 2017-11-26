@@ -3,6 +3,8 @@ package com.nmakademija.nmaakademija;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,8 +61,14 @@ public class ArticleCreateActivity extends BaseActivity implements ArticleCreate
     }
 
     private void postArticle() {
-        FirebaseRealtimeApi.addArticle(formArticle(), this);
-        finish();
+        Article newArticle = formArticle();
+        if (TextUtils.isEmpty(newArticle.getTitle()) || TextUtils.isEmpty(newArticle.getContent())) {
+            View view = findViewById(R.id.content);
+            Snackbar.make(view, R.string.article_create_empty_field, Snackbar.LENGTH_LONG).show();
+        } else {
+            FirebaseRealtimeApi.addArticle(newArticle, this);
+            finish();
+        }
     }
 
     @Override
