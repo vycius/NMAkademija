@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -28,7 +27,8 @@ public class ArticleCreateActivity extends BaseActivity implements ArticleCreate
         int id = item.getItemId();
 
         if (id == R.id.post) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             postArticle();
             return true;
         }
@@ -51,7 +51,6 @@ public class ArticleCreateActivity extends BaseActivity implements ArticleCreate
         article.setContent(articleContent);
         article.setId(getUnixTime());
         article.setCreator(mAuth.getCurrentUser().getEmail());
-        article.setDescription("lmao");
 
         return article;
     }
@@ -68,7 +67,5 @@ public class ArticleCreateActivity extends BaseActivity implements ArticleCreate
     @Override
     public void onArticleCreateFailed(Exception exception) {
         Snackbar.make(findViewById(R.id.content), R.string.unable_to_post_article, Snackbar.LENGTH_INDEFINITE).show();
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 }
