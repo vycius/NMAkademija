@@ -9,7 +9,6 @@ public class Article implements Parcelable, Comparable<Article> {
 
     private long id;
     private String title;
-    private String description;
     private String content;
     private String titleImage;
     @Nullable
@@ -21,10 +20,6 @@ public class Article implements Parcelable, Comparable<Article> {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public String getTitleImage() {
@@ -43,10 +38,6 @@ public class Article implements Parcelable, Comparable<Article> {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setContent(String content) {
@@ -78,7 +69,6 @@ public class Article implements Parcelable, Comparable<Article> {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeString(this.title);
-        dest.writeString(this.description);
         dest.writeString(this.content);
         dest.writeString(this.titleImage);
         dest.writeString(this.creator);
@@ -87,7 +77,6 @@ public class Article implements Parcelable, Comparable<Article> {
     protected Article(Parcel in) {
         this.id = in.readLong();
         this.title = in.readString();
-        this.description = in.readString();
         this.content = in.readString();
         this.titleImage = in.readString();
         this.creator = in.readString();
