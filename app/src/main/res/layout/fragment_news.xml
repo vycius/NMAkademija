@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -43,12 +42,10 @@
                     tools:text="Už 1h 13min: pietūs" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-
+                android:layout_height="match_parent"
                 android:overScrollMode="never"
                 android:scrollbars="vertical"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
@@ -66,7 +63,6 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:visibility="gone"
-        app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
         app:rippleColor="@color/colorPrimaryDark"
         app:srcCompat="@drawable/ic_pencil_edit"
