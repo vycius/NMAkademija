@@ -3,7 +3,16 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/unit4">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blackText"
+        android:textSize="@dimen/text16"
+        android:text="@string/article_create_rules"
+        android:layout_marginBottom="@dimen/unit1" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -28,8 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/acticle_content"
-            android:inputType="text"
-            android:lines="1"
+            android:inputType="textMultiLine"
+            android:minLines="5"
             android:textSize="@dimen/text18" />
     </android.support.design.widget.TextInputLayout>
 
