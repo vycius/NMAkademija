@@ -35,6 +35,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         holder.description.setText(article.getContent());
         if (!TextUtils.isEmpty(article.getTitleImage())) {
             Glide.with(holder.itemView.getContext()).load(article.getTitleImage()).into(holder.image);
+            holder.image.setVisibility(View.VISIBLE);
         }else{
             holder.image.setVisibility(View.GONE);
         }
