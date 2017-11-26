@@ -1,11 +1,11 @@
 package com.nmakademija.nmaakademija;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -27,8 +27,11 @@ public class ArticleCreateActivity extends BaseActivity implements ArticleCreate
         int id = item.getItemId();
 
         if (id == R.id.post) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            View view = this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
             postArticle();
             return true;
         }
@@ -57,15 +60,14 @@ public class ArticleCreateActivity extends BaseActivity implements ArticleCreate
 
     private void postArticle() {
         FirebaseRealtimeApi.addArticle(formArticle(), this);
-    }
-
-    @Override
-    public void onArticleCreated(Article article) {
         finish();
     }
 
     @Override
+    public void onArticleCreated(Article article) {
+    }
+
+    @Override
     public void onArticleCreateFailed(Exception exception) {
-        Snackbar.make(findViewById(R.id.content), R.string.unable_to_post_article, Snackbar.LENGTH_INDEFINITE).show();
     }
 }
