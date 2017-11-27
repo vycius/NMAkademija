@@ -3,25 +3,23 @@ package com.nmakademija.nmaakademija.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class Article implements Parcelable, Comparable<Article> {
 
-    private int id;
+    private long id;
     private String title;
-    private String description;
     private String content;
     private String titleImage;
+    @Nullable
+    private String creator;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public String getTitleImage() {
@@ -32,12 +30,34 @@ public class Article implements Parcelable, Comparable<Article> {
         return content;
     }
 
+    public String getCreator() { return creator; }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTitleImage(String titleImage) {
+        this.titleImage = titleImage;
+    }
+
+    public void setCreator(@Nullable String creator) {
+        this.creator = creator;
+    }
+
     public Article() {
     }
 
     @Override
     public int compareTo(@NonNull Article article) {
-        return Integer.valueOf(article.getId()).compareTo(getId());
+        return Long.valueOf(article.getId()).compareTo(getId());
     }
 
     @Override
@@ -47,19 +67,19 @@ public class Article implements Parcelable, Comparable<Article> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.title);
-        dest.writeString(this.description);
         dest.writeString(this.content);
         dest.writeString(this.titleImage);
+        dest.writeString(this.creator);
     }
 
     protected Article(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.title = in.readString();
-        this.description = in.readString();
         this.content = in.readString();
         this.titleImage = in.readString();
+        this.creator = in.readString();
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {

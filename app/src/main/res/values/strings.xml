@@ -11,7 +11,6 @@
     <string name="save_request_failed">Nepavyko išsaugoti duomenų</string>
     <string name="news">Naujienos</string>
     <string name="academics">Dalyviai</string>
-    <string name="timer">Laikrodukas</string>
     <string name="schedule">Programa</string>
     <string name="before_supervisor_name">"Vadoviukas: %1$s"</string>
     <string name="all_academics">Visi akademikai</string>
@@ -40,4 +39,10 @@
     <string name="profile_request_failed">Jūs nesate akademikas!</string>
     <string name="saved">Išsaugota</string>
     <string name="is_academic_key">is_academic</string>
+    <string name="article_title">Įrašo pavadinimas</string>
+    <string name="acticle_content">Įrašo turinys</string>
+    <string name="publish_button_text">Paskelbti</string>
+    <string name="unable_to_post_article">Nepavyko paskelbti įrašo</string>
+    <string name="article_create_rules">Jūsų įrašą pamatys visi vos tik prisijungsite prie interneto.\nNerašykite žodžių didžiosiomis raidėmis :)\nPavadinimas turi būti trumpas ir aiškus.</string>
+    <string name="article_create_empty_field">Įrašo pavadinimas ir/arba turinys negali būti tušti.</string>
 </resources>

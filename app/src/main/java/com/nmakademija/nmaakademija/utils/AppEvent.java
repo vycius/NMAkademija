@@ -31,7 +31,7 @@ public class AppEvent {
         logEvent(name, null);
     }
 
-    public void trackArticleClicked(int id) {
+    public void trackArticleClicked(long id) {
         trackSelectContent(String.valueOf(id), "article");
     }
 

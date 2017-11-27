@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nmakademija.nmaakademija.ArticleActivity;
+import com.nmakademija.nmaakademija.ArticleCreateActivity;
 import com.nmakademija.nmaakademija.R;
 import com.nmakademija.nmaakademija.adapter.ArticlesAdapter;
 import com.nmakademija.nmaakademija.api.controllers.ArticlesController;
@@ -50,6 +50,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     private View content;
     private ArrayList<Article> articles;
     private int schedulePosition = 0;
+    private FloatingActionButton createNewButton;
 
     private ArticlesController articlesController;
     private SchedulesController schedulesController;
@@ -64,7 +65,7 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
         nextActivity = view.findViewById(R.id.next_activity);
         loadingView = view.findViewById(R.id.loading_view);
         content = view.findViewById(R.id.content);
-
+        createNewButton = view.findViewById(R.id.article_create_button);
         return view;
     }
 
@@ -77,6 +78,26 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
         articlesController = new ArticlesController(this);
         schedulesController = new SchedulesController(this, NMAPreferences.getSection(getContext()));
+
+        createNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ArticleCreateActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        articlesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && createNewButton.getVisibility() == View.VISIBLE) {
+                    createNewButton.hide();
+                } else if (dy < 0 && createNewButton.getVisibility() != View.VISIBLE) {
+                    createNewButton.show();
+                }
+            }
+        });
     }
 
     @Override
@@ -90,6 +111,9 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
 
     private void hideLoading() {
         loadingView.setVisibility(View.GONE);
+        if (NMAPreferences.getIsAcademic(getContext())) {
+            createNewButton.setVisibility(View.VISIBLE);
+        }
         content.setVisibility(View.VISIBLE);
     }
 
@@ -228,28 +252,11 @@ public class NewsFragment extends BaseSceeenFragment implements ArticlesLoadedLi
     }
 
     private void setArticlesView() {
-        articlesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutCompat.VERTICAL));
         articlesRecyclerView.setItemAnimator(new DefaultItemAnimator());
         articlesAdapter = new ArticlesAdapter(articles);
         articlesAdapter.setHasStableIds(true);
         articlesRecyclerView.setAdapter(articlesAdapter);
-        articlesRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(
-                getContext(), articlesRecyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ArticleActivity.class);
-                Article article = ((ArticlesAdapter) articlesRecyclerView.getAdapter()).getArticle(position);
-                appEvent.trackArticleClicked(article.getId());
-                intent.putExtra(ArticleActivity.EXTRA_ARTICLE, article);
-                context.startActivity(intent);
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-                this.onClick(view, position);
-            }
-        }));
     }
 
     @Override

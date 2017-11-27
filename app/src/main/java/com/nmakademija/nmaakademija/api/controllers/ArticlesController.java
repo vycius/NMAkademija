@@ -8,6 +8,7 @@ import com.nmakademija.nmaakademija.entity.Article;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ArticlesController extends FirebaseController {
 
@@ -34,6 +35,7 @@ public class ArticlesController extends FirebaseController {
 
             @Override
             public ArrayList<Article> order(ArrayList<Article> items) {
+                Collections.reverse(items);
                 return items;
             }
         };
